@@ -1,0 +1,36 @@
+{
+  "name": "Reef Browser Extension",
+  "description": "Reef browser extension for account management",
+  "version": "0.1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html",
+    "default_title": "Reef Browser Extension",
+    "default_icon": "icons/icon.png"
+  },
+  "permissions": ["storage", "tabs", "offscreen"],
+  "icons": {
+    "16": "icons/icon.png",
+    "48": "icons/icon.png",
+    "128": "icons/icon.png"
+  },
+  "background": {
+    "service_worker": "service_worker.js",
+    "mode": "module"
+  },
+  "content_scripts": [
+    {
+      "js": ["content.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["page.js"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'wasm-unsafe-eval' 'self'; object-src 'self' "
+  }
+}
