@@ -10,7 +10,7 @@ import type {
 import type { HexString } from "@polkadot/util/types";
 import type { KeypairType } from "@polkadot/util-crypto/types";
 import { TypeRegistry } from "@polkadot/types";
-import { extension as extLib } from '@reef-chain/util-lib';
+import { extension as extLib } from "@reef-chain/util-lib";
 
 import { AvailableNetwork } from "../../config";
 import { AuthUrls } from "./handlers/State";
@@ -29,6 +29,7 @@ export interface RequestSignatures {
     MetadataRequest[]
   ];
   "pri(metadata.list)": [null, extLib.MetadataDef[]];
+  "pri(seed.create)": [null, ResponseSeedCreate];
   "pri(accounts.create.suri)": [RequestAccountCreateSuri, boolean];
   "pri(accounts.changePassword)": [RequestAccountChangePassword, boolean];
   "pri(accounts.edit)": [RequestAccountEdit, boolean];
@@ -182,7 +183,6 @@ export type RequestMetadataSubscribe = null;
 
 export interface RequestAccountCreateSuri {
   name: string;
-  genesisHash?: HexString | null;
   password: string;
   suri: string;
 }
@@ -266,6 +266,11 @@ export type TransportResponseMessage<TMessageType extends MessageTypes> =
     : TMessageType extends MessageTypesWithSubscriptions
     ? TransportResponseMessageSub<TMessageType>
     : never;
+
+export interface ResponseSeedCreate {
+  address: string;
+  seed: string;
+}
 
 export interface ResponseSigning {
   id: string;

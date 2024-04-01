@@ -1,4 +1,4 @@
-// Copyright 2019-2021 @polkadot/extension-ui authors & contributors
+// Adapted from @polkadot/extension-ui (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from "react";
@@ -33,7 +33,7 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
   return requests.length && requests[requestIndex] ? (
     <>
       <div className="my-4">
-        <span className="text-lg">Authorize</span>
+        <span className="text-lg font-bold">Authorize</span>
         {requests.length > 1 && (
           <RequestIndex
             index={requestIndex}

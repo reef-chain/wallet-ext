@@ -100,14 +100,3 @@ button:hover {
   border-radius: 50%;
   border: 1px solid white;
 }
-
-.avatar .login-provider {
-  position: absolute;
-  bottom: -3px;
-  left: -3px;
-  height: 20px;
-  width: 20px;
-  border-radius: 50%;
-  background-color: white;
-  padding: 2px;
-}

@@ -1,11 +1,11 @@
-// Copyright 2019-2021 @polkadot/extension-ui authors & contributors
+// Adapted from @polkadot/extension-ui (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWarning } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { extension as extLib } from '@reef-chain/util-lib';
+import { extension as extLib } from "@reef-chain/util-lib";
 
 import { approveMetaRequest, rejectMetaRequest } from "../messaging";
 import useMetadata from "../hooks/useMetadata";

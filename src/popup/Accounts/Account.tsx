@@ -23,7 +23,7 @@ import SigningKey from "../../extension-base/page/Signer";
 
 interface Props {
   account: AccountJson;
-  provider: Provider;
+  provider?: Provider;
   isSelected?: boolean;
 }
 
@@ -101,10 +101,6 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
         ) : (
           <Identicon value={account.address} size={44} theme="substrate" />
         )}
-        <img
-          src={`/icons/login_providers/login-${account.loginProvider}-active.svg`}
-          className="login-provider"
-        ></img>
       </div>
       <div className="content">
         <div className="name">
@@ -121,7 +117,7 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
           ) : (
             account.name
           )}
-          {!isSelected && (
+          {provider && !isSelected && (
             <button
               className="sm"
               onClick={() => selectAccount(account.address)}
@@ -130,10 +126,12 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
             </button>
           )}
         </div>
-        <div className="balance">
-          <img src="/icons/icon.png" className="reef-amount-logo"></img>
-          {balance !== undefined ? toReefAmount(balance) : "loading..."}
-        </div>
+        {provider && (
+          <div className="balance">
+            <img src="/icons/icon.png" className="reef-amount-logo"></img>
+            {balance !== undefined ? toReefAmount(balance) : "loading..."}
+          </div>
+        )}
         <CopyToClipboard
           text={account.address}
           className="hover:cursor-pointer"
@@ -149,61 +147,65 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
             />
           </div>
         </CopyToClipboard>
-        <CopyToClipboard
-          text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
-          className="inline-block hover:cursor-pointer"
-        >
-          <div title={evmAddress || ""}>
-            <label className="font-bold">EVM address:</label>
-            {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
-            <FontAwesomeIcon
-              className="ml-2"
-              icon={faCopy as IconProp}
-              size="sm"
-              title="Copy EVM Address"
-            />
-          </div>
-        </CopyToClipboard>
+        {provider && (
+          <CopyToClipboard
+            text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
+            className="inline-block hover:cursor-pointer"
+          >
+            <div title={evmAddress || ""}>
+              <label className="font-bold">EVM address:</label>
+              {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
+              <FontAwesomeIcon
+                className="ml-2"
+                icon={faCopy as IconProp}
+                size="sm"
+                title="Copy EVM Address"
+              />
+            </div>
+          </CopyToClipboard>
+        )}
         {isEvmClaimed !== undefined && !isEvmClaimed && (
           <button className="sm" onClick={bindDefaultEvmAddress}>
             Bind
           </button>
         )}
       </div>
-      <div className="relative">
-        <FontAwesomeIcon
-          className="hover:cursor-pointer p-2"
-          onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-          icon={faEllipsisVertical as IconProp}
-          title="Account options"
-        />
-        {isOptionsOpen && (
-          <div className="absolute right-0 p-2 bg-white text-secondary font-bold text-left rounded-lg">
-            <div className="mb-1 pb-1 border-b border-gray-300">
-              <span className="font-normal">Verifier ID:</span>{" "}
-              {(account.verifierId || "unknown") as string}
+      {provider && (
+        <div className="relative">
+          <FontAwesomeIcon
+            className="hover:cursor-pointer p-2"
+            onClick={() => setIsOptionsOpen(!isOptionsOpen)}
+            icon={faEllipsisVertical as IconProp}
+            title="Account options"
+          />
+          {isOptionsOpen && (
+            <div className="absolute right-0 p-2 bg-white text-secondary font-bold text-left rounded-lg">
+              <div className="mb-1 pb-1 border-b border-gray-300">
+                <span className="font-normal">Verifier ID:</span>{" "}
+                {(account.verifierId || "unknown") as string}
+              </div>
+              <div
+                className="mb-1 hover:cursor-pointer hover:text-primary"
+                onClick={() => {
+                  setIsEditingName(true);
+                  setIsOptionsOpen(false);
+                }}
+              >
+                Rename
+              </div>
+              <div
+                className="hover:cursor-pointer hover:text-primary"
+                onClick={() => {
+                  forgetAccount(account.address);
+                  setIsOptionsOpen(false);
+                }}
+              >
+                Forget account
+              </div>
             </div>
-            <div
-              className="mb-1 hover:cursor-pointer hover:text-primary"
-              onClick={() => {
-                setIsEditingName(true);
-                setIsOptionsOpen(false);
-              }}
-            >
-              Rename
-            </div>
-            <div
-              className="hover:cursor-pointer hover:text-primary"
-              onClick={() => {
-                forgetAccount(account.address);
-                setIsOptionsOpen(false);
-              }}
-            >
-              Forget account
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-// Copyright 2019-2021 @polkadot/extension-ui authors & contributors
+// Adapted from @polkadot/extension-ui (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
 import React from "react";
@@ -13,7 +13,7 @@ export const PhishingDetected = ({ website }: Props): JSX.Element => {
   return (
     <>
       <div className="my-4">
-        <span className="text-lg">Phishing detected</span>
+        <span className="text-lg font-bold">Phishing detected</span>
       </div>
       <div>
         <p>

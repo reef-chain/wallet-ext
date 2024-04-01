@@ -1,4 +1,4 @@
-// Copyright 2019-2021 @polkadot/extension-ui authors & contributors
+// Adapted from @polkadot/extension-ui (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from "react";
@@ -42,7 +42,7 @@ export const Signing = ({ requests }: Props): JSX.Element => {
   return requests.length && requests[requestIndex] ? (
     <>
       <div className="mb-4">
-        <span className="text-lg">
+        <span className="text-lg font-bold">
           {isTransaction ? "Transaction" : "Sign message"}
         </span>
         {requests.length > 1 && (

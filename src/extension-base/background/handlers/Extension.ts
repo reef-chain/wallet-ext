@@ -9,7 +9,7 @@ import { SubjectInfo } from "@polkadot/ui-keyring/observable/types";
 import { accounts as accountsObservable } from "@polkadot/ui-keyring/observable/accounts";
 import { assert } from "@polkadot/util";
 import { TypeRegistry } from "@polkadot/types";
-import { extension as extLib } from '@reef-chain/util-lib';
+import { extension as extLib } from "@reef-chain/util-lib";
 
 import {
   AccountJson,
@@ -32,6 +32,7 @@ import {
   RequestSigningIsLocked,
   RequestTypes,
   ResponseAuthorizeList,
+  ResponseSeedCreate,
   ResponseSigningIsLocked,
   ResponseType,
   SigningRequest,
@@ -40,6 +41,7 @@ import { createSubscription, unsubscribe } from "./subscriptions";
 import State from "./State";
 import { AvailableNetwork, DEFAULT_REEF_NETWORK } from "../../../config";
 import { PASSWORD_EXPIRY_MS } from "../../defaults";
+import { mnemonicGenerate } from "@polkadot/util-crypto";
 
 type CachedUnlocks = Record<string, number>;
 
@@ -48,10 +50,9 @@ const REEF_NETWORK_KEY = "selected_reef_network";
 // a global registry to use internally
 const registry = new TypeRegistry();
 
-export function setSelectedAccount<T extends AccountJson | extLib.InjectedAccount>(
-  accountsJson: T[],
-  index: number | undefined
-): T[] {
+export function setSelectedAccount<
+  T extends AccountJson | extLib.InjectedAccount
+>(accountsJson: T[], index: number | undefined): T[] {
   if (accountsJson.length && index != null) {
     accountsJson.forEach((a, i) => {
       a.isSelected = i === index;
@@ -175,6 +176,9 @@ export default class Extension {
       case "pri(authorize.requests)":
         return this.authorizeSubscribe(id, port);
 
+      case "pri(seed.create)":
+        return this.seedCreate();
+
       case "pri(accounts.create.suri)":
         return this.accountsCreateSuri(request as RequestAccountCreateSuri);
       case "pri(accounts.changePassword)":
@@ -220,13 +224,20 @@ export default class Extension {
     return this.#state.detachedWindowId;
   }
 
+  private seedCreate(): ResponseSeedCreate {
+    const seed = mnemonicGenerate(12);
+    return {
+      address: keyring.createFromUri(seed, {}, "sr25519").address,
+      seed,
+    };
+  }
+
   private accountsCreateSuri({
     name,
     password,
     suri,
-    genesisHash,
   }: RequestAccountCreateSuri): boolean {
-    keyring.addUri(suri, password, { genesisHash, name });
+    keyring.addUri(suri, password, { name });
     return true;
   }
 

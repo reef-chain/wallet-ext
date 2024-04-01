@@ -1,4 +1,4 @@
-// Copyright 2019-2021 @polkadot/extension-ui authors & contributors
+// Adapted from @polkadot/extension-ui (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useCallback, useEffect, useState } from "react";
@@ -38,7 +38,7 @@ export const AuthManagement = (): JSX.Element => {
   return (
     <>
       <div className="my-4">
-        <span className="text-lg">Manage Website Access</span>
+        <span className="text-lg font-bold">Manage website access</span>
       </div>
       <div>
         {!authList || !Object.entries(authList)?.length ? (

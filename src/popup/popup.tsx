@@ -1,10 +1,10 @@
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState, useCallback } from "react";
 import { Provider } from "@reef-chain/evm-provider";
-import { Keyring, WsProvider } from "@polkadot/api";
+import { WsProvider } from "@polkadot/api";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faCirclePlus,
+  faArrowUpRightFromSquare,
   faCircleXmark,
   faExpand,
   faShuffle,
@@ -13,7 +13,6 @@ import {
 
 import { AvailableNetwork, ReefNetwork, reefNetworks } from "../config";
 import {
-  createAccountSuri,
   getDetachedWindowId,
   selectAccount,
   selectNetwork,
@@ -39,6 +38,7 @@ import { createPopupData } from "./util";
 import "./popup.css";
 import { PHISHING_PAGE_REDIRECT } from "../extension-base/defaults";
 import { PhishingDetected } from "./PhishingDetected";
+import { AddAccount } from "./AddAccount";
 
 const enum State {
   ACCOUNTS,
@@ -71,6 +71,12 @@ const Popup = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const isDetached = queryParams.get("detached");
   const phishingWebsite = queryParams.get(PHISHING_PAGE_REDIRECT);
+
+  const _onAction = useCallback((to?: string): void => {
+    if (to) {
+      window.location.hash = to;
+    }
+  }, []);
 
   useEffect(() => {
     if (!isDefaultPopup || isDetached) {
@@ -209,6 +215,12 @@ const Popup = () => {
         )}
 
         <div>
+          <button
+            className="md"
+            onClick={() => window.open("https://app.reef.io/", "_blank")}
+          >
+            <FontAwesomeIcon icon={faArrowUpRightFromSquare as IconProp} />
+          </button>
           {isDetached && (
             <button className="md" onClick={() => openFullPage()}>
               <FontAwesomeIcon icon={faExpand as IconProp} />
@@ -225,6 +237,7 @@ const Popup = () => {
             </>
           )}
           {(state === State.AUTH_MANAGEMENT ||
+            state === State.ADD_ACCOUNT ||
             state === State.PHISHING_DETECTED) && (
             <button className="md" onClick={() => setState(State.ACCOUNTS)}>
               <FontAwesomeIcon icon={faCircleXmark as IconProp} />
@@ -287,11 +300,7 @@ const Popup = () => {
       {state === State.AUTH_MANAGEMENT && <AuthManagement />}
 
       {/* Add account */}
-      {state === State.ADD_ACCOUNT && (
-        <div>
-          <div className="text-lg mt-8">Add account</div>
-        </div>
-      )}
+      {state === State.ADD_ACCOUNT && <AddAccount />}
 
       {/* Phishing detected */}
       {state === State.PHISHING_DETECTED && (

@@ -1,4 +1,4 @@
-// Copyright 2019-2021 @polkadot/extension-ui authors & contributors
+// Adapted from @polkadot/extension-ui (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
 import React from "react";
@@ -14,7 +14,7 @@ export const Metadata = ({ requests }: Props): JSX.Element => {
   return requests?.length ? (
     <>
       <div className="my-4">
-        <span className="text-lg">Metadata</span>
+        <span className="text-lg font-bold">Metadata</span>
       </div>
       <Request
         key={requests[0].id}

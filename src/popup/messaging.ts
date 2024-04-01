@@ -148,17 +148,19 @@ export async function subscribeMetadataRequests(
 
 // Accounts
 
+export async function createSeed(): Promise<{ address: string; seed: string }> {
+  return sendMessage("pri(seed.create)");
+}
+
 export async function createAccountSuri(
   name: string,
   password: string,
-  suri: string,
-  genesisHash?: HexString,
+  suri: string
 ): Promise<boolean> {
   return sendMessage("pri(accounts.create.suri)", {
     name,
     password,
     suri,
-    genesisHash,
   });
 }
 
