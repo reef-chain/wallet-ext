@@ -31,7 +31,7 @@ export const WebsiteEntry = ({
   }, [removeAuth, url]);
 
   return (
-    <div className="flex text-sm mb-3">
+    <div className="flex mb-3">
       <div className="flex-auto text-left">{url}</div>
       <label className="relative inline-flex items-center cursor-pointer mx-3">
         <input

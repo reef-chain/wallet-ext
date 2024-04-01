@@ -62,7 +62,7 @@ export default function Request({
           </td>
         </tr>
         <div>
-          <div className="my-4">
+          <div className="mt-4 mb-2">
             <FontAwesomeIcon icon={faWarning as IconProp} className="mr-2" />
             This approval will add the metadata to your extension instance,
             allowing future requests to be decoded using this metadata.

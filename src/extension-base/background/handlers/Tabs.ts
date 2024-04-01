@@ -12,7 +12,7 @@ import type {
   SignerPayloadRaw,
 } from "@polkadot/types/types";
 import keyring from "@polkadot/ui-keyring";
-import { extension as extLib } from '@reef-chain/util-lib';
+import { extension as extLib } from "@reef-chain/util-lib";
 
 import {
   MessageTypes,
@@ -206,7 +206,10 @@ export default class Tabs {
     });
   }
 
-  private metadataProvide(url: string, request: extLib.MetadataDef): Promise<boolean> {
+  private metadataProvide(
+    url: string,
+    request: extLib.MetadataDef
+  ): Promise<boolean> {
     return this.#state.injectMetadata(url, request);
   }
 
@@ -289,7 +292,7 @@ export default class Tabs {
     const encodedWebsite = encodeURIComponent(nonFragment);
     const url = `${chrome.runtime.getURL(
       "index.html"
-    )}?${PHISHING_PAGE_REDIRECT}=${encodedWebsite}`;
+    )}#${PHISHING_PAGE_REDIRECT}?url=${encodedWebsite}`;
 
     chrome.tabs.query({ url: nonFragment }, (tabs) => {
       tabs

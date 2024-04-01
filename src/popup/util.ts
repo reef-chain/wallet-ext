@@ -17,7 +17,7 @@ export const computeDefaultEvmAddress = (address: string): string => {
   );
 };
 
-export const toAddressShortDisplay = (address: string, size = 12): string => {
+export const toAddressShortDisplay = (address: string, size = 8): string => {
   return address.length < size
     ? address
     : `${address.slice(0, size - 5)}...${address.slice(address.length - 5)}`;

@@ -1,9 +1,11 @@
 import React, { useMemo, useEffect, useState, useCallback } from "react";
+import { Route, Routes, useLocation } from "react-router";
 import { Provider } from "@reef-chain/evm-provider";
 import { WsProvider } from "@polkadot/api";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCirclePlus,
   faArrowUpRightFromSquare,
   faCircleXmark,
   faExpand,
@@ -29,7 +31,6 @@ import {
   MetadataRequest,
   SigningRequest,
 } from "../extension-base/background/types";
-import Account from "./Accounts/Account";
 import { Signing } from "./Signing";
 import { Metadata } from "./Metadata";
 import { Authorize } from "./Authorize";
@@ -38,7 +39,10 @@ import { createPopupData } from "./util";
 import "./popup.css";
 import { PHISHING_PAGE_REDIRECT } from "../extension-base/defaults";
 import { PhishingDetected } from "./PhishingDetected";
-import { AddAccount } from "./AddAccount";
+import { ActionContext } from "./contexts";
+import { AccountMenu } from "./AccountOptions/AccountMenu";
+import Accounts from "./Accounts/Accounts";
+import { CreateAccount } from "./AccountOptions/CreateAccount";
 
 const enum State {
   ACCOUNTS,
@@ -68,9 +72,9 @@ const Popup = () => {
   const [selectedNetwork, setSelectedNetwork] = useState<ReefNetwork>();
   const [provider, setProvider] = useState<Provider>();
 
-  const queryParams = new URLSearchParams(window.location.search);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
   const isDetached = queryParams.get("detached");
-  const phishingWebsite = queryParams.get(PHISHING_PAGE_REDIRECT);
 
   const _onAction = useCallback((to?: string): void => {
     if (to) {
@@ -98,9 +102,7 @@ const Popup = () => {
   }, [selectedNetwork]);
 
   useEffect(() => {
-    if (phishingWebsite) {
-      setState(State.PHISHING_DETECTED);
-    } else if (!selectedAccount) {
+    if (!selectedAccount) {
       setState(State.ACCOUNTS);
     } else if (authRequests?.length) {
       setState(State.AUTH_REQUESTS);
@@ -111,13 +113,7 @@ const Popup = () => {
     } else {
       setState(State.ACCOUNTS);
     }
-  }, [
-    authRequests,
-    metaRequests,
-    signRequests,
-    selectedAccount,
-    phishingWebsite,
-  ]);
+  }, [authRequests, metaRequests, signRequests, selectedAccount]);
 
   const isDefaultPopup = useMemo(() => {
     return window.innerWidth <= 400;
@@ -200,7 +196,10 @@ const Popup = () => {
       <div className="flex justify-between">
         {selectedNetwork && (
           <div>
-            <span className="text-lg">{selectedNetwork.name}</span>
+            <span className="text-lg">
+              {selectedNetwork.id.charAt(0).toUpperCase() +
+                selectedNetwork.id.slice(1)}
+            </span>
             <button
               className="md"
               onClick={() =>
@@ -226,86 +225,52 @@ const Popup = () => {
               <FontAwesomeIcon icon={faExpand as IconProp} />
             </button>
           )}
-          {state === State.ACCOUNTS && (
-            <>
-              <button
-                className="md"
-                onClick={() => setState(State.AUTH_MANAGEMENT)}
-              >
-                <FontAwesomeIcon icon={faTasks as IconProp} />
-              </button>
-            </>
-          )}
-          {(state === State.AUTH_MANAGEMENT ||
-            state === State.ADD_ACCOUNT ||
-            state === State.PHISHING_DETECTED) && (
-            <button className="md" onClick={() => setState(State.ACCOUNTS)}>
-              <FontAwesomeIcon icon={faCircleXmark as IconProp} />
-            </button>
-          )}
+          <button className="md" onClick={() => _onAction("/account/menu")}>
+            <FontAwesomeIcon icon={faCirclePlus as IconProp} />
+          </button>
+          <button className="md" onClick={() => _onAction("/auth-list")}>
+            <FontAwesomeIcon icon={faTasks as IconProp} />
+          </button>
+          <button className="md" onClick={() => _onAction("/")}>
+            <FontAwesomeIcon icon={faCircleXmark as IconProp} />
+          </button>
         </div>
       </div>
-
-      {/* Loading */}
-      {state === State.ACCOUNTS &&
-        (!accounts || (accounts.length > 0 && !provider)) && (
-          <div className="text-lg mt-12">Loading...</div>
-        )}
-
-      {/* No accounts */}
-      {state === State.ACCOUNTS && accounts?.length === 0 && (
-        <>
-          <div className="text-lg mt-12">No accounts available.</div>
-          <button onClick={() => setState(State.ADD_ACCOUNT)}>
-            Add account
-          </button>
-        </>
-      )}
-
-      {/* Selected account */}
-      {(state === State.ACCOUNTS || state === State.SIGN_REQUESTS) &&
-        selectedAccount &&
-        provider && (
-          <Account
-            account={selectedAccount}
-            provider={provider}
-            isSelected={true}
+      <ActionContext.Provider value={_onAction}>
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Accounts
+                accounts={accounts}
+                provider={provider}
+                selectedAccount={selectedAccount}
+              />
+            }
           />
-        )}
-
-      {/* Other accounts */}
-      {state === State.ACCOUNTS &&
-        accounts?.length > 1 &&
-        provider &&
-        accounts
-          .filter((account) => account.address !== selectedAccount.address)
-          .map((account) => (
-            <Account
-              key={account.address}
-              account={account}
-              provider={provider}
-            />
-          ))}
-
-      {/* Pending authorization requests */}
-      {state === State.AUTH_REQUESTS && <Authorize requests={authRequests} />}
-
-      {/* Pending metadata requests */}
-      {state === State.META_REQUESTS && <Metadata requests={metaRequests} />}
-
-      {/* Pending signing requests */}
-      {state === State.SIGN_REQUESTS && <Signing requests={signRequests} />}
-
-      {/* Auth management */}
-      {state === State.AUTH_MANAGEMENT && <AuthManagement />}
-
-      {/* Add account */}
-      {state === State.ADD_ACCOUNT && <AddAccount />}
-
-      {/* Phishing detected */}
-      {state === State.PHISHING_DETECTED && (
-        <PhishingDetected website={phishingWebsite} />
-      )}
+          <Route path="/auth-list" element={<AuthManagement />} />
+          <Route path="/account/menu" element={<AccountMenu />} />
+          <Route path="/account/create" element={<CreateAccount />} />
+          {/* <Route path="/account/derive" element={<Derive />} /> */}
+          <Route path="/account/export-all" element={<AccountMenu />} />
+          <Route path="/account/import-seed" element={<AccountMenu />} />
+          <Route path="/account/restore-json" element={<AccountMenu />} />
+          {/* <Route path="/bind" element={<Bind />} /> */}
+          <Route
+            path="/requests/auth"
+            element={<Authorize requests={authRequests} />}
+          />
+          <Route
+            path="/requests/sign"
+            element={<Signing requests={signRequests} />}
+          />
+          <Route
+            path="/requests/metadata"
+            element={<Metadata requests={metaRequests} />}
+          />
+          <Route path={PHISHING_PAGE_REDIRECT} element={<PhishingDetected />} />
+        </Routes>
+      </ActionContext.Provider>
     </div>
   );
 };

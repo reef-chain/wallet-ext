@@ -32,7 +32,7 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
 
   return requests.length && requests[requestIndex] ? (
     <>
-      <div className="my-4">
+      <div className="mt-4 mb-2">
         <span className="text-lg font-bold">Authorize</span>
         {requests.length > 1 && (
           <RequestIndex

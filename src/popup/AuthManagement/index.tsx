@@ -37,7 +37,7 @@ export const AuthManagement = (): JSX.Element => {
 
   return (
     <>
-      <div className="my-4">
+      <div className="mt-4 mb-2">
         <span className="text-lg font-bold">Manage website access</span>
       </div>
       <div>

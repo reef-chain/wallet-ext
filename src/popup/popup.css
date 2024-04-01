@@ -3,6 +3,8 @@
   width: 400px;
   padding: 10px;
   margin: auto;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
 
 .popup {
@@ -36,10 +38,10 @@ button.sm {
   font-size: 0.7rem;
   display: inline-block;
   padding: 0 6px;
-  margin: 0 0 0 8px;
 }
 
-button:hover {
+button:hover,
+button:disabled {
   background-color: #a931859b;
 }
 
@@ -58,28 +60,15 @@ button:hover {
   align-items: center;
 }
 
-.account.selected {
-  border: 2px solid white;
-}
-
 .account .content {
   text-align: left;
   flex: 1 1 auto;
-}
-
-.account .content .name {
-  font-size: 1.3rem;
-  font-weight: bold;
 }
 
 .account .reef-amount-logo {
   height: 16px;
   display: inline-block;
   margin-right: 5px;
-}
-
-.account .balance {
-  font-weight: bold;
 }
 
 .avatar {

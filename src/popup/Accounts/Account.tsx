@@ -25,9 +25,15 @@ interface Props {
   account: AccountJson;
   provider?: Provider;
   isSelected?: boolean;
+  className?: string;
 }
 
-const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
+const Account = ({
+  account,
+  provider,
+  isSelected,
+  className,
+}: Props): JSX.Element => {
   const [name, setName] = useState<string>(account.name);
   const [balance, setBalance] = useState<BigInt>();
   const [evmAddress, setEvmAddress] = useState<string>();
@@ -94,7 +100,11 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
   };
 
   return (
-    <div className={isSelected ? "account selected" : "account"}>
+    <div
+      className={`account ${
+        isSelected ? "border-white border-2" : ""
+      } ${className}`}
+    >
       <div className="avatar">
         {account.icon ? (
           <img src={account.icon as string} className="avatar-image"></img>
@@ -103,10 +113,10 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
         )}
       </div>
       <div className="content">
-        <div className="name">
+        <div className="font-bold">
           {isEditingName ? (
             <input
-              className="text-sm text-primary rounded-md px-2 my-2"
+              className="text-primary rounded-md px-2 my-2"
               value={name}
               onChange={(e) => setName(e.target.value)}
               onBlur={() => {
@@ -127,7 +137,7 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
           )}
         </div>
         {provider && (
-          <div className="balance">
+          <div>
             <img src="/icons/icon.png" className="reef-amount-logo"></img>
             {balance !== undefined ? toReefAmount(balance) : "loading..."}
           </div>
@@ -137,7 +147,7 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
           className="hover:cursor-pointer"
         >
           <div title={account.address}>
-            <label className="font-bold">Native address:</label>
+            <label>Native address: </label>
             {toAddressShortDisplay(account.address)}
             <FontAwesomeIcon
               className="ml-2"
@@ -153,7 +163,7 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
             className="inline-block hover:cursor-pointer"
           >
             <div title={evmAddress || ""}>
-              <label className="font-bold">EVM address:</label>
+              <label>EVM address: </label>
               {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
               <FontAwesomeIcon
                 className="ml-2"
@@ -165,8 +175,8 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
           </CopyToClipboard>
         )}
         {isEvmClaimed !== undefined && !isEvmClaimed && (
-          <button className="sm" onClick={bindDefaultEvmAddress}>
-            Bind
+          <button className="sm m-0" onClick={bindDefaultEvmAddress}>
+            Connect EVM
           </button>
         )}
       </div>
@@ -180,10 +190,6 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
           />
           {isOptionsOpen && (
             <div className="absolute right-0 p-2 bg-white text-secondary font-bold text-left rounded-lg">
-              <div className="mb-1 pb-1 border-b border-gray-300">
-                <span className="font-normal">Verifier ID:</span>{" "}
-                {(account.verifierId || "unknown") as string}
-              </div>
               <div
                 className="mb-1 hover:cursor-pointer hover:text-primary"
                 onClick={() => {

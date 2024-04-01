@@ -44,7 +44,7 @@ function Request({
         .
       </div>
       <div>
-        <div className="my-4">
+        <div className="mt-4 mb-2">
           <FontAwesomeIcon icon={faWarning as IconProp} className="mr-2" />
           Only approve this request if you trust the application. Approving
           gives the application access to the addresses of your accounts.
