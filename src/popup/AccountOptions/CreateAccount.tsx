@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
-
 import {
   faArrowLeft,
   faArrowRight,
@@ -9,6 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+
 import Account from "../Accounts/Account";
 import { AccountJson } from "../../extension-base/background/types";
 import { createAccountSuri, createSeed } from "../messaging";

@@ -1,7 +1,11 @@
 // Adapted from @polkadot/extension (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
-import type { KeyringPair, KeyringPair$Meta } from "@polkadot/keyring/types";
+import type {
+  KeyringPair,
+  KeyringPair$Meta,
+  KeyringPair$Json,
+} from "@polkadot/keyring/types";
 import type { JsonRpcResponse } from "@polkadot/rpc-provider/types";
 import type {
   SignerPayloadJSON,
@@ -14,6 +18,7 @@ import { extension as extLib } from "@reef-chain/util-lib";
 
 import { AvailableNetwork } from "../../config";
 import { AuthUrls } from "./handlers/State";
+import { KeyringPairs$Json } from "@polkadot/ui-keyring/types";
 
 // [MessageType]: [RequestType, ResponseType, SubscriptionMessageType?]
 export interface RequestSignatures {
@@ -34,6 +39,9 @@ export interface RequestSignatures {
   "pri(accounts.create.suri)": [RequestAccountCreateSuri, boolean];
   "pri(accounts.changePassword)": [RequestAccountChangePassword, boolean];
   "pri(accounts.edit)": [RequestAccountEdit, boolean];
+  "pri(json.restore)": [RequestJsonRestore, void];
+  "pri(json.batchRestore)": [RequestBatchRestore, void];
+  "pri(accounts.exportAll)": [string, ResponseAccountsExport];
   "pri(accounts.forget)": [RequestAccountForget, boolean];
   "pri(accounts.select)": [RequestAccountSelect, boolean];
   "pri(accounts.subscribe)": [RequestAccountSubscribe, boolean, AccountJson[]];
@@ -137,6 +145,10 @@ export interface MetadataRequest {
   url: string;
 }
 
+export interface ResponseAccountsExport {
+  exportedJson: KeyringPairs$Json;
+}
+
 export interface SigningRequest {
   account: AccountJson;
   id: string;
@@ -198,6 +210,16 @@ export interface RequestAccountEdit {
   address: string;
   genesisHash?: HexString | null;
   name: string;
+}
+
+export interface RequestJsonRestore {
+  file: KeyringPair$Json;
+  password: string;
+}
+
+export interface RequestBatchRestore {
+  file: KeyringPairs$Json;
+  password: string;
 }
 
 export interface RequestAccountForget {

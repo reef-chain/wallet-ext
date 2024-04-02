@@ -9,6 +9,11 @@ import { SubjectInfo } from "@polkadot/ui-keyring/observable/types";
 import { accounts as accountsObservable } from "@polkadot/ui-keyring/observable/accounts";
 import { assert, isHex } from "@polkadot/util";
 import { TypeRegistry } from "@polkadot/types";
+import {
+  keyExtractSuri,
+  mnemonicGenerate,
+  mnemonicValidate,
+} from "@polkadot/util-crypto";
 import { extension as extLib } from "@reef-chain/util-lib";
 
 import {
@@ -24,6 +29,7 @@ import {
   RequestAccountSelect,
   RequestAuthorizeApprove,
   RequestAuthorizeReject,
+  RequestJsonRestore,
   RequestMetadataApprove,
   RequestMetadataReject,
   RequestNetworkSelect,
@@ -31,6 +37,7 @@ import {
   RequestSigningCancel,
   RequestSigningIsLocked,
   RequestTypes,
+  ResponseAccountsExport,
   ResponseAuthorizeList,
   ResponseSeedCreate,
   ResponseSigningIsLocked,
@@ -41,11 +48,6 @@ import { createSubscription, unsubscribe } from "./subscriptions";
 import State from "./State";
 import { AvailableNetwork, DEFAULT_REEF_NETWORK } from "../../../config";
 import { PASSWORD_EXPIRY_MS } from "../../defaults";
-import {
-  keyExtractSuri,
-  mnemonicGenerate,
-  mnemonicValidate,
-} from "@polkadot/util-crypto";
 
 type CachedUnlocks = Record<string, number>;
 
@@ -194,6 +196,12 @@ export default class Extension {
         );
       case "pri(accounts.edit)":
         return this.accountsEdit(request as RequestAccountEdit);
+      case "pri(json.restore)":
+        return this.jsonRestore(request as RequestJsonRestore);
+      case "pri(json.batchRestore)":
+        return this.batchRestore(request as RequestJsonRestore);
+      case "pri(accounts.exportAll)":
+        return this.accountsBatchExport(request as string);
       case "pri(accounts.forget)":
         return this.accountsForget(request as RequestAccountForget);
       case "pri(accounts.subscribe)":
@@ -300,6 +308,22 @@ export default class Extension {
     return true;
   }
 
+  private jsonRestore({ file, password }: RequestJsonRestore): void {
+    try {
+      keyring.restoreAccount(file, password);
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
+  private batchRestore({ file, password }: RequestJsonRestore): void {
+    try {
+      keyring.restoreAccounts(file, password);
+    } catch (error) {
+      throw new Error((error as Error).message);
+    }
+  }
+
   private authorizeApprove({ id }: RequestAuthorizeApprove): boolean {
     const queued = this.#state.getAuthRequest(id);
 
@@ -400,6 +424,15 @@ export default class Extension {
     });
 
     return true;
+  }
+
+  private async accountsBatchExport(
+    password: string
+  ): Promise<ResponseAccountsExport> {
+    const addresses = keyring.getAddresses().map((address) => address.address);
+    return {
+      exportedJson: await keyring.backupAccounts(addresses, password),
+    };
   }
 
   protected accountsForget({ address }: RequestAccountForget): boolean {

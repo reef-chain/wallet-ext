@@ -1,17 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
-
+import React, { useContext, useState } from "react";
 import {
   faArrowLeft,
   faArrowRight,
-  faCopy,
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+
 import Account from "../Accounts/Account";
 import { AccountJson } from "../../extension-base/background/types";
-import { createAccountSuri, createSeed, validateSeed } from "../messaging";
+import { createAccountSuri, validateSeed } from "../messaging";
 import { ActionContext } from "../contexts";
 
 const enum Step {

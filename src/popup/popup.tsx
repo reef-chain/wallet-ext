@@ -44,6 +44,8 @@ import { CreateAccount } from "./AccountOptions/CreateAccount";
 import Accounts from "./Accounts/Accounts";
 import "./popup.css";
 import { ImportSeed } from "./AccountOptions/ImportSeed";
+import { ExportAll } from "./AccountOptions/ExportAll";
+import { RestoreJson } from "./AccountOptions/RestoreJson";
 
 const Popup = () => {
   const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
@@ -244,9 +246,9 @@ const Popup = () => {
           <Route path="/account/menu" element={<AccountMenu />} />
           <Route path="/account/create" element={<CreateAccount />} />
           {/* <Route path="/account/derive" element={<Derive />} /> */}
-          {/* <Route path="/account/export-all" element={<ExportAll />} /> */}
+          <Route path="/account/export-all" element={<ExportAll />} />
           <Route path="/account/import-seed" element={<ImportSeed />} />
-          {/* <Route path="/account/restore-json" element={<RestoreJson />} /> */}
+          <Route path="/account/restore-json" element={<RestoreJson />} />
           {/* <Route path="/bind" element={<Bind />} /> */}
           <Route
             path="/requests/auth"

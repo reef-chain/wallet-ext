@@ -1,7 +1,8 @@
 // Adapted from @polkadot/extension-base (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
-import type { HexString } from "@polkadot/util/types";
+import type { KeyringPair$Json } from "@polkadot/keyring/types";
+import { KeyringPairs$Json } from "@polkadot/ui-keyring/types";
 
 import { PORT_EXTENSION } from "../extension-base/defaults";
 import {
@@ -175,6 +176,26 @@ export async function editAccount(
   name: string
 ): Promise<boolean> {
   return sendMessage("pri(accounts.edit)", { address, name });
+}
+
+export async function exportAllAccounts(
+  password: string
+): Promise<{ exportedJson: KeyringPairs$Json }> {
+  return sendMessage("pri(accounts.exportAll)", password);
+}
+
+export async function jsonRestore(
+  file: KeyringPair$Json,
+  password: string
+): Promise<void> {
+  return sendMessage("pri(json.restore)", { file, password });
+}
+
+export async function batchRestore(
+  file: KeyringPairs$Json,
+  password: string
+): Promise<void> {
+  return sendMessage("pri(json.batchRestore)", { file, password });
 }
 
 export async function forgetAccount(address: string): Promise<boolean> {
