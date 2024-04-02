@@ -15,7 +15,7 @@ export const PhishingDetected = (): JSX.Element => {
       <div className="mt-4 mb-2">
         <span className="text-lg font-bold">Phishing detected</span>
       </div>
-      <div className="text-justify">
+      <div className="text-left">
         <p>
           You have been redirected because Reef extension believes that this
           website could compromise the security of your accounts and your

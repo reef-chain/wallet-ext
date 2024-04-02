@@ -3,7 +3,7 @@
 
 import React, { useCallback } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faWarning } from "@fortawesome/free-solid-svg-icons";
+import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { extension as extLib } from "@reef-chain/util-lib";
 
@@ -61,12 +61,17 @@ export default function Request({
             {request.specVersion}
           </td>
         </tr>
-        <div>
-          <div className="mt-4 mb-2">
-            <FontAwesomeIcon icon={faWarning as IconProp} className="mr-2" />
+        <div className="flex my-4 border-l-primary border-l-4 pl-2">
+          <FontAwesomeIcon
+            className="text-primary mr-2 pt-1"
+            icon={faExclamationTriangle as IconProp}
+          />
+          <span className="text-left text-gray-300">
             This approval will add the metadata to your extension instance,
             allowing future requests to be decoded using this metadata.
-          </div>
+          </span>
+        </div>
+        <div>
           <button onClick={_onApprove}>Yes, do this metadata update</button>
           <button onClick={_onReject}>Reject</button>
         </div>

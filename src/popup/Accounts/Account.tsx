@@ -129,7 +129,7 @@ const Account = ({
           )}
           {provider && !isSelected && (
             <button
-              className="sm"
+              className="sm inline-block m-0 ml-2"
               onClick={() => selectAccount(account.address)}
             >
               Select

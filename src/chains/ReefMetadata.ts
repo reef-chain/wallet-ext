@@ -1,17 +1,6 @@
-import { extension as extLib } from '@reef-chain/util-lib';
+import { extension as extLib } from "@reef-chain/util-lib";
 
-// TODO: replace with extLib.MetadataDef after updating util-lib
-interface MetadataDef extends extLib.MetadataDefBase {
-  color?: string;
-  specVersion: number;
-  tokenDecimals: number;
-  tokenSymbol: string;
-  types: Record<string, Record<string, any> | string>;
-  metaCalls?: string;
-  userExtensions?: any;
-}
-
-export const reefMetadataTestnet: MetadataDef = {
+export const reefMetadataTestnet: extLib.MetadataDef = {
   chain: "Reef Scuba Testnet",
   chainType: "substrate",
   genesisHash:
@@ -247,8 +236,9 @@ export const reefMetadataTestnet: MetadataDef = {
   },
 };
 
-const reefMetadataMainnet: MetadataDef = reefMetadataTestnet;
+const reefMetadataMainnet: extLib.MetadataDef = reefMetadataTestnet;
 reefMetadataMainnet.chain = "Reef Mainnet";
 reefMetadataMainnet.genesisHash =
   "0x7834781d38e4798d548e34ec947d19deea29df148a7bf32484b7b24dacf8d4b7";
+
 export { reefMetadataMainnet };

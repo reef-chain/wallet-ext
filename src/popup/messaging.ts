@@ -152,6 +152,12 @@ export async function createSeed(): Promise<{ address: string; seed: string }> {
   return sendMessage("pri(seed.create)");
 }
 
+export async function validateSeed(
+  seed: string
+): Promise<{ address: string; seed: string }> {
+  return sendMessage("pri(seed.validate)", seed);
+}
+
 export async function createAccountSuri(
   name: string,
   password: string,

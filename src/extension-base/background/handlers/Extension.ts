@@ -7,7 +7,7 @@ import type {
 import keyring from "@polkadot/ui-keyring";
 import { SubjectInfo } from "@polkadot/ui-keyring/observable/types";
 import { accounts as accountsObservable } from "@polkadot/ui-keyring/observable/accounts";
-import { assert } from "@polkadot/util";
+import { assert, isHex } from "@polkadot/util";
 import { TypeRegistry } from "@polkadot/types";
 import { extension as extLib } from "@reef-chain/util-lib";
 
@@ -41,11 +41,16 @@ import { createSubscription, unsubscribe } from "./subscriptions";
 import State from "./State";
 import { AvailableNetwork, DEFAULT_REEF_NETWORK } from "../../../config";
 import { PASSWORD_EXPIRY_MS } from "../../defaults";
-import { mnemonicGenerate } from "@polkadot/util-crypto";
+import {
+  keyExtractSuri,
+  mnemonicGenerate,
+  mnemonicValidate,
+} from "@polkadot/util-crypto";
 
 type CachedUnlocks = Record<string, number>;
 
 const REEF_NETWORK_KEY = "selected_reef_network";
+const SEED_LENGTHS = [12, 24];
 
 // a global registry to use internally
 const registry = new TypeRegistry();
@@ -178,6 +183,8 @@ export default class Extension {
 
       case "pri(seed.create)":
         return this.seedCreate();
+      case "pri(seed.validate)":
+        return this.seedValidate(request as string);
 
       case "pri(accounts.create.suri)":
         return this.accountsCreateSuri(request as RequestAccountCreateSuri);
@@ -229,6 +236,26 @@ export default class Extension {
     return {
       address: keyring.createFromUri(seed, {}, "sr25519").address,
       seed,
+    };
+  }
+
+  private seedValidate(suri: string): ResponseSeedCreate {
+    const { phrase } = keyExtractSuri(suri);
+
+    if (isHex(phrase)) {
+      assert(isHex(phrase, 256), "Hex seed needs to be 256-bits");
+    } else {
+      // sadly isHex detects as string, so we need a cast here
+      assert(
+        SEED_LENGTHS.includes(phrase.split(" ").length),
+        `Mnemonic needs to contain ${SEED_LENGTHS.join(", ")} words`
+      );
+      assert(mnemonicValidate(phrase), "Not a valid mnemonic seed");
+    }
+
+    return {
+      address: keyring.createFromUri(suri, {}, "sr25519").address,
+      seed: suri,
     };
   }
 

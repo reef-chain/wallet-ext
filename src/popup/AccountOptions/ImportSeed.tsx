@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import Account from "../Accounts/Account";
 import { AccountJson } from "../../extension-base/background/types";
-import { createAccountSuri, createSeed } from "../messaging";
+import { createAccountSuri, createSeed, validateSeed } from "../messaging";
 import { ActionContext } from "../contexts";
 
 const enum Step {
@@ -24,31 +24,36 @@ const enum Error {
   NAME_TOO_SHORT,
   PASSWORD_TOO_SHORT,
   PASSWORDS_DO_NOT_MATCH,
+  INVALID_SEED,
 }
 
-export const CreateAccount = (): JSX.Element => {
+export const ImportSeed = (): JSX.Element => {
   const onAction = useContext(ActionContext);
   const [step, setStep] = useState<Step>(Step.FIRST);
   const [error, setError] = useState<Error>(Error.NONE);
+  const [seed, setSeed] = useState<string>("");
   const [account, setAccount] = useState<null | AccountJson>(null);
   const [password, setPassword] = useState<string>("");
   const [passwordRepeat, setPasswordRepeat] = useState<string>("");
   const [passwordTouched, setPasswordTouched] = useState<boolean>(false);
   const [passwordRepeatTouched, setPasswordRepeatTouched] =
     useState<boolean>(false);
-  const [confirmed, setConfirmed] = useState<boolean>(false);
 
-  useEffect(() => {
-    createSeed()
-      .then(({ address, seed }): void => {
-        setAccount({
-          address,
-          suri: seed,
-          name: "<No Name>",
-        });
-      })
-      .catch(console.error);
-  }, []);
+  const onSeedChange = async (seed: string) => {
+    setSeed(seed);
+    try {
+      const validatedAccount = await validateSeed(seed);
+      setAccount({
+        address: validatedAccount.address,
+        suri: seed,
+        name: "<No Name>",
+      });
+      setError(Error.NONE);
+    } catch (e) {
+      setAccount(null);
+      setError(Error.INVALID_SEED);
+    }
+  };
 
   const onNameChange = (name: string) => {
     setAccount({ ...account, name });
@@ -104,68 +109,39 @@ export const CreateAccount = (): JSX.Element => {
     }
   };
 
-  return account ? (
+  return (
     <>
       <div className="mt-4">
-        <span className="text-lg font-bold">Create an account</span>
+        <span className="text-lg font-bold">Import account</span>
       </div>
       <div className="flex flex-col">
-        <Account account={account} className="w-full" />
+        {account && <Account account={account} className="w-full" />}
         {step === Step.FIRST && (
           <>
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start my-3">
               <label className="text-base">
-                Generated 12-word mnemonic seed
+                Existing 12 or 24-word mnemonic seed
               </label>
               <textarea
                 className="w-full p-3 rounded-lg bg-zinc-950 border-gray-600 text-primary"
-                readOnly
-              >
-                {account.suri}
-              </textarea>
-              <CopyToClipboard
-                text={account.suri}
-                className="hover:cursor-pointer ml-1"
-              >
-                <div title={account.suri}>
+                value={seed}
+                onChange={(e) => onSeedChange(e.target.value)}
+              />
+              {error === Error.INVALID_SEED && (
+                <div className="text-red-500 mt-1">
                   <FontAwesomeIcon
                     className="mr-2"
-                    icon={faCopy as IconProp}
-                    size="sm"
+                    icon={faExclamationTriangle as IconProp}
                   />
-                  <label className="hover:cursor-pointer">
-                    Copy to clipboard
-                  </label>
+                  <span>Invalid mnemonic seed</span>
                 </div>
-              </CopyToClipboard>
-            </div>
-            <div className="flex my-3 border-l-primary border-l-4 pl-2">
-              <FontAwesomeIcon
-                className="text-primary mr-2 pt-1"
-                icon={faExclamationTriangle as IconProp}
-              />
-              <span className="text-left text-gray-300">
-                Please write down your wallet's mnemonic seed and keep it in a
-                safe place. The mnemonic can be used to restore your wallet.
-                Keep it carefully to not lose your assets.
-              </span>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                id="topping"
-                name="topping"
-                className="mr-2"
-                checked={confirmed}
-                onChange={() => setConfirmed(!confirmed)}
-              />
-              <span>I have saved my mnemonic seed safely.</span>
+              )}
             </div>
             <div>
               <button
                 className="flex justify-start items-center py-3 hover:cursor-pointer"
                 onClick={() => setStep(Step.SECOND)}
-                disabled={!confirmed}
+                disabled={!seed.length || error !== Error.NONE}
               >
                 <span className="mr-3">Next step</span>
                 <FontAwesomeIcon icon={faArrowRight as IconProp} />
@@ -263,7 +239,5 @@ export const CreateAccount = (): JSX.Element => {
         )}
       </div>
     </>
-  ) : (
-    <span>Generating new account...</span>
   );
 };

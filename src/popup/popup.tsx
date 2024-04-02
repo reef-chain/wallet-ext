@@ -13,6 +13,13 @@ import {
   faTasks,
 } from "@fortawesome/free-solid-svg-icons";
 
+import {
+  AccountJson,
+  AuthorizeRequest,
+  MetadataRequest,
+  SigningRequest,
+} from "../extension-base/background/types";
+import { PHISHING_PAGE_REDIRECT } from "../extension-base/defaults";
 import { AvailableNetwork, ReefNetwork, reefNetworks } from "../config";
 import {
   getDetachedWindowId,
@@ -25,37 +32,20 @@ import {
   subscribeNetwork,
   subscribeSigningRequests,
 } from "./messaging";
-import {
-  AccountJson,
-  AuthorizeRequest,
-  MetadataRequest,
-  SigningRequest,
-} from "../extension-base/background/types";
+import { ActionContext } from "./contexts";
+import { createPopupData } from "./util";
 import { Signing } from "./Signing";
 import { Metadata } from "./Metadata";
 import { Authorize } from "./Authorize";
 import { AuthManagement } from "./AuthManagement";
-import { createPopupData } from "./util";
-import "./popup.css";
-import { PHISHING_PAGE_REDIRECT } from "../extension-base/defaults";
 import { PhishingDetected } from "./PhishingDetected";
-import { ActionContext } from "./contexts";
 import { AccountMenu } from "./AccountOptions/AccountMenu";
-import Accounts from "./Accounts/Accounts";
 import { CreateAccount } from "./AccountOptions/CreateAccount";
-
-const enum State {
-  ACCOUNTS,
-  ADD_ACCOUNT,
-  AUTH_REQUESTS,
-  META_REQUESTS,
-  SIGN_REQUESTS,
-  AUTH_MANAGEMENT,
-  PHISHING_DETECTED,
-}
+import Accounts from "./Accounts/Accounts";
+import "./popup.css";
+import { ImportSeed } from "./AccountOptions/ImportSeed";
 
 const Popup = () => {
-  const [state, setState] = useState<State>(State.ACCOUNTS);
   const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
   const [selectedAccount, setSelectedAccount] = useState<null | AccountJson>(
     null
@@ -72,8 +62,7 @@ const Popup = () => {
   const [selectedNetwork, setSelectedNetwork] = useState<ReefNetwork>();
   const [provider, setProvider] = useState<Provider>();
 
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
+  const queryParams = new URLSearchParams(window.location.search);
   const isDetached = queryParams.get("detached");
 
   const _onAction = useCallback((to?: string): void => {
@@ -103,15 +92,15 @@ const Popup = () => {
 
   useEffect(() => {
     if (!selectedAccount) {
-      setState(State.ACCOUNTS);
+      _onAction("/");
     } else if (authRequests?.length) {
-      setState(State.AUTH_REQUESTS);
+      _onAction("/requests/auth");
     } else if (metaRequests?.length) {
-      setState(State.META_REQUESTS);
+      _onAction("/requests/metadata");
     } else if (signRequests?.length) {
-      setState(State.SIGN_REQUESTS);
+      _onAction("/requests/sign");
     } else {
-      setState(State.ACCOUNTS);
+      _onAction("/");
     }
   }, [authRequests, metaRequests, signRequests, selectedAccount]);
 
@@ -144,8 +133,10 @@ const Popup = () => {
   };
 
   const onAccountsChange = (_accounts: AccountJson[]) => {
+    console.log("onAccountsChange", _accounts);
+
     setAccounts(_accounts);
-    setState(State.ACCOUNTS);
+    _onAction("/");
 
     if (!_accounts?.length) {
       setSelectedAccount(null);
@@ -212,7 +203,6 @@ const Popup = () => {
             </button>
           </div>
         )}
-
         <div>
           <button
             className="md"
@@ -236,6 +226,8 @@ const Popup = () => {
           </button>
         </div>
       </div>
+
+      {/* Content */}
       <ActionContext.Provider value={_onAction}>
         <Routes>
           <Route
@@ -252,9 +244,9 @@ const Popup = () => {
           <Route path="/account/menu" element={<AccountMenu />} />
           <Route path="/account/create" element={<CreateAccount />} />
           {/* <Route path="/account/derive" element={<Derive />} /> */}
-          <Route path="/account/export-all" element={<AccountMenu />} />
-          <Route path="/account/import-seed" element={<AccountMenu />} />
-          <Route path="/account/restore-json" element={<AccountMenu />} />
+          {/* <Route path="/account/export-all" element={<ExportAll />} /> */}
+          <Route path="/account/import-seed" element={<ImportSeed />} />
+          {/* <Route path="/account/restore-json" element={<RestoreJson />} /> */}
           {/* <Route path="/bind" element={<Bind />} /> */}
           <Route
             path="/requests/auth"
