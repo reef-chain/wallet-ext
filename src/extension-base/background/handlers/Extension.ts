@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import type { KeyringPair } from "@polkadot/keyring/types";
+import type { KeyringPair, KeyringPair$Json } from "@polkadot/keyring/types";
 import type {
   SignerPayloadJSON,
   SignerPayloadRaw,
@@ -24,6 +24,7 @@ import {
   RequestAccountChangePassword,
   RequestAccountCreateSuri,
   RequestAccountEdit,
+  RequestAccountExport,
   RequestAccountForget,
   RequestAccountSelect,
   RequestAuthorizeApprove,
@@ -47,6 +48,7 @@ import { createSubscription, unsubscribe } from "./subscriptions";
 import State from "./State";
 import { AvailableNetwork, DEFAULT_REEF_NETWORK } from "../../../config";
 import { PASSWORD_EXPIRY_MS } from "../../defaults";
+import { KeyringPairs$Json } from "@polkadot/ui-keyring/types";
 
 type CachedUnlocks = Record<string, number>;
 
@@ -199,6 +201,8 @@ export default class Extension {
         return this.jsonRestore(request as RequestJsonRestore);
       case "pri(json.batchRestore)":
         return this.batchRestore(request as RequestJsonRestore);
+      case "pri(accounts.export)":
+        return this.accountsExport(request as RequestAccountExport);
       case "pri(accounts.exportAll)":
         return this.accountsBatchExport(request as string);
       case "pri(accounts.forget)":
@@ -423,6 +427,13 @@ export default class Extension {
     });
 
     return true;
+  }
+
+  private accountsExport({
+    address,
+    password,
+  }: RequestAccountExport): KeyringPair$Json {
+    return keyring.backupAccount(keyring.getPair(address), password);
   }
 
   private async accountsBatchExport(

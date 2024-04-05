@@ -36,6 +36,7 @@ export interface RequestSignatures {
   "pri(accounts.edit)": [RequestAccountEdit, boolean];
   "pri(json.restore)": [RequestJsonRestore, void];
   "pri(json.batchRestore)": [RequestBatchRestore, void];
+  "pri(accounts.export)": [RequestAccountExport, KeyringPair$Json];
   "pri(accounts.exportAll)": [string, ResponseAccountsExport];
   "pri(accounts.forget)": [RequestAccountForget, boolean];
   "pri(accounts.select)": [RequestAccountSelect, boolean];
@@ -204,6 +205,11 @@ export interface RequestJsonRestore {
 
 export interface RequestBatchRestore {
   file: KeyringPairs$Json;
+  password: string;
+}
+
+export interface RequestAccountExport {
+  address: string;
   password: string;
 }
 

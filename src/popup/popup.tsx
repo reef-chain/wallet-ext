@@ -49,6 +49,7 @@ import { ExportAll } from "./AccountOptions/ExportAll";
 import { RestoreJson } from "./AccountOptions/RestoreJson";
 import { Bind } from "./Bind";
 import { AccountWithSigner } from "./types";
+import { Export } from "./AccountOptions/Export";
 import "./popup.css";
 
 const accountToReefSigner = async (
@@ -142,8 +143,8 @@ const Popup = () => {
     } else if (metaRequests?.length) {
       _onAction("/requests/metadata");
     } else if (signRequests?.length) {
-      if (location.pathname === "/bind") {
-        setBindingPath(location.pathname + location.search);
+      if (location.pathname.startsWith("/bind")) {
+        setBindingPath(location.pathname);
       } else {
         setBindingPath(undefined);
       }
@@ -292,10 +293,14 @@ const Popup = () => {
             <Route path="/account/menu" element={<AccountMenu />} />
             <Route path="/account/create" element={<CreateAccount />} />
             {/* <Route path="/account/derive" element={<Derive />} /> */}
+            <Route path="/account/export/:address" element={<Export />} />
             <Route path="/account/export-all" element={<ExportAll />} />
             <Route path="/account/import-seed" element={<ImportSeed />} />
             <Route path="/account/restore-json" element={<RestoreJson />} />
-            <Route path="/bind" element={<Bind provider={provider} />} />
+            <Route
+              path="/bind/:bindAddress"
+              element={<Bind provider={provider} />}
+            />
             <Route
               path="/requests/auth"
               element={<Authorize requests={authRequests} />}

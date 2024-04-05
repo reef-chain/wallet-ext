@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useParams } from "react-router";
 import { utils } from "ethers";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
@@ -17,7 +17,7 @@ import {
   signBindEvmAddress,
 } from "./util/bindUtil";
 
-const MIN_BALANCE = BigInt(utils.parseEther("4").toString());
+const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
 enum EvmBindComponentTxType {
   TRANSFER = "TRANSFER",
@@ -50,9 +50,7 @@ const getSignersWithEnoughBalance = (
 };
 
 export const Bind = ({ provider }: Props): JSX.Element => {
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const bindAddress = queryParams.get("bindAddress");
+  const { bindAddress } = useParams();
 
   const { accountsWithSigners } = useContext(AccountsContext);
   const onAction = useContext(ActionContext);

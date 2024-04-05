@@ -141,7 +141,7 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
         {isEvmClaimed !== undefined && !isEvmClaimed && (
           <button
             className="sm m-0"
-            onClick={() => onAction(`/bind?bindAddress=${account.address}`)}
+            onClick={() => onAction(`/bind/${account.address}`)}
           >
             Connect EVM
           </button>
@@ -165,6 +165,23 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
                 }}
               >
                 Rename
+              </div>
+              <div
+                className="mb-1 hover:cursor-pointer hover:text-primary"
+                onClick={() => {
+                  // TODO:
+                  alert("Not implemented yet");
+                }}
+              >
+                Derive new account
+              </div>
+              <div
+                className="mb-1 hover:cursor-pointer hover:text-primary"
+                onClick={() => {
+                  onAction(`/account/export/${account.address}`);
+                }}
+              >
+                Export account
               </div>
               {/* TODO: Confirmation popup */}
               <div

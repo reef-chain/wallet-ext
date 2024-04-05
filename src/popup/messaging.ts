@@ -178,6 +178,13 @@ export async function editAccount(
   return sendMessage("pri(accounts.edit)", { address, name });
 }
 
+export async function exportAccount(
+  address: string,
+  password: string
+): Promise<KeyringPair$Json> {
+  return sendMessage("pri(accounts.export)", { address, password });
+}
+
 export async function exportAllAccounts(
   password: string
 ): Promise<{ exportedJson: KeyringPairs$Json }> {

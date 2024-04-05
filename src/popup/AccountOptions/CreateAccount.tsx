@@ -98,7 +98,7 @@ export const CreateAccount = (): JSX.Element => {
   const create = async () => {
     try {
       await createAccountSuri(account.name, password, account.suri);
-      onAction(`/bind?bindAddress=${account.address}`);
+      onAction(`/bind/${account.address}`);
     } catch (e) {
       console.error(e);
     }
