@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import {
   faCirclePlus,
   faCodeBranch,
@@ -13,13 +13,10 @@ import { ActionContext } from "../contexts";
 
 export const AccountMenu = (): JSX.Element => {
   const onAction = useContext(ActionContext);
-  useEffect(() => {}, []);
 
   return (
     <>
-      <div className="mt-4 mb-2">
-        <span className="text-lg font-bold">Add account</span>
-      </div>
+      <div className="mb-2 text-center text-lg font-bold">Add account</div>
       <div className="flex flex-col">
         <div
           className="flex justify-start items-center py-3 opacity-75 hover:cursor-pointer hover:opacity-100"
@@ -59,8 +56,6 @@ export const AccountMenu = (): JSX.Element => {
           <span className="ml-3">Restore account from backup JSON file</span>
         </div>
         {/* TODO:
-        ---------------------
-        - Attach external QR-signer account
         - Connect Ledger device */}
       </div>
     </>

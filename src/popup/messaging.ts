@@ -3,10 +3,10 @@
 
 import type { KeyringPair$Json } from "@polkadot/keyring/types";
 import { KeyringPairs$Json } from "@polkadot/ui-keyring/types";
+import { extension as extLib } from "@reef-chain/util-lib";
 
 import { PORT_EXTENSION } from "../extension-base/defaults";
 import {
-  AccountJson,
   AuthorizeRequest,
   MessageTypes,
   MessageTypesWithNoSubscriptions,
@@ -203,7 +203,7 @@ export async function forgetAccount(address: string): Promise<boolean> {
 }
 
 export async function subscribeAccounts(
-  cb: (accounts: AccountJson[]) => void
+  cb: (accounts: extLib.AccountJson[]) => void
 ): Promise<boolean> {
   return sendMessage("pri(accounts.subscribe)", null, cb);
 }
@@ -213,7 +213,7 @@ export async function selectAccount(address: string): Promise<boolean> {
 }
 
 export async function subscribeSelectedAccount(
-  cb: (selected: AccountJson | undefined) => void
+  cb: (selected: extLib.AccountJson | undefined) => void
 ): Promise<boolean> {
   return subscribeAccounts((accounts) => {
     cb(accounts.find((a) => a.isSelected));

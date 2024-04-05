@@ -1,24 +1,19 @@
 // Adapted from @polkadot/extension (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
-import type {
-  KeyringPair,
-  KeyringPair$Meta,
-  KeyringPair$Json,
-} from "@polkadot/keyring/types";
+import type { KeyringPair, KeyringPair$Json } from "@polkadot/keyring/types";
 import type { JsonRpcResponse } from "@polkadot/rpc-provider/types";
 import type {
   SignerPayloadJSON,
   SignerPayloadRaw,
 } from "@polkadot/types/types";
 import type { HexString } from "@polkadot/util/types";
-import type { KeypairType } from "@polkadot/util-crypto/types";
 import { TypeRegistry } from "@polkadot/types";
+import { KeyringPairs$Json } from "@polkadot/ui-keyring/types";
 import { extension as extLib } from "@reef-chain/util-lib";
 
 import { AvailableNetwork } from "../../config";
 import { AuthUrls } from "./handlers/State";
-import { KeyringPairs$Json } from "@polkadot/ui-keyring/types";
 
 // [MessageType]: [RequestType, ResponseType, SubscriptionMessageType?]
 export interface RequestSignatures {
@@ -44,7 +39,11 @@ export interface RequestSignatures {
   "pri(accounts.exportAll)": [string, ResponseAccountsExport];
   "pri(accounts.forget)": [RequestAccountForget, boolean];
   "pri(accounts.select)": [RequestAccountSelect, boolean];
-  "pri(accounts.subscribe)": [RequestAccountSubscribe, boolean, AccountJson[]];
+  "pri(accounts.subscribe)": [
+    RequestAccountSubscribe,
+    boolean,
+    extLib.AccountJson[]
+  ];
   "pri(network.subscribe)": [RequestNetworkSubscribe, boolean, string];
   "pri(network.select)": [RequestNetworkSelect, boolean];
   "pri(signing.cancel)": [RequestSigningCancel, boolean];
@@ -98,20 +97,6 @@ type IsNull<T, K extends keyof T> = {
 
 type NullKeys<T> = { [K in keyof T]: IsNull<T, K> }[keyof T];
 
-export interface AccountJson extends KeyringPair$Meta {
-  address: string;
-  genesisHash?: HexString | null;
-  isHidden?: boolean;
-  hideBalance?: any;
-  presentation?: any;
-  name?: string;
-  parentAddress?: string;
-  suri?: string;
-  type?: KeypairType;
-  whenCreated?: number;
-  isSelected?: boolean;
-}
-
 export type MessageTypes = keyof RequestSignatures;
 
 // Requests
@@ -150,7 +135,7 @@ export interface ResponseAccountsExport {
 }
 
 export interface SigningRequest {
-  account: AccountJson;
+  account: extLib.AccountJson;
   id: string;
   request: RequestSign;
   url: string;

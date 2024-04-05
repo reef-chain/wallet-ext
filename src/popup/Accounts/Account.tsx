@@ -1,60 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faCopy, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
 import { getAddress } from "@ethersproject/address";
-import { Provider, Signer } from "@reef-chain/evm-provider";
+import { Provider } from "@reef-chain/evm-provider";
+import { extension as extLib } from "@reef-chain/util-lib";
 import Identicon from "@polkadot/react-identicon";
 
 import {
   computeDefaultEvmAddress,
   toAddressShortDisplay,
   toReefAmount,
-} from "../util";
-import { AccountJson } from "../../extension-base/background/types";
-import {
-  editAccount,
-  forgetAccount,
-  selectAccount,
-  sendMessage,
-} from "../messaging";
-import SigningKey from "../../extension-base/page/Signer";
+} from "../util/util";
+import { editAccount, forgetAccount, selectAccount } from "../messaging";
+import { ActionContext } from "../contexts";
 
 interface Props {
-  account: AccountJson;
+  account: extLib.AccountJson;
   provider?: Provider;
   isSelected?: boolean;
-  className?: string;
 }
 
-const Account = ({
-  account,
-  provider,
-  isSelected,
-  className,
-}: Props): JSX.Element => {
+const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
+  const onAction = useContext(ActionContext);
   const [name, setName] = useState<string>(account.name);
   const [balance, setBalance] = useState<BigInt>();
   const [evmAddress, setEvmAddress] = useState<string>();
   const [isEvmClaimed, setIsEvmClaimed] = useState<boolean>();
-  const [signer, setSigner] = useState<Signer>();
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
 
   useEffect(() => {
     unsubBalance();
     if (account.address && provider) {
-      const _signer = new Signer(
-        provider,
-        account.address,
-        new SigningKey(sendMessage)
-      );
-      setSigner(_signer);
       queryEvmAddress(account.address, provider);
       subscribeToBalance(account.address, provider);
     } else {
-      setSigner(undefined);
       setEvmAddress(undefined);
       setIsEvmClaimed(undefined);
       setBalance(undefined);
@@ -87,30 +69,12 @@ const Account = ({
     );
   };
 
-  const bindDefaultEvmAddress = async () => {
-    signer
-      .claimDefaultAccount()
-      .then((response) => {
-        console.log("evm bind response", response);
-      })
-      .catch((error) => {
-        console.log("evm bind error", error);
-        alert("Failed to bind EVM address");
-      });
-  };
-
   return (
     <div
-      className={`account ${
-        isSelected ? "border-white border-2" : ""
-      } ${className}`}
+      className={`account w-full ${isSelected ? "border-white border-2" : ""}`}
     >
       <div className="avatar">
-        {account.icon ? (
-          <img src={account.icon as string} className="avatar-image"></img>
-        ) : (
-          <Identicon value={account.address} size={44} theme="substrate" />
-        )}
+        <Identicon value={account.address} size={44} theme="substrate" />
       </div>
       <div className="content">
         <div className="font-bold">
@@ -175,7 +139,10 @@ const Account = ({
           </CopyToClipboard>
         )}
         {isEvmClaimed !== undefined && !isEvmClaimed && (
-          <button className="sm m-0" onClick={bindDefaultEvmAddress}>
+          <button
+            className="sm m-0"
+            onClick={() => onAction(`/bind?bindAddress=${account.address}`)}
+          >
             Connect EVM
           </button>
         )}
@@ -199,6 +166,7 @@ const Account = ({
               >
                 Rename
               </div>
+              {/* TODO: Confirmation popup */}
               <div
                 className="hover:cursor-pointer hover:text-primary"
                 onClick={() => {

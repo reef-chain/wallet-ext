@@ -41,10 +41,8 @@ export const Signing = ({ requests }: Props): JSX.Element => {
 
   return requests.length && requests[requestIndex] ? (
     <>
-      <div className="mb-4">
-        <span className="text-lg font-bold">
-          {isTransaction ? "Transaction" : "Sign message"}
-        </span>
+      <div className="text-center text-lg font-bold">
+        <span>{isTransaction ? "Transaction" : "Sign message"}</span>
         {requests.length > 1 && (
           <RequestIndex
             index={requestIndex}
@@ -64,6 +62,6 @@ export const Signing = ({ requests }: Props): JSX.Element => {
       />
     </>
   ) : (
-    <span>Loading...</span>
+    <span>Loading signature requests...</span>
   );
 };

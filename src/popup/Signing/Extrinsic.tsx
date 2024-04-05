@@ -13,6 +13,7 @@ import BN from "bn.js";
 
 import { Chain } from "../../chains/types";
 import useMetadata from "../hooks/useMetadata";
+import { PORT_EXTENSION } from "../../extension-base/defaults";
 
 interface Decoded {
   args: AnyJson | null;
@@ -144,10 +145,12 @@ function Extrinsic({
   return (
     <table className="flex">
       <tbody>
-        <tr>
-          <td>From</td>
-          <td className="pl-4">{url}</td>
-        </tr>
+        {url !== PORT_EXTENSION && (
+          <tr>
+            <td>From</td>
+            <td className="pl-4">{url}</td>
+          </tr>
+        )}
         <tr>
           <td>{chain ? "Chain" : "Genesis"}</td>
           <td className="pl-4">{chain ? chain.name : genesisHash}</td>

@@ -8,10 +8,9 @@ import type {
   ProviderInterfaceCallback,
 } from "@polkadot/rpc-provider/types";
 import { assert } from "@polkadot/util";
-import { extension as extLib } from '@reef-chain/util-lib';
+import { extension as extLib } from "@reef-chain/util-lib";
 
 import type {
-  AccountJson,
   AuthorizeRequest,
   MetadataRequest,
   RequestAuthorizeTab,
@@ -26,7 +25,7 @@ import type {
 import { PORT_EXTENSION } from "../../defaults";
 import { addMetadata, knownMetadata } from "../../../chains";
 import { MetadataStore } from "../../stores";
-import { createPopupData } from "../../../popup/util";
+import { createPopupData } from "../../../popup/util/util";
 
 interface Resolver<T> {
   reject: (error: Error) => void;
@@ -67,7 +66,7 @@ type Providers = Record<
 >;
 
 interface SignRequest extends Resolver<ResponseSigning> {
-  account: AccountJson;
+  account: extLib.AccountJson;
   id: string;
   request: RequestSign;
   url: string;
@@ -253,7 +252,10 @@ export default class State {
     return true;
   }
 
-  public injectMetadata(url: string, request: extLib.MetadataDef): Promise<boolean> {
+  public injectMetadata(
+    url: string,
+    request: extLib.MetadataDef
+  ): Promise<boolean> {
     return new Promise((resolve, reject): void => {
       const id = this.getId();
 
@@ -387,7 +389,7 @@ export default class State {
   public sign(
     url: string,
     request: RequestSign,
-    account: AccountJson
+    account: extLib.AccountJson
   ): Promise<ResponseSigning> {
     const id = this.getId();
 
@@ -515,8 +517,10 @@ export default class State {
     reject: (error: Error) => void
   ): Resolver<ResponseSigning> => {
     const complete = (): void => {
+      // Keep popup open for native transaction or EVM bind requests initiated in the extension
+      const isInternal = this.#signRequests[id].url === PORT_EXTENSION;
       delete this.#signRequests[id];
-      this.updateIconSign(true);
+      this.updateIconSign(!isInternal);
     };
 
     return {

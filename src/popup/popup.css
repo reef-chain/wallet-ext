@@ -55,12 +55,12 @@ button:disabled {
   border-radius: 8px;
   padding: 8px 16px 12px 16px;
   max-width: 650px;
-  margin: 20px auto;
+  margin-top: 10px;
+  margin-bottom: 20px;
   align-items: center;
 }
 
 .account .content {
-  text-align: left;
   flex: 1 1 auto;
 }
 

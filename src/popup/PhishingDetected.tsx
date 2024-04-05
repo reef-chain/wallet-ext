@@ -12,8 +12,8 @@ export const PhishingDetected = (): JSX.Element => {
 
   return (
     <>
-      <div className="mt-4 mb-2">
-        <span className="text-lg font-bold">Phishing detected</span>
+      <div className="mb-2 text-center text-lg font-bold">
+        Phishing detected
       </div>
       <div className="text-left">
         <p>

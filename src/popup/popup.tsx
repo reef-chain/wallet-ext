@@ -1,6 +1,7 @@
 import React, { useMemo, useEffect, useState, useCallback } from "react";
 import { Route, Routes, useLocation } from "react-router";
-import { Provider } from "@reef-chain/evm-provider";
+import { Provider, Signer } from "@reef-chain/evm-provider";
+import { extension as extLib } from "@reef-chain/util-lib";
 import { WsProvider } from "@polkadot/api";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,17 +15,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
-  AccountJson,
   AuthorizeRequest,
   MetadataRequest,
   SigningRequest,
 } from "../extension-base/background/types";
+import SigningKey from "../extension-base/page/Signer";
 import { PHISHING_PAGE_REDIRECT } from "../extension-base/defaults";
 import { AvailableNetwork, ReefNetwork, reefNetworks } from "../config";
 import {
   getDetachedWindowId,
   selectAccount,
   selectNetwork,
+  sendMessage,
   setDetachedWindowId,
   subscribeAccounts,
   subscribeAuthorizeRequests,
@@ -32,8 +34,8 @@ import {
   subscribeNetwork,
   subscribeSigningRequests,
 } from "./messaging";
-import { ActionContext } from "./contexts";
-import { createPopupData } from "./util";
+import { AccountsCtx, AccountsContext, ActionContext } from "./contexts";
+import { createPopupData } from "./util/util";
 import { Signing } from "./Signing";
 import { Metadata } from "./Metadata";
 import { Authorize } from "./Authorize";
@@ -42,16 +44,46 @@ import { PhishingDetected } from "./PhishingDetected";
 import { AccountMenu } from "./AccountOptions/AccountMenu";
 import { CreateAccount } from "./AccountOptions/CreateAccount";
 import Accounts from "./Accounts/Accounts";
-import "./popup.css";
 import { ImportSeed } from "./AccountOptions/ImportSeed";
 import { ExportAll } from "./AccountOptions/ExportAll";
 import { RestoreJson } from "./AccountOptions/RestoreJson";
+import { Bind } from "./Bind";
+import { AccountWithSigner } from "./types";
+import "./popup.css";
+
+const accountToReefSigner = async (
+  account: extLib.InjectedAccount,
+  provider: Provider
+): Promise<AccountWithSigner> => {
+  const signer = new Signer(
+    provider,
+    account.address,
+    new SigningKey(sendMessage)
+  );
+  const evmAddress = await signer.getAddress();
+  const isEvmClaimed = await signer.isClaimed();
+  const deriveBalances = await provider.api.derive.balances.all(
+    account.address as any
+  );
+
+  return {
+    signer,
+    address: account.address,
+    name: account.name || "",
+    balance: BigInt(deriveBalances.freeBalance.toString()),
+    evmAddress,
+    isEvmClaimed,
+  };
+};
 
 const Popup = () => {
-  const [accounts, setAccounts] = useState<null | AccountJson[]>(null);
-  const [selectedAccount, setSelectedAccount] = useState<null | AccountJson>(
-    null
-  );
+  const [accountCtx, setAccountCtx] = useState<AccountsCtx>({
+    accounts: [],
+    selectedAccount: null,
+    accountsWithSigners: [],
+  });
+  const [selectedAccount, setSelectedAccount] =
+    useState<null | extLib.AccountJson>(null);
   const [authRequests, setAuthRequests] = useState<null | AuthorizeRequest[]>(
     null
   );
@@ -63,7 +95,9 @@ const Popup = () => {
   );
   const [selectedNetwork, setSelectedNetwork] = useState<ReefNetwork>();
   const [provider, setProvider] = useState<Provider>();
+  const [bindingPath, setBindingPath] = useState<string>();
 
+  const location = useLocation();
   const queryParams = new URLSearchParams(window.location.search);
   const isDetached = queryParams.get("detached");
 
@@ -88,21 +122,36 @@ const Popup = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedNetwork) {
+    if (accountCtx.accounts.length && provider) {
+      Promise.all(
+        accountCtx.accounts.map((acc) =>
+          accountToReefSigner(acc, provider as Provider)
+        )
+      ).then((accounts) =>
+        setAccountCtx({
+          ...accountCtx,
+          accountsWithSigners: accounts,
+        })
+      );
     }
-  }, [selectedNetwork]);
+  }, [accountCtx.accounts, provider]);
 
   useEffect(() => {
-    if (!selectedAccount) {
-      _onAction("/");
-    } else if (authRequests?.length) {
+    if (authRequests?.length) {
       _onAction("/requests/auth");
     } else if (metaRequests?.length) {
       _onAction("/requests/metadata");
     } else if (signRequests?.length) {
+      if (location.pathname === "/bind") {
+        setBindingPath(location.pathname + location.search);
+      } else {
+        setBindingPath(undefined);
+      }
       _onAction("/requests/sign");
-    } else {
-      _onAction("/");
+    } else if (bindingPath) {
+      const _bindingPath = bindingPath;
+      setBindingPath(undefined);
+      _onAction(_bindingPath);
     }
   }, [authRequests, metaRequests, signRequests, selectedAccount]);
 
@@ -134,14 +183,14 @@ const Popup = () => {
     });
   };
 
-  const onAccountsChange = (_accounts: AccountJson[]) => {
-    console.log("onAccountsChange", _accounts);
-
-    setAccounts(_accounts);
-    _onAction("/");
-
+  const onAccountsChange = async (_accounts: extLib.AccountJson[]) => {
     if (!_accounts?.length) {
       setSelectedAccount(null);
+      setAccountCtx({
+        accounts: [],
+        selectedAccount: null,
+        accountsWithSigners: [],
+      });
       return;
     }
 
@@ -152,6 +201,11 @@ const Popup = () => {
       selectAccount(_accounts[0].address);
       setSelectedAccount(_accounts[0]);
     }
+    setAccountCtx({
+      ...accountCtx,
+      accounts: _accounts,
+      selectedAccount: selAcc,
+    });
   };
 
   const onNetworkChange = async (networkId: AvailableNetwork) => {
@@ -178,7 +232,7 @@ const Popup = () => {
   };
 
   return (
-    <div className="popup">
+    <div className="popup text-left">
       {process.env.NODE_ENV === "development" && (
         <div className="absolute left-5 top-3 text-gray-400">
           <span>DEV</span>
@@ -186,7 +240,7 @@ const Popup = () => {
       )}
 
       {/* Header */}
-      <div className="flex justify-between">
+      <div className="flex justify-between mb-4">
         {selectedNetwork && (
           <div>
             <span className="text-lg">
@@ -231,39 +285,35 @@ const Popup = () => {
 
       {/* Content */}
       <ActionContext.Provider value={_onAction}>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Accounts
-                accounts={accounts}
-                provider={provider}
-                selectedAccount={selectedAccount}
-              />
-            }
-          />
-          <Route path="/auth-list" element={<AuthManagement />} />
-          <Route path="/account/menu" element={<AccountMenu />} />
-          <Route path="/account/create" element={<CreateAccount />} />
-          {/* <Route path="/account/derive" element={<Derive />} /> */}
-          <Route path="/account/export-all" element={<ExportAll />} />
-          <Route path="/account/import-seed" element={<ImportSeed />} />
-          <Route path="/account/restore-json" element={<RestoreJson />} />
-          {/* <Route path="/bind" element={<Bind />} /> */}
-          <Route
-            path="/requests/auth"
-            element={<Authorize requests={authRequests} />}
-          />
-          <Route
-            path="/requests/sign"
-            element={<Signing requests={signRequests} />}
-          />
-          <Route
-            path="/requests/metadata"
-            element={<Metadata requests={metaRequests} />}
-          />
-          <Route path={PHISHING_PAGE_REDIRECT} element={<PhishingDetected />} />
-        </Routes>
+        <AccountsContext.Provider value={accountCtx}>
+          <Routes>
+            <Route path="/" element={<Accounts provider={provider} />} />
+            <Route path="/auth-list" element={<AuthManagement />} />
+            <Route path="/account/menu" element={<AccountMenu />} />
+            <Route path="/account/create" element={<CreateAccount />} />
+            {/* <Route path="/account/derive" element={<Derive />} /> */}
+            <Route path="/account/export-all" element={<ExportAll />} />
+            <Route path="/account/import-seed" element={<ImportSeed />} />
+            <Route path="/account/restore-json" element={<RestoreJson />} />
+            <Route path="/bind" element={<Bind provider={provider} />} />
+            <Route
+              path="/requests/auth"
+              element={<Authorize requests={authRequests} />}
+            />
+            <Route
+              path="/requests/sign"
+              element={<Signing requests={signRequests} />}
+            />
+            <Route
+              path="/requests/metadata"
+              element={<Metadata requests={metaRequests} />}
+            />
+            <Route
+              path={PHISHING_PAGE_REDIRECT}
+              element={<PhishingDetected />}
+            />
+          </Routes>
+        </AccountsContext.Provider>
       </ActionContext.Provider>
     </div>
   );

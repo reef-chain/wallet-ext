@@ -75,8 +75,8 @@ export const RestoreJson = (): JSX.Element => {
 
   return (
     <>
-      <div className="mt-4 mb-2">
-        <span className="text-lg font-bold">Restore from JSON</span>
+      <div className="mb-2 text-center text-lg font-bold">
+        Restore from JSON
       </div>
       <div className="text-left">
         <label className="text-base">Backup file</label>

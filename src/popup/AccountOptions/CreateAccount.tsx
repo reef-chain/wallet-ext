@@ -8,9 +8,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { extension as extLib } from "@reef-chain/util-lib";
 
 import Account from "../Accounts/Account";
-import { AccountJson } from "../../extension-base/background/types";
 import { createAccountSuri, createSeed } from "../messaging";
 import { ActionContext } from "../contexts";
 
@@ -30,7 +30,7 @@ export const CreateAccount = (): JSX.Element => {
   const onAction = useContext(ActionContext);
   const [step, setStep] = useState<Step>(Step.FIRST);
   const [error, setError] = useState<Error>(Error.NONE);
-  const [account, setAccount] = useState<null | AccountJson>(null);
+  const [account, setAccount] = useState<null | extLib.AccountJson>(null);
   const [password, setPassword] = useState<string>("");
   const [passwordRepeat, setPasswordRepeat] = useState<string>("");
   const [passwordTouched, setPasswordTouched] = useState<boolean>(false);
@@ -106,11 +106,9 @@ export const CreateAccount = (): JSX.Element => {
 
   return account ? (
     <>
-      <div className="mt-4">
-        <span className="text-lg font-bold">Create an account</span>
-      </div>
+      <div className="text-center text-lg font-bold">Create an account</div>
       <div className="flex flex-col">
-        <Account account={account} className="w-full" />
+        <Account account={account} />
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start">

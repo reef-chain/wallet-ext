@@ -13,9 +13,7 @@ interface Props {
 export const Metadata = ({ requests }: Props): JSX.Element => {
   return requests?.length ? (
     <>
-      <div className="mt-4 mb-2">
-        <span className="text-lg font-bold">Metadata</span>
-      </div>
+      <div className="mb-2 text-center text-lg font-bold">Metadata</div>
       <Request
         key={requests[0].id}
         metaId={requests[0].id}
@@ -24,6 +22,6 @@ export const Metadata = ({ requests }: Props): JSX.Element => {
       />
     </>
   ) : (
-    <span>Loading...</span>
+    <span>Loading metadata requests...</span>
   );
 };

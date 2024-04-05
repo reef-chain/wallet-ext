@@ -6,9 +6,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { extension as extLib } from "@reef-chain/util-lib";
 
 import Account from "../Accounts/Account";
-import { AccountJson } from "../../extension-base/background/types";
 import { createAccountSuri, validateSeed } from "../messaging";
 import { ActionContext } from "../contexts";
 
@@ -30,7 +30,7 @@ export const ImportSeed = (): JSX.Element => {
   const [step, setStep] = useState<Step>(Step.FIRST);
   const [error, setError] = useState<Error>(Error.NONE);
   const [seed, setSeed] = useState<string>("");
-  const [account, setAccount] = useState<null | AccountJson>(null);
+  const [account, setAccount] = useState<null | extLib.AccountJson>(null);
   const [password, setPassword] = useState<string>("");
   const [passwordRepeat, setPasswordRepeat] = useState<string>("");
   const [passwordTouched, setPasswordTouched] = useState<boolean>(false);
@@ -109,11 +109,9 @@ export const ImportSeed = (): JSX.Element => {
 
   return (
     <>
-      <div className="mt-4">
-        <span className="text-lg font-bold">Import account</span>
-      </div>
+      <div className="text-center text-lg font-bold">Import account</div>
       <div className="flex flex-col">
-        {account && <Account account={account} className="w-full" />}
+        {account && <Account account={account} />}
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">

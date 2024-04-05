@@ -1,33 +1,28 @@
 import React, { useContext } from "react";
 import { Provider } from "@reef-chain/evm-provider";
+import { extension as extLib } from "@reef-chain/util-lib";
 
-import { AccountJson } from "../../extension-base/background/types";
 import Account from "./Account";
-import { ActionContext } from "../contexts";
+import { AccountsContext, ActionContext } from "../contexts";
 
 interface Props {
-  accounts: AccountJson[];
   provider?: Provider;
-  selectedAccount?: AccountJson;
 }
 
-const Accounts = ({
-  accounts,
-  provider,
-  selectedAccount,
-}: Props): JSX.Element => {
+const Accounts = ({ provider }: Props): JSX.Element => {
+  const { accounts, selectedAccount } = useContext(AccountsContext);
   const onAction = useContext(ActionContext);
 
   return (
     <>
       {/* Loading */}
       {(!accounts || (accounts.length > 0 && !provider)) && (
-        <div className="text-lg mt-12">Loading...</div>
+        <div className="text-lg mt-12">Loading accounts...</div>
       )}
       {/* No accounts */}
       {accounts?.length === 0 && (
         <>
-          <div className="text-lg mt-12">No accounts available.</div>
+          <div className="text-lg my-8 text-center">No accounts available.</div>
           <button onClick={() => onAction("account/menu")}>Add account</button>
         </>
       )}

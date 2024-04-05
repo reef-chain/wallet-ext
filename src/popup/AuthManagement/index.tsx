@@ -37,8 +37,8 @@ export const AuthManagement = (): JSX.Element => {
 
   return (
     <>
-      <div className="mt-4 mb-2">
-        <span className="text-lg font-bold">Manage website access</span>
+      <div className="mb-4 text-center text-lg font-bold">
+        Manage website access
       </div>
       <div>
         {!authList || !Object.entries(authList)?.length ? (

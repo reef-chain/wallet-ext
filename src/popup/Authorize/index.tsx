@@ -32,8 +32,8 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
 
   return requests.length && requests[requestIndex] ? (
     <>
-      <div className="mt-4 mb-2">
-        <span className="text-lg font-bold">Authorize</span>
+      <div className="mb-2 text-center text-lg font-bold">
+        <span>Authorize</span>
         {requests.length > 1 && (
           <RequestIndex
             index={requestIndex}
@@ -51,6 +51,6 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
       />
     </>
   ) : (
-    <span>Loading...</span>
+    <span>Loading auth requests...</span>
   );
 };

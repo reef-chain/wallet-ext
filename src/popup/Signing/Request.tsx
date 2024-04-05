@@ -9,11 +9,9 @@ import type {
   SignerPayloadJSON,
   SignerPayloadRaw,
 } from "@polkadot/types/types";
+import { extension as extLib } from "@reef-chain/util-lib";
 
-import {
-  AccountJson,
-  RequestSign,
-} from "../../extension-base/background/types";
+import { RequestSign } from "../../extension-base/background/types";
 import Bytes from "./Bytes";
 import Extrinsic from "./Extrinsic";
 import {
@@ -24,7 +22,7 @@ import {
 import { PASSWORD_EXPIRY_MIN } from "../../extension-base/defaults";
 
 interface Props {
-  account: AccountJson;
+  account: extLib.AccountJson;
   buttonText: string;
   isFirst: boolean;
   request: RequestSign;
@@ -53,6 +51,7 @@ export default function Request({
   signId,
   url,
 }: Props): React.ReactElement<Props> | null {
+  const [password, setPassword] = useState<string>("");
   const [savePass, setSavePass] = useState(false);
   const [isLocked, setIsLocked] = useState<boolean | null>(null);
   const [isBusy, setIsBusy] = useState(false);
@@ -104,12 +103,10 @@ export default function Request({
   const _onSign = async () => {
     setIsBusy(true);
 
-    let password: string | null = null;
     if (isLocked) {
-      // TODO: get password
       if (!password) {
         setIsBusy(false);
-        alert("Wrong auth");
+        alert("Wrong password");
         return;
       }
     }
@@ -142,6 +139,15 @@ export default function Request({
       <div>
         {isFirst && isLocked && (
           <div className="mt-2">
+            <div className="flex flex-col items-start my-3">
+              <label className="text-base">Password for this account</label>
+              <input
+                className="text-primary rounded-md p-2 w-full"
+                value={password}
+                type="password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
             <input
               className="hover:cursor-pointer mr-2"
               type="checkbox"

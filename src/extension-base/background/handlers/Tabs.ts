@@ -110,14 +110,17 @@ export default class Tabs {
         return this.accountsList();
       case "pub(accounts.subscribe)":
         return this.accountsSubscribe(id, port);
+
       case "pub(bytes.sign)":
         return this.bytesSign(url, request as SignerPayloadRaw);
       case "pub(extrinsic.sign)":
         return this.extrinsicSign(url, request as SignerPayloadJSON);
+
       case "pub(metadata.list)":
         return this.metadataList();
       case "pub(metadata.provide)":
         return this.metadataProvide(url, request as extLib.MetadataDef);
+
       case "pub(rpc.listProviders)":
         return this.rpcListProviders();
       case "pub(rpc.send)":

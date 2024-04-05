@@ -17,7 +17,6 @@ import {
 import { extension as extLib } from "@reef-chain/util-lib";
 
 import {
-  AccountJson,
   AuthorizeRequest,
   DetachedWindowRequest,
   MessageTypes,
@@ -58,7 +57,7 @@ const SEED_LENGTHS = [12, 24];
 const registry = new TypeRegistry();
 
 export function setSelectedAccount<
-  T extends AccountJson | extLib.InjectedAccount
+  T extends extLib.AccountJson | extLib.InjectedAccount
 >(accountsJson: T[], index: number | undefined): T[] {
   if (accountsJson.length && index != null) {
     accountsJson.forEach((a, i) => {
@@ -69,10 +68,10 @@ export function setSelectedAccount<
   return accountsJson;
 }
 
-export function transformAccounts(accounts: SubjectInfo): AccountJson[] {
+export function transformAccounts(accounts: SubjectInfo): extLib.AccountJson[] {
   const singleAddresses = Object.values(accounts);
   const accountsJson = singleAddresses.map(
-    ({ json: { address, meta }, type }): AccountJson => ({
+    ({ json: { address, meta }, type }): extLib.AccountJson => ({
       address,
       ...meta,
       type,
