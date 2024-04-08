@@ -160,6 +160,22 @@ export async function validateSeed(
   return sendMessage("pri(seed.validate)", seed);
 }
 
+export async function createAccountHardware(
+  address: string,
+  hardwareType: string,
+  accountIndex: number,
+  addressOffset: number,
+  name: string
+): Promise<boolean> {
+  return sendMessage("pri(accounts.create.hardware)", {
+    accountIndex,
+    address,
+    addressOffset,
+    hardwareType,
+    name,
+  });
+}
+
 export async function createAccountSuri(
   name: string,
   password: string,

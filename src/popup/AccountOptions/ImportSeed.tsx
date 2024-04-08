@@ -33,6 +33,7 @@ export const ImportSeed = (): JSX.Element => {
   const [account, setAccount] = useState<null | extLib.AccountJson>(null);
   const [password, setPassword] = useState<string>("");
   const [passwordRepeat, setPasswordRepeat] = useState<string>("");
+  const [nameTouched, setNameTouched] = useState<boolean>(false);
   const [passwordTouched, setPasswordTouched] = useState<boolean>(false);
   const [passwordRepeatTouched, setPasswordRepeatTouched] =
     useState<boolean>(false);
@@ -55,7 +56,7 @@ export const ImportSeed = (): JSX.Element => {
 
   const onNameChange = (name: string) => {
     setAccount({ ...account, name });
-    if (name.length < 3) {
+    if (nameTouched && name.length < 3) {
       setError(Error.NAME_TOO_SHORT);
     } else {
       setError(Error.NONE);
@@ -66,6 +67,15 @@ export const ImportSeed = (): JSX.Element => {
     setPassword(password);
     if (passwordTouched && password.length < 6) {
       setError(Error.PASSWORD_TOO_SHORT);
+    } else {
+      setError(Error.NONE);
+    }
+  };
+
+  const onNameBlur = () => {
+    setNameTouched(true);
+    if (account.name.length < 3) {
+      setError(Error.NAME_TOO_SHORT);
     } else {
       setError(Error.NONE);
     }
@@ -153,6 +163,9 @@ export const ImportSeed = (): JSX.Element => {
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
                 onChange={(e) => onNameChange(e.target.value)}
+                onBlur={() => {
+                  onNameBlur();
+                }}
               />
               {error === Error.NAME_TOO_SHORT && (
                 <div className="text-red-500 mt-1">

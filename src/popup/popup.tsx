@@ -52,6 +52,7 @@ import { Bind } from "./AccountOptions/Bind";
 import { AccountWithSigner } from "./types";
 import { Export } from "./AccountOptions/Export";
 import { Derive } from "./AccountOptions/Derive";
+import { ImportLedger } from "./AccountOptions/ImportLedger";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -301,6 +302,7 @@ const Popup = () => {
             <Route path="/account/export/:address" element={<Export />} />
             <Route path="/account/export-all" element={<ExportAll />} />
             <Route path="/account/import-seed" element={<ImportSeed />} />
+            <Route path="/account/import-ledger" element={<ImportLedger />} />
             <Route path="/account/restore-json" element={<RestoreJson />} />
             <Route
               path="/bind/:address"

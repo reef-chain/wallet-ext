@@ -26,6 +26,7 @@ import {
   MessageTypes,
   MetadataRequest,
   RequestAccountChangePassword,
+  RequestAccountCreateHardware,
   RequestAccountCreateSuri,
   RequestAccountEdit,
   RequestAccountExport,
@@ -203,6 +204,10 @@ export default class Extension {
       case "pri(seed.validate)":
         return this.seedValidate(request as string);
 
+      case "pri(accounts.create.hardware)":
+        return this.accountsCreateHardware(
+          request as RequestAccountCreateHardware
+        );
       case "pri(accounts.create.suri)":
         return this.accountsCreateSuri(request as RequestAccountCreateSuri);
       case "pri(accounts.changePassword)":
@@ -284,6 +289,22 @@ export default class Extension {
       address: keyring.createFromUri(suri, {}, "sr25519").address,
       seed: suri,
     };
+  }
+
+  private accountsCreateHardware({
+    accountIndex,
+    address,
+    addressOffset,
+    hardwareType,
+    name,
+  }: RequestAccountCreateHardware): boolean {
+    keyring.addHardware(address, hardwareType, {
+      accountIndex,
+      addressOffset,
+      name,
+    });
+
+    return true;
   }
 
   private accountsCreateSuri({

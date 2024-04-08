@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { faUsb } from "@fortawesome/free-brands-svg-icons";
 import {
   faCirclePlus,
   faCodeBranch,
@@ -67,8 +68,13 @@ export const AccountMenu = (): JSX.Element => {
           <FontAwesomeIcon icon={faFileArrowUp as IconProp} />
           <span className="ml-3">Restore account from backup JSON file</span>
         </div>
-        {/* TODO:
-        - Connect Ledger device */}
+        <div
+          className="flex justify-start items-center py-3 opacity-75 hover:cursor-pointer hover:opacity-100"
+          onClick={() => onAction("/account/import-ledger")}
+        >
+          <FontAwesomeIcon icon={faUsb as IconProp} rotation={270} />
+          <span className="ml-3">Connect Ledger device</span>
+        </div>
       </div>
     </>
   );

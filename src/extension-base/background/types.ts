@@ -31,6 +31,7 @@ export interface RequestSignatures {
   "pri(metadata.list)": [null, extLib.MetadataDef[]];
   "pri(seed.create)": [null, ResponseSeedCreate];
   "pri(seed.validate)": [string, ResponseSeedCreate];
+  "pri(accounts.create.hardware)": [RequestAccountCreateHardware, boolean];
   "pri(accounts.create.suri)": [RequestAccountCreateSuri, boolean];
   "pri(accounts.changePassword)": [RequestAccountChangePassword, boolean];
   "pri(accounts.edit)": [RequestAccountEdit, boolean];
@@ -202,6 +203,14 @@ export interface RequestMetadataReject {
 }
 
 export type RequestMetadataSubscribe = null;
+
+export interface RequestAccountCreateHardware {
+  accountIndex: number;
+  address: string;
+  addressOffset: number;
+  hardwareType: string;
+  name: string;
+}
 
 export interface RequestAccountCreateSuri {
   name: string;
