@@ -1,18 +1,27 @@
 import React, { useContext, useEffect, useState } from "react";
-import CopyToClipboard from "react-copy-to-clipboard";
+import { useParams } from "react-router";
 import {
   faArrowLeft,
   faArrowRight,
-  faCopy,
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { extension as extLib } from "@reef-chain/util-lib";
 
+import { AccountsContext, ActionContext } from "../contexts";
 import Account from "../Accounts/Account";
-import { createAccountSuri, createSeed } from "../messaging";
-import { ActionContext } from "../contexts";
+import {
+  deriveAccount,
+  validateAccount,
+  validateDerivationPath,
+} from "../messaging";
+
+// TODO: Refactor code duplicated from CreateAccount
+
+interface Props {
+  isLocked?: boolean;
+}
 
 const enum Step {
   FIRST,
@@ -21,35 +30,52 @@ const enum Step {
 
 const enum Error {
   NONE,
+  PARENT_PASSWORD_INCORRECT,
+  DERIVATION_PATH_INVALID,
   NAME_TOO_SHORT,
   PASSWORD_TOO_SHORT,
   PASSWORDS_DO_NOT_MATCH,
 }
 
-export const CreateAccount = (): JSX.Element => {
+export const Derive = ({ isLocked }: Props): JSX.Element => {
+  const { address: parentAddress } = useParams();
+  const { accounts } = useContext(AccountsContext);
   const onAction = useContext(ActionContext);
+
   const [step, setStep] = useState<Step>(Step.FIRST);
   const [error, setError] = useState<Error>(Error.NONE);
+  const [parentAccount, setParentAccount] = useState<extLib.AccountJson>();
   const [account, setAccount] = useState<extLib.AccountJson>();
+  const [parentPassword, setParentPassword] = useState<string>();
+  const [derivationPath, setDerivationPath] = useState<string>();
   const [password, setPassword] = useState<string>("");
   const [passwordRepeat, setPasswordRepeat] = useState<string>("");
   const [nameTouched, setNameTouched] = useState<boolean>(false);
   const [passwordTouched, setPasswordTouched] = useState<boolean>(false);
   const [passwordRepeatTouched, setPasswordRepeatTouched] =
     useState<boolean>(false);
-  const [confirmed, setConfirmed] = useState<boolean>(false);
 
   useEffect(() => {
-    createSeed()
-      .then(({ address, seed }): void => {
-        setAccount({
-          address,
-          suri: seed,
-          name: "<No Name>",
-        });
-      })
-      .catch(console.error);
-  }, []);
+    if (accounts.length && parentAddress) {
+      const parentAccount = accounts.find(
+        (account) => account.address === parentAddress
+      );
+      if (parentAccount) {
+        setParentAccount(parentAccount);
+        const siblingsCount = accounts.filter(
+          (account) => account.parentAddress === parentAddress
+        ).length;
+        setDerivationPath(`//${siblingsCount}`);
+      }
+    }
+  }, [accounts, parentAddress]);
+
+  const onParentPasswordChange = (password: string) => {
+    setParentPassword(password);
+    if (error === Error.PARENT_PASSWORD_INCORRECT) {
+      setError(Error.NONE);
+    }
+  };
 
   const onNameChange = (name: string) => {
     setAccount({ ...account, name });
@@ -96,6 +122,46 @@ export const CreateAccount = (): JSX.Element => {
     }
   };
 
+  const deriveCheck = async () => {
+    const isUnlockable = await validateAccount(parentAddress, parentPassword);
+
+    if (isUnlockable) {
+      try {
+        const account = await validateDerivationPath(
+          parentAddress,
+          derivationPath,
+          parentPassword
+        );
+
+        setAccount({
+          ...account,
+          name: "<No Name>",
+        });
+        setStep(Step.SECOND);
+      } catch (error) {
+        setError(Error.DERIVATION_PATH_INVALID);
+        console.error(error);
+      }
+    } else {
+      setError(Error.PARENT_PASSWORD_INCORRECT);
+    }
+  };
+
+  const create = async () => {
+    try {
+      await deriveAccount(
+        parentAddress,
+        account.suri,
+        parentPassword,
+        account.name,
+        password
+      );
+      onAction(`/bind/${account.address}`);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const onPasswordRepeatBlur = () => {
     setPasswordRepeatTouched(true);
     if (password !== passwordRepeat) {
@@ -105,75 +171,58 @@ export const CreateAccount = (): JSX.Element => {
     }
   };
 
-  const create = async () => {
-    try {
-      await createAccountSuri(account.name, password, account.suri);
-      onAction(`/bind/${account.address}`);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
-  return account ? (
+  return (
     <>
-      <div className="text-center text-lg font-bold">Create an account</div>
+      <div className="text-center text-lg font-bold">Create new account</div>
       <div className="flex flex-col">
-        <Account account={account} />
+        {parentAccount && <Account account={parentAccount} />}
+        {!isLocked && <>{/* TODO: select account */}</>}
         {step === Step.FIRST && (
           <>
-            <div className="flex flex-col items-start">
+            <div className="flex flex-col items-start my-3">
               <label className="text-base">
-                Generated 12-word mnemonic seed
+                Password for the account to derive from
               </label>
-              <textarea
-                className="w-full p-3 rounded-lg bg-zinc-950 border-gray-600 text-primary"
-                readOnly
-              >
-                {account.suri}
-              </textarea>
-              <CopyToClipboard
-                text={account.suri}
-                className="hover:cursor-pointer ml-1"
-              >
-                <div title={account.suri}>
+              <input
+                className="text-primary rounded-md p-2 w-full"
+                value={parentPassword}
+                type="password"
+                onChange={(e) => onParentPasswordChange(e.target.value)}
+              />
+              {error === Error.PARENT_PASSWORD_INCORRECT && (
+                <div className="text-red-500 mt-1">
                   <FontAwesomeIcon
                     className="mr-2"
-                    icon={faCopy as IconProp}
-                    size="sm"
+                    icon={faExclamationTriangle as IconProp}
                   />
-                  <label className="hover:cursor-pointer">
-                    Copy to clipboard
-                  </label>
+                  <span>Wrong password</span>
                 </div>
-              </CopyToClipboard>
+              )}
             </div>
-            <div className="flex my-3 border-l-primary border-l-4 pl-2">
-              <FontAwesomeIcon
-                className="text-primary mr-2 pt-1"
-                icon={faExclamationTriangle as IconProp}
-              />
-              <span className="text-left text-gray-300">
-                Please write down your wallet's mnemonic seed and keep it in a
-                safe place. The mnemonic can be used to restore your wallet.
-                Keep it carefully to not lose your assets.
-              </span>
-            </div>
-            <div>
+            <div className="flex flex-col items-start my-3">
+              <label className="text-base">Derivation path</label>
               <input
-                type="checkbox"
-                id="topping"
-                name="topping"
-                className="mr-2"
-                checked={confirmed}
-                onChange={() => setConfirmed(!confirmed)}
+                className="text-primary rounded-md p-2 w-full"
+                value={derivationPath}
+                onChange={(e) => setDerivationPath(e.target.value)}
               />
-              <span>I have saved my mnemonic seed safely.</span>
+              {error === Error.DERIVATION_PATH_INVALID && (
+                <div className="text-red-500 mt-1">
+                  <FontAwesomeIcon
+                    className="mr-2"
+                    icon={faExclamationTriangle as IconProp}
+                  />
+                  <span>Invalid derivation path</span>
+                </div>
+              )}
             </div>
             <div>
               <button
                 className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => setStep(Step.SECOND)}
-                disabled={!confirmed}
+                onClick={() => deriveCheck()}
+                disabled={
+                  error !== Error.NONE || !parentPassword || !derivationPath
+                }
               >
                 <span className="mr-3">Next step</span>
                 <FontAwesomeIcon icon={faArrowRight as IconProp} />
@@ -274,7 +323,5 @@ export const CreateAccount = (): JSX.Element => {
         )}
       </div>
     </>
-  ) : (
-    <span>Generating new account...</span>
   );
 };

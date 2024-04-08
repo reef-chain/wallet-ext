@@ -169,8 +169,7 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
               <div
                 className="mb-1 hover:cursor-pointer hover:text-primary"
                 onClick={() => {
-                  // TODO:
-                  alert("Not implemented yet");
+                  onAction(`/account/derive/${account.address}`);
                 }}
               >
                 Derive new account

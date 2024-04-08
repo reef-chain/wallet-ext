@@ -40,11 +40,14 @@ export interface RequestSignatures {
   "pri(accounts.exportAll)": [string, ResponseAccountsExport];
   "pri(accounts.forget)": [RequestAccountForget, boolean];
   "pri(accounts.select)": [RequestAccountSelect, boolean];
+  "pri(accounts.validate)": [RequestAccountValidate, boolean];
   "pri(accounts.subscribe)": [
     RequestAccountSubscribe,
     boolean,
     extLib.AccountJson[]
   ];
+  "pri(derivation.create)": [RequestDeriveCreate, boolean];
+  "pri(derivation.validate)": [RequestDeriveValidate, ResponseDeriveValidate];
   "pri(network.subscribe)": [RequestNetworkSubscribe, boolean, string];
   "pri(network.select)": [RequestNetworkSelect, boolean];
   "pri(signing.cancel)": [RequestSigningCancel, boolean];
@@ -148,6 +151,26 @@ export interface RequestSigningIsLocked {
 
 export interface RequestAccountSelect {
   address: string;
+}
+
+export interface RequestAccountValidate {
+  address: string;
+  password: string;
+}
+
+export interface RequestDeriveCreate {
+  name: string;
+  genesisHash?: string | null;
+  suri: string;
+  parentAddress: string;
+  parentPassword: string;
+  password: string;
+}
+
+export interface RequestDeriveValidate {
+  suri: string;
+  parentAddress: string;
+  parentPassword: string;
 }
 
 export interface RequestNetworkSelect {
@@ -284,6 +307,11 @@ export type TransportResponseMessage<TMessageType extends MessageTypes> =
 export interface ResponseSeedCreate {
   address: string;
   seed: string;
+}
+
+export interface ResponseDeriveValidate {
+  address: string;
+  suri: string;
 }
 
 export interface ResponseSigning {

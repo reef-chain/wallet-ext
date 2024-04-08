@@ -9,10 +9,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
-import { ActionContext } from "../contexts";
+import { AccountsContext, ActionContext } from "../contexts";
 
 export const AccountMenu = (): JSX.Element => {
   const onAction = useContext(ActionContext);
+  const { accounts, selectedAccount } = useContext(AccountsContext);
 
   return (
     <>
@@ -26,21 +27,32 @@ export const AccountMenu = (): JSX.Element => {
           <span className="ml-3">Create new account</span>
         </div>
         <hr className="my-2 opacity-25" />
-        <div
-          className="flex justify-start items-center py-3 opacity-75 hover:cursor-pointer hover:opacity-100"
-          onClick={() => onAction("/account/derive")}
-        >
-          <FontAwesomeIcon icon={faCodeBranch as IconProp} />
-          <span className="ml-3">Derive from an account</span>
-        </div>
-        <hr className="my-2 opacity-25" />
-        <div
-          className="flex justify-start items-center py-3 opacity-75 hover:cursor-pointer hover:opacity-100"
-          onClick={() => onAction("/account/export-all")}
-        >
-          <FontAwesomeIcon icon={faFileExport as IconProp} />
-          <span className="ml-3">Export all accounts</span>
-        </div>
+        {accounts.length > 0 && (
+          <>
+            <div
+              className="flex justify-start items-center py-3 opacity-75 hover:cursor-pointer hover:opacity-100"
+              // TODO: Check that is not external
+              onClick={() =>
+                onAction(
+                  `/account/derive/${
+                    selectedAccount.address || accounts[0].address
+                  }/locked`
+                )
+              }
+            >
+              <FontAwesomeIcon icon={faCodeBranch as IconProp} />
+              <span className="ml-3">Derive from an account</span>
+            </div>
+            <hr className="my-2 opacity-25" />
+            <div
+              className="flex justify-start items-center py-3 opacity-75 hover:cursor-pointer hover:opacity-100"
+              onClick={() => onAction("/account/export-all")}
+            >
+              <FontAwesomeIcon icon={faFileExport as IconProp} />
+              <span className="ml-3">Export all accounts</span>
+            </div>
+          </>
+        )}
         <div
           className="flex justify-start items-center py-3 opacity-75 hover:cursor-pointer hover:opacity-100"
           onClick={() => onAction("/account/import-seed")}

@@ -14,6 +14,7 @@ import {
   faTasks,
 } from "@fortawesome/free-solid-svg-icons";
 
+import "./popup.css";
 import {
   AuthorizeRequest,
   MetadataRequest,
@@ -47,10 +48,10 @@ import Accounts from "./Accounts/Accounts";
 import { ImportSeed } from "./AccountOptions/ImportSeed";
 import { ExportAll } from "./AccountOptions/ExportAll";
 import { RestoreJson } from "./AccountOptions/RestoreJson";
-import { Bind } from "./Bind";
+import { Bind } from "./AccountOptions/Bind";
 import { AccountWithSigner } from "./types";
 import { Export } from "./AccountOptions/Export";
-import "./popup.css";
+import { Derive } from "./AccountOptions/Derive";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -292,13 +293,17 @@ const Popup = () => {
             <Route path="/auth-list" element={<AuthManagement />} />
             <Route path="/account/menu" element={<AccountMenu />} />
             <Route path="/account/create" element={<CreateAccount />} />
-            {/* <Route path="/account/derive" element={<Derive />} /> */}
+            <Route
+              path="/account/derive/:address/locked"
+              element={<Derive isLocked />}
+            />
+            <Route path="/account/derive/:address" element={<Derive />} />
             <Route path="/account/export/:address" element={<Export />} />
             <Route path="/account/export-all" element={<ExportAll />} />
             <Route path="/account/import-seed" element={<ImportSeed />} />
             <Route path="/account/restore-json" element={<RestoreJson />} />
             <Route
-              path="/bind/:bindAddress"
+              path="/bind/:address"
               element={<Bind provider={provider} />}
             />
             <Route

@@ -1,5 +1,9 @@
 import { Observable } from "rxjs";
-import type { KeyringPair, KeyringPair$Json } from "@polkadot/keyring/types";
+import type {
+  KeyringPair,
+  KeyringPair$Json,
+  KeyringPair$Meta,
+} from "@polkadot/keyring/types";
 import type {
   SignerPayloadJSON,
   SignerPayloadRaw,
@@ -27,8 +31,11 @@ import {
   RequestAccountExport,
   RequestAccountForget,
   RequestAccountSelect,
+  RequestAccountValidate,
   RequestAuthorizeApprove,
   RequestAuthorizeReject,
+  RequestDeriveCreate,
+  RequestDeriveValidate,
   RequestJsonRestore,
   RequestMetadataApprove,
   RequestMetadataReject,
@@ -39,6 +46,7 @@ import {
   RequestTypes,
   ResponseAccountsExport,
   ResponseAuthorizeList,
+  ResponseDeriveValidate,
   ResponseSeedCreate,
   ResponseSigningIsLocked,
   ResponseType,
@@ -79,6 +87,7 @@ export function transformAccounts(accounts: SubjectInfo): extLib.AccountJson[] {
       type,
     })
   );
+  console.log("transformAccounts", accountsJson);
   const selIndex = getSelectedAccountIndex(
     singleAddresses.map((sa) => sa.json)
   );
@@ -171,6 +180,11 @@ export default class Extension {
       case "pri(metadata.requests)":
         return this.metadataSubscribe(id, port);
 
+      case "pri(derivation.create)":
+        return this.derivationCreate(request as RequestDeriveCreate);
+      case "pri(derivation.validate)":
+        return this.derivationValidate(request as RequestDeriveValidate);
+
       case "pri(authorize.approve)":
         return this.authorizeApprove(request as RequestAuthorizeApprove);
       case "pri(authorize.list)":
@@ -211,6 +225,8 @@ export default class Extension {
         return this.accountsSubscribe(id, port);
       case "pri(accounts.select)":
         return this.accountsSelect(request as RequestAccountSelect);
+      case "pri(accounts.validate)":
+        return this.accountsValidate(request as RequestAccountValidate);
 
       case "pri(network.select)":
         return this.networkSelect(request as RequestNetworkSelect);
@@ -429,6 +445,58 @@ export default class Extension {
     return true;
   }
 
+  private derive(
+    parentAddress: string,
+    suri: string,
+    password: string,
+    metadata: KeyringPair$Meta
+  ): KeyringPair {
+    const parentPair = keyring.getPair(parentAddress);
+
+    try {
+      parentPair.decodePkcs8(password);
+    } catch (e) {
+      throw new Error("invalid password");
+    }
+
+    try {
+      return parentPair.derive(suri, metadata);
+    } catch (err) {
+      throw new Error(`"${suri}" is not a valid derivation path`);
+    }
+  }
+
+  private derivationValidate({
+    parentAddress,
+    parentPassword,
+    suri,
+  }: RequestDeriveValidate): ResponseDeriveValidate {
+    const childPair = this.derive(parentAddress, suri, parentPassword, {});
+
+    return {
+      address: childPair.address,
+      suri,
+    };
+  }
+
+  private derivationCreate({
+    name,
+    parentAddress,
+    parentPassword,
+    password,
+    suri,
+  }: RequestDeriveCreate): boolean {
+    const childPair = this.derive(parentAddress, suri, parentPassword, {
+      name,
+      parentAddress,
+      suri,
+    });
+
+    keyring.addPair(childPair, password);
+
+    return true;
+  }
+
   private accountsExport({
     address,
     password,
@@ -492,6 +560,19 @@ export default class Extension {
     });
 
     return true;
+  }
+
+  private accountsValidate({
+    address,
+    password,
+  }: RequestAccountValidate): boolean {
+    try {
+      keyring.backupAccount(keyring.getPair(address), password);
+
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   private networkSelect({ networkId }: RequestNetworkSelect) {

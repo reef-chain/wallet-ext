@@ -6,16 +6,16 @@ import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Provider } from "@reef-chain/evm-provider";
 
-import { AccountsContext, ActionContext } from "./contexts";
-import Account from "./Accounts/Account";
-import { toAddressShortDisplay, toReefAmount } from "./util/util";
-import { AccountWithSigner, TxStatusUpdate } from "./types";
-import { sendToNativeAddress } from "./util/transactionUtil";
+import { AccountsContext, ActionContext } from "../contexts";
+import Account from "../Accounts/Account";
+import { toAddressShortDisplay, toReefAmount } from "../util/util";
+import { AccountWithSigner, TxStatusUpdate } from "../types";
+import { sendToNativeAddress } from "../util/transactionUtil";
 import {
   bindCustomEvmAddress,
   bindEvmAddress,
   signBindEvmAddress,
-} from "./util/bindUtil";
+} from "../util/bindUtil";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
@@ -50,8 +50,7 @@ const getSignersWithEnoughBalance = (
 };
 
 export const Bind = ({ provider }: Props): JSX.Element => {
-  const { bindAddress } = useParams();
-
+  const { address: bindAddress } = useParams();
   const { accountsWithSigners } = useContext(AccountsContext);
   const onAction = useContext(ActionContext);
 
@@ -96,7 +95,6 @@ export const Bind = ({ provider }: Props): JSX.Element => {
     }
 
     setCustomBindState({ ...customBindState, error: undefined });
-    // const onTxUpd = getUpdateTxCallback([onTxUpdate, setTxStatus]); // TODO: refactor?
 
     const txIdent = sendToNativeAddress(
       provider,
@@ -207,7 +205,6 @@ export const Bind = ({ provider }: Props): JSX.Element => {
   return (
     <>
       <div className="mb-2 text-center text-lg font-bold">Connect EVM</div>
-      {txStatus && <span>txStatus: {JSON.stringify(txStatus)}</span>}
       {bindFor ? (
         <div className="flex flex-col items-start align-top">
           {!bindFor.isEvmClaimed && (

@@ -15,6 +15,7 @@ import {
   MetadataRequest,
   RequestTypes,
   ResponseAuthorizeList,
+  ResponseDeriveValidate,
   ResponseSigningIsLocked,
   ResponseTypes,
   SigningRequest,
@@ -219,11 +220,46 @@ export async function selectAccount(address: string): Promise<boolean> {
   return sendMessage("pri(accounts.select)", { address });
 }
 
+export async function validateAccount(
+  address: string,
+  password: string
+): Promise<boolean> {
+  return sendMessage("pri(accounts.validate)", { address, password });
+}
+
 export async function subscribeSelectedAccount(
   cb: (selected: extLib.AccountJson | undefined) => void
 ): Promise<boolean> {
   return subscribeAccounts((accounts) => {
     cb(accounts.find((a) => a.isSelected));
+  });
+}
+
+export async function validateDerivationPath(
+  parentAddress: string,
+  suri: string,
+  parentPassword: string
+): Promise<ResponseDeriveValidate> {
+  return sendMessage("pri(derivation.validate)", {
+    parentAddress,
+    parentPassword,
+    suri,
+  });
+}
+
+export async function deriveAccount(
+  parentAddress: string,
+  suri: string,
+  parentPassword: string,
+  name: string,
+  password: string
+): Promise<boolean> {
+  return sendMessage("pri(derivation.create)", {
+    name,
+    parentAddress,
+    parentPassword,
+    password,
+    suri,
   });
 }
 
