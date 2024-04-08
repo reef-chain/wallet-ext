@@ -182,12 +182,10 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
               >
                 Export account
               </div>
-              {/* TODO: Confirmation popup */}
               <div
                 className="hover:cursor-pointer hover:text-primary"
                 onClick={() => {
-                  forgetAccount(account.address);
-                  setIsOptionsOpen(false);
+                  onAction(`/account/forget/${account.address}`);
                 }}
               >
                 Forget account

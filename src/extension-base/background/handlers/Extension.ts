@@ -88,7 +88,6 @@ export function transformAccounts(accounts: SubjectInfo): extLib.AccountJson[] {
       type,
     })
   );
-  console.log("transformAccounts", accountsJson);
   const selIndex = getSelectedAccountIndex(
     singleAddresses.map((sa) => sa.json)
   );

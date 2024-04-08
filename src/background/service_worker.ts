@@ -16,15 +16,10 @@ import handlers from "../extension-base/background/handlers";
 import { PORT_CONTENT, PORT_EXTENSION } from "../extension-base/defaults";
 import { LocalStore } from "../extension-base/localStore";
 
-type PortExt = chrome.runtime.Port & { _timer?: NodeJS.Timeout };
-
-const forceReconnect = (port: PortExt) => {
-  if (port._timer) {
-    clearTimeout(port._timer);
-    delete port._timer;
-  }
-  port.disconnect();
-};
+// Fix Service Worker disconnection: https://stackoverflow.com/questions/66618136/persistent-service-worker-in-chrome-extension/66618269#66618269
+const keepAlive = () => setInterval(chrome.runtime.getPlatformInfo, 20e3);
+chrome.runtime.onStartup.addListener(keepAlive);
+keepAlive();
 
 // listen to all messages and handle appropriately
 chrome.runtime.onConnect.addListener((port): void => {
@@ -34,10 +29,6 @@ chrome.runtime.onConnect.addListener((port): void => {
     [PORT_CONTENT, PORT_EXTENSION].includes(port.name),
     `Unknown connection from ${port.name}`
   );
-
-  // Trigger reconnection every < 5 minutes to maintain the communication with the volatile service worker.
-  // The "connecting ends" are adjusted to reconnect upon disconnection.
-  (port as PortExt)._timer = setTimeout(forceReconnect, 250e3, port);
 
   // message and disconnect handlers
   port.onMessage.addListener(

@@ -40,9 +40,8 @@ let port: chrome.runtime.Port;
 const handlers: Handlers = {};
 let idCounter = 0;
 
-const connect = (): chrome.runtime.Port => {
+const connect = () => {
   port = chrome.runtime.connect({ name: PORT_EXTENSION });
-  port.onDisconnect.addListener(connect); // force reconnect
 
   // setup a listener for messages, any incoming resolves the promise
   port.onMessage.addListener((data: Message["data"]): void => {
@@ -65,11 +64,9 @@ const connect = (): chrome.runtime.Port => {
       handler.resolve(data.response);
     }
   });
-
-  return port;
 };
 
-port = connect();
+connect();
 
 export function sendMessage<TMessageType extends MessageTypesWithNullRequest>(
   message: TMessageType
