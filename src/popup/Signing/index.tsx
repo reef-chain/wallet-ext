@@ -53,7 +53,10 @@ export const Signing = ({ requests }: Props): JSX.Element => {
           />
         )}
       </div>
-      <Account account={requests[requestIndex].account} />
+      <Account
+        account={requests[requestIndex].account}
+        showCopyAddress={true}
+      />
       <Request
         account={requests[requestIndex].account}
         buttonText={isTransaction ? "Sign the transaction" : "Sign the message"}

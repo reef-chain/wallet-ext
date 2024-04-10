@@ -13,17 +13,26 @@ import {
   toAddressShortDisplay,
   toReefAmount,
 } from "../util/util";
-import { editAccount, forgetAccount, selectAccount } from "../messaging";
-import { ActionContext } from "../contexts";
+import { editAccount, selectAccount } from "../messaging";
+import { ActionContext, ProviderContext } from "../contexts";
 
 interface Props {
   account: extLib.AccountJson;
-  provider?: Provider;
   isSelected?: boolean;
+  showOptions?: boolean;
+  showCopyAddress?: boolean;
+  onClick?: (account: extLib.AccountJson) => void;
 }
 
-const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
+const Account = ({
+  account,
+  isSelected,
+  showOptions,
+  showCopyAddress,
+  onClick,
+}: Props): JSX.Element => {
   const onAction = useContext(ActionContext);
+  const provider = useContext(ProviderContext);
   const [name, setName] = useState<string>(account.name);
   const [balance, setBalance] = useState<BigInt>();
   const [evmAddress, setEvmAddress] = useState<string>();
@@ -71,7 +80,10 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
 
   return (
     <div
-      className={`account w-full ${isSelected ? "border-white border-2" : ""}`}
+      className={`account w-full ${
+        isSelected && showOptions ? "border-white border-2" : ""
+      } ${onClick ? "hover:cursor-pointer" : ""}`}
+      onClick={() => onClick && onClick(account)}
     >
       <div className="avatar">
         <Identicon value={account.address} size={44} theme="substrate" />
@@ -91,7 +103,7 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
           ) : (
             account.name
           )}
-          {provider && !isSelected && (
+          {showOptions && !isSelected && (
             <button
               className="sm inline-block m-0 ml-2"
               onClick={() => selectAccount(account.address)}
@@ -106,39 +118,57 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
             {balance !== undefined ? toReefAmount(balance) : "loading..."}
           </div>
         )}
-        <CopyToClipboard
-          text={account.address}
-          className="hover:cursor-pointer"
-        >
-          <div title={account.address}>
-            <label>Native address: </label>
-            {toAddressShortDisplay(account.address)}
-            <FontAwesomeIcon
-              className="ml-2"
-              icon={faCopy as IconProp}
-              size="sm"
-              title="Copy Reef Account Address"
-            />
-          </div>
-        </CopyToClipboard>
-        {provider && (
+        {showCopyAddress ? (
           <CopyToClipboard
-            text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
-            className="inline-block hover:cursor-pointer"
+            text={account.address}
+            className="hover:cursor-pointer"
           >
-            <div title={evmAddress || ""}>
-              <label>EVM address: </label>
-              {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
+            <div title={account.address}>
+              <label>Native address: </label>
+              {toAddressShortDisplay(account.address)}
               <FontAwesomeIcon
                 className="ml-2"
                 icon={faCopy as IconProp}
                 size="sm"
-                title="Copy EVM Address"
+                title="Copy Reef Account Address"
               />
             </div>
           </CopyToClipboard>
+        ) : (
+          <div title={account.address}>
+            <label>Native address: </label>
+            {toAddressShortDisplay(account.address)}
+          </div>
         )}
-        {isEvmClaimed !== undefined && !isEvmClaimed && (
+        {provider && (
+          <>
+            {showCopyAddress ? (
+              <CopyToClipboard
+                text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
+                className="inline-block hover:cursor-pointer"
+              >
+                <div title={evmAddress || ""}>
+                  <label>EVM address: </label>
+                  {evmAddress
+                    ? toAddressShortDisplay(evmAddress)
+                    : "loading..."}
+                  <FontAwesomeIcon
+                    className="ml-2"
+                    icon={faCopy as IconProp}
+                    size="sm"
+                    title="Copy EVM Address"
+                  />
+                </div>
+              </CopyToClipboard>
+            ) : (
+              <div title={evmAddress || ""}>
+                <label>EVM address: </label>
+                {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
+              </div>
+            )}
+          </>
+        )}
+        {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
           <button
             className="sm m-0"
             onClick={() => onAction(`/bind/${account.address}`)}
@@ -147,7 +177,7 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
           </button>
         )}
       </div>
-      {provider && (
+      {showOptions && (
         <div className="relative">
           <FontAwesomeIcon
             className="hover:cursor-pointer p-2"
@@ -169,7 +199,7 @@ const Account = ({ account, provider, isSelected }: Props): JSX.Element => {
               <div
                 className="mb-1 hover:cursor-pointer hover:text-primary"
                 onClick={() => {
-                  onAction(`/account/derive/${account.address}`);
+                  onAction(`/account/derive/${account.address}/locked`);
                 }}
               >
                 Derive new account

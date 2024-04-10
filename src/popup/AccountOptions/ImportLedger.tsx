@@ -122,7 +122,7 @@ export const ImportLedger = (): JSX.Element => {
     <>
       <div className="text-center text-lg font-bold">Import Ledger account</div>
       <div className="flex flex-col">
-        {/* {account && <Account account={account} />} */}
+        {/* {account && <Account account={account} showCopyAddress={true} />} */}
         <div className="flex flex-col items-start">
           <label className="text-base">Name for the account</label>
           <input

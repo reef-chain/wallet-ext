@@ -37,7 +37,7 @@ export const AccountMenu = (): JSX.Element => {
                 onAction(
                   `/account/derive/${
                     selectedAccount.address || accounts[0].address
-                  }/locked`
+                  }`
                 )
               }
             >

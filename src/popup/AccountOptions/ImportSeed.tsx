@@ -121,7 +121,7 @@ export const ImportSeed = (): JSX.Element => {
     <>
       <div className="text-center text-lg font-bold">Import account</div>
       <div className="flex flex-col">
-        {account && <Account account={account} />}
+        {account && <Account account={account} showCopyAddress={true} />}
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">

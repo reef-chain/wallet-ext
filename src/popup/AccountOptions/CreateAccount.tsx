@@ -118,7 +118,7 @@ export const CreateAccount = (): JSX.Element => {
     <>
       <div className="text-center text-lg font-bold">Create an account</div>
       <div className="flex flex-col">
-        <Account account={account} />
+        <Account account={account} showCopyAddress={true} />
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start">

@@ -35,7 +35,12 @@ import {
   subscribeNetwork,
   subscribeSigningRequests,
 } from "./messaging";
-import { AccountsCtx, AccountsContext, ActionContext } from "./contexts";
+import {
+  AccountsCtx,
+  AccountsContext,
+  ActionContext,
+  ProviderContext,
+} from "./contexts";
 import { createPopupData } from "./util/util";
 import { Signing } from "./Signing";
 import { Metadata } from "./Metadata";
@@ -290,43 +295,45 @@ const Popup = () => {
       {/* Content */}
       <ActionContext.Provider value={_onAction}>
         <AccountsContext.Provider value={accountCtx}>
-          <Routes>
-            <Route path="/" element={<Accounts provider={provider} />} />
-            <Route path="/auth-list" element={<AuthManagement />} />
-            <Route path="/account/menu" element={<AccountMenu />} />
-            <Route path="/account/create" element={<CreateAccount />} />
-            <Route
-              path="/account/derive/:address/locked"
-              element={<Derive isLocked />}
-            />
-            <Route path="/account/derive/:address" element={<Derive />} />
-            <Route path="/account/export/:address" element={<Export />} />
-            <Route path="/account/export-all" element={<ExportAll />} />
-            <Route path="/account/import-seed" element={<ImportSeed />} />
-            <Route path="/account/import-ledger" element={<ImportLedger />} />
-            <Route path="/account/restore-json" element={<RestoreJson />} />
-            <Route path="/account/forget/:address" element={<Forget />} />
-            <Route
-              path="/bind/:address"
-              element={<Bind provider={provider} />}
-            />
-            <Route
-              path="/requests/auth"
-              element={<Authorize requests={authRequests} />}
-            />
-            <Route
-              path="/requests/sign"
-              element={<Signing requests={signRequests} />}
-            />
-            <Route
-              path="/requests/metadata"
-              element={<Metadata requests={metaRequests} />}
-            />
-            <Route
-              path={PHISHING_PAGE_REDIRECT}
-              element={<PhishingDetected />}
-            />
-          </Routes>
+          <ProviderContext.Provider value={provider}>
+            <Routes>
+              <Route path="/" element={<Accounts />} />
+              <Route path="/auth-list" element={<AuthManagement />} />
+              <Route path="/account/menu" element={<AccountMenu />} />
+              <Route path="/account/create" element={<CreateAccount />} />
+              <Route
+                path="/account/derive/:address/locked"
+                element={<Derive isLocked />}
+              />
+              <Route path="/account/derive/:address" element={<Derive />} />
+              <Route path="/account/export/:address" element={<Export />} />
+              <Route path="/account/export-all" element={<ExportAll />} />
+              <Route path="/account/import-seed" element={<ImportSeed />} />
+              <Route path="/account/import-ledger" element={<ImportLedger />} />
+              <Route path="/account/restore-json" element={<RestoreJson />} />
+              <Route path="/account/forget/:address" element={<Forget />} />
+              <Route
+                path="/bind/:address"
+                element={<Bind provider={provider} />}
+              />
+              <Route
+                path="/requests/auth"
+                element={<Authorize requests={authRequests} />}
+              />
+              <Route
+                path="/requests/sign"
+                element={<Signing requests={signRequests} />}
+              />
+              <Route
+                path="/requests/metadata"
+                element={<Metadata requests={metaRequests} />}
+              />
+              <Route
+                path={PHISHING_PAGE_REDIRECT}
+                element={<PhishingDetected />}
+              />
+            </Routes>
+          </ProviderContext.Provider>
         </AccountsContext.Provider>
       </ActionContext.Provider>
     </div>

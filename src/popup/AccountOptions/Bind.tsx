@@ -16,6 +16,7 @@ import {
   bindEvmAddress,
   signBindEvmAddress,
 } from "../util/bindUtil";
+import AccountSelector from "../Accounts/AccountSelector";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
@@ -42,9 +43,8 @@ const getSignersWithEnoughBalance = (
 ): AccountWithSigner[] => {
   return signers?.length
     ? signers.filter(
-        (sig) =>
-          sig.address !== bindFor.address &&
-          sig.balance > MIN_BALANCE * BigInt(2)
+        (sig) => sig.address !== bindFor.address
+        // && sig.balance > MIN_BALANCE * BigInt(2) TODO: UNCOMMENT
       )
     : [];
 };
@@ -206,7 +206,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
     <>
       <div className="mb-2 text-center text-lg font-bold">Connect EVM</div>
       {bindFor ? (
-        <div className="flex flex-col items-start align-top">
+        <div className="flex flex-col align-top">
           {!bindFor.isEvmClaimed && (
             <>
               <div className="mb-2">Start using Reef EVM smart contracts.</div>
@@ -307,14 +307,20 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                       <div className="mt-2">
                         Coins will be transferred from account:
                       </div>
-                      <Account account={{ ...transferBalanceFrom }} />
-                      {/* TODO: */}
-                      {/* <AccountListModal
-                        accounts={availableTxAccounts}
-                        id="selectMyAddress"
-                        selectAccount={onAccountSelect}
-                        title="Select account"
-                      /> */}
+                      <AccountSelector
+                        accounts={availableTxAccounts.map((acc) => ({
+                          ...acc,
+                        }))}
+                        initialSelection={{ ...transferBalanceFrom }}
+                        onAccountSelect={(account) =>
+                          setTransferBalanceFrom(
+                            availableTxAccounts.find(
+                              (acc) => acc.address === account.address
+                            )
+                          )
+                        }
+                        small={true}
+                      />
                       <button onClick={transfer}>Continue</button>
                     </>
                   )}

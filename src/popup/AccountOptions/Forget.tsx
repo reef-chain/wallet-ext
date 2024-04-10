@@ -29,7 +29,7 @@ export const Forget = (): JSX.Element => {
     <>
       <div className="text-center text-lg font-bold">Forget account</div>
       <div className="flex flex-col">
-        <Account account={{ address, name }} />
+        <Account account={{ address, name }} showCopyAddress={true} />
         <div className="flex mb-4 border-l-primary border-l-4 pl-2">
           <FontAwesomeIcon
             className="text-primary mr-2 pt-1"

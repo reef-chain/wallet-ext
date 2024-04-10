@@ -16,6 +16,7 @@ import {
   validateAccount,
   validateDerivationPath,
 } from "../messaging";
+import AccountSelector from "../Accounts/AccountSelector";
 
 // TODO: Refactor code duplicated from CreateAccount
 
@@ -38,13 +39,17 @@ const enum Error {
 }
 
 export const Derive = ({ isLocked }: Props): JSX.Element => {
-  const { address: parentAddress } = useParams();
+  const { address } = useParams();
   const { accounts } = useContext(AccountsContext);
   const onAction = useContext(ActionContext);
 
   const [step, setStep] = useState<Step>(Step.FIRST);
   const [error, setError] = useState<Error>(Error.NONE);
+  const [parentAddress, setParentAddress] = useState<string>(address);
   const [parentAccount, setParentAccount] = useState<extLib.AccountJson>();
+  const [availableAccounts, setAvailableAccounts] = useState<
+    extLib.AccountJson[]
+  >([]);
   const [account, setAccount] = useState<extLib.AccountJson>();
   const [parentPassword, setParentPassword] = useState<string>();
   const [derivationPath, setDerivationPath] = useState<string>();
@@ -66,6 +71,10 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
           (account) => account.parentAddress === parentAddress
         ).length;
         setDerivationPath(`//${siblingsCount}`);
+        const availableAccounts = accounts.filter(
+          (account) => !account.isExternal
+        );
+        setAvailableAccounts(availableAccounts);
       }
     }
   }, [accounts, parentAddress]);
@@ -175,8 +184,14 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
     <>
       <div className="text-center text-lg font-bold">Create new account</div>
       <div className="flex flex-col">
-        {parentAccount && <Account account={parentAccount} />}
-        {!isLocked && <>{/* TODO: select account */}</>}
+        {parentAccount && isLocked && <Account account={parentAccount} />}
+        {parentAccount && !isLocked && (
+          <AccountSelector
+            accounts={availableAccounts}
+            initialSelection={parentAccount}
+            onAccountSelect={(account) => setParentAddress(account.address)}
+          />
+        )}
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">

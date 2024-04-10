@@ -46,7 +46,7 @@ export const Export = (): JSX.Element => {
     <>
       <div className="text-center text-lg font-bold">Export account</div>
       <div className="flex flex-col">
-        {account && <Account account={{ ...account }} />}
+        {account && <Account account={{ ...account }} showCopyAddress={true} />}
         <div className="flex mb-2 border-l-primary border-l-4 pl-2">
           <FontAwesomeIcon
             className="text-primary mr-2 pt-1"

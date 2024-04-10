@@ -1,16 +1,11 @@
 import React, { useContext } from "react";
-import { Provider } from "@reef-chain/evm-provider";
-import { extension as extLib } from "@reef-chain/util-lib";
 
 import Account from "./Account";
-import { AccountsContext, ActionContext } from "../contexts";
+import { AccountsContext, ActionContext, ProviderContext } from "../contexts";
 
-interface Props {
-  provider?: Provider;
-}
-
-const Accounts = ({ provider }: Props): JSX.Element => {
+const Accounts = (): JSX.Element => {
   const { accounts, selectedAccount } = useContext(AccountsContext);
+  const provider = useContext(ProviderContext);
   const onAction = useContext(ActionContext);
 
   return (
@@ -30,22 +25,26 @@ const Accounts = ({ provider }: Props): JSX.Element => {
       {selectedAccount && provider && (
         <Account
           account={selectedAccount}
-          provider={provider}
           isSelected={true}
+          showOptions={true}
+          showCopyAddress={true}
         />
       )}
       {/* Other accounts */}
-      {accounts?.length > 1 &&
-        provider &&
-        accounts
-          .filter((account) => account.address !== selectedAccount.address)
-          .map((account) => (
-            <Account
-              key={account.address}
-              account={account}
-              provider={provider}
-            />
-          ))}
+      <div className="max-h-[365px] overflow-y-scroll scrollbar-hidden rounded-xl">
+        {accounts?.length > 1 &&
+          provider &&
+          accounts
+            .filter((account) => account.address !== selectedAccount.address)
+            .map((account) => (
+              <Account
+                key={account.address}
+                account={account}
+                showOptions={true}
+                showCopyAddress={true}
+              />
+            ))}
+      </div>
     </>
   );
 };
