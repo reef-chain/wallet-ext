@@ -186,7 +186,7 @@ const Account = ({
             title="Account options"
           />
           {isOptionsOpen && (
-            <div className="absolute right-0 p-2 bg-white text-secondary font-bold text-left rounded-lg">
+            <div className="absolute right-0 p-2 bg-gray-200 text-secondary font-bold text-left rounded-lg w-[148px]">
               <div
                 className="mb-1 hover:cursor-pointer hover:text-primary"
                 onClick={() => {

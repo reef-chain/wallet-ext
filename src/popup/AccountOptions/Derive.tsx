@@ -17,6 +17,7 @@ import {
   validateDerivationPath,
 } from "../messaging";
 import AccountSelector from "../Accounts/AccountSelector";
+import { SectionTitle } from "../SectionTitle";
 
 // TODO: Refactor code duplicated from CreateAccount
 
@@ -182,7 +183,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
 
   return (
     <>
-      <div className="text-center text-lg font-bold">Create new account</div>
+      <SectionTitle text="Create new account" />
       <div className="flex flex-col">
         {parentAccount && isLocked && <Account account={parentAccount} />}
         {parentAccount && !isLocked && (

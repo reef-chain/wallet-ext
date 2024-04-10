@@ -59,7 +59,7 @@ export const Signing = ({ requests }: Props): JSX.Element => {
       />
       <Request
         account={requests[requestIndex].account}
-        buttonText={isTransaction ? "Sign the transaction" : "Sign the message"}
+        buttonText={isTransaction ? "Sign transaction" : "Sign message"}
         isFirst={requestIndex === 0}
         request={requests[requestIndex].request}
         signId={requests[requestIndex].id}

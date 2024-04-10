@@ -8,7 +8,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCirclePlus,
   faArrowUpRightFromSquare,
-  faCircleXmark,
   faExpand,
   faShuffle,
   faTasks,
@@ -280,15 +279,16 @@ const Popup = () => {
               <FontAwesomeIcon icon={faExpand as IconProp} />
             </button>
           )}
-          <button className="md" onClick={() => _onAction("/account/menu")}>
-            <FontAwesomeIcon icon={faCirclePlus as IconProp} />
-          </button>
-          <button className="md" onClick={() => _onAction("/auth-list")}>
-            <FontAwesomeIcon icon={faTasks as IconProp} />
-          </button>
-          <button className="md" onClick={() => _onAction("/")}>
-            <FontAwesomeIcon icon={faCircleXmark as IconProp} />
-          </button>
+          {!location.pathname.startsWith("/account/") && (
+            <button className="md" onClick={() => _onAction("/account/menu")}>
+              <FontAwesomeIcon icon={faCirclePlus as IconProp} />
+            </button>
+          )}
+          {!location.pathname.startsWith("/auth-list") && (
+            <button className="md" onClick={() => _onAction("/auth-list")}>
+              <FontAwesomeIcon icon={faTasks as IconProp} />
+            </button>
+          )}
         </div>
       </div>
 

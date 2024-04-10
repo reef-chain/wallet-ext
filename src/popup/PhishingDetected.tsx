@@ -3,6 +3,7 @@
 
 import React from "react";
 import { useLocation } from "react-router";
+import { SectionTitle } from "./SectionTitle";
 
 export const PhishingDetected = (): JSX.Element => {
   const location = useLocation();
@@ -12,9 +13,7 @@ export const PhishingDetected = (): JSX.Element => {
 
   return (
     <>
-      <div className="mb-2 text-center text-lg font-bold">
-        Phishing detected
-      </div>
+      <SectionTitle text="Phishing detected" />
       <div className="text-left">
         <p>
           You have been redirected because Reef extension believes that this

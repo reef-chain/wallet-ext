@@ -143,7 +143,7 @@ function Extrinsic({
   );
 
   return (
-    <table className="flex">
+    <table className="flex overflow-x-scroll">
       <tbody>
         {url !== PORT_EXTENSION && (
           <tr>

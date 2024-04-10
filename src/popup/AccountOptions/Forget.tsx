@@ -7,6 +7,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import Account from "../Accounts/Account";
 import { forgetAccount } from "../messaging";
 import { AccountsContext, ActionContext } from "../contexts";
+import { SectionTitle } from "../SectionTitle";
 
 export const Forget = (): JSX.Element => {
   const { address } = useParams();
@@ -27,7 +28,7 @@ export const Forget = (): JSX.Element => {
 
   return (
     <>
-      <div className="text-center text-lg font-bold">Forget account</div>
+      <SectionTitle text="Forget account" />
       <div className="flex flex-col">
         <Account account={{ address, name }} showCopyAddress={true} />
         <div className="flex mb-4 border-l-primary border-l-4 pl-2">

@@ -89,6 +89,11 @@ button:disabled {
   border: 1px solid white;
 }
 
+.react-tooltip {
+  max-width: 300px;
+  opacity: 1 !important;
+}
+
 ::-webkit-scrollbar {
   width: 12px;
 }

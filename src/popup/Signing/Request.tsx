@@ -156,18 +156,20 @@ export default function Request({
               disabled={isBusy}
             />
             <span className="font-bold">
-              Remember credentials from the next {PASSWORD_EXPIRY_MIN} minutes.
+              Remember for the next {PASSWORD_EXPIRY_MIN} minutes.
             </span>
           </div>
         )}
-        {isFirst && (
-          <button onClick={_onSign} disabled={isBusy}>
-            {buttonText}
+        <div>
+          {isFirst && (
+            <button onClick={_onSign} disabled={isBusy}>
+              {buttonText}
+            </button>
+          )}
+          <button onClick={_onCancel} disabled={isBusy}>
+            Cancel
           </button>
-        )}
-        <button onClick={_onCancel} disabled={isBusy}>
-          Cancel
-        </button>
+        </div>
       </div>
     </>
   );

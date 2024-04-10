@@ -6,6 +6,7 @@ import { saveAs } from "file-saver";
 
 import { ActionContext } from "../contexts";
 import { exportAllAccounts } from "../messaging";
+import { SectionTitle } from "../SectionTitle";
 
 const enum Error {
   NONE,
@@ -73,7 +74,7 @@ export const ExportAll = (): JSX.Element => {
 
   return (
     <>
-      <div className="text-center text-lg font-bold">Export all accounts</div>
+      <SectionTitle text="Export all accounts" />
       <div className="flex flex-col">
         <div className="flex my-3 border-l-primary border-l-4 pl-2">
           <FontAwesomeIcon

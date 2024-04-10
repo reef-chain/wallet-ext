@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { Tooltip } from "react-tooltip";
 import { utils } from "ethers";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
@@ -17,6 +18,7 @@ import {
   signBindEvmAddress,
 } from "../util/bindUtil";
 import AccountSelector from "../Accounts/AccountSelector";
+import { SectionTitle } from "../SectionTitle";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
@@ -43,8 +45,9 @@ const getSignersWithEnoughBalance = (
 ): AccountWithSigner[] => {
   return signers?.length
     ? signers.filter(
-        (sig) => sig.address !== bindFor.address
-        // && sig.balance > MIN_BALANCE * BigInt(2) TODO: UNCOMMENT
+        (sig) =>
+          sig.address !== bindFor.address &&
+          sig.balance > MIN_BALANCE * BigInt(2)
       )
     : [];
 };
@@ -204,7 +207,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
 
   return (
     <>
-      <div className="mb-2 text-center text-lg font-bold">Connect EVM</div>
+      <SectionTitle text="Connect EVM" />
       {bindFor ? (
         <div className="flex flex-col align-top">
           {!bindFor.isEvmClaimed && (
@@ -365,18 +368,15 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                           }
                         /> */}
                         <div className="prompt">
-                          <span>Use custom EVM address</span>
-                          <div>
-                            <span data-tip data-for="custom-evm-select">
-                              <FontAwesomeIcon
-                                icon={faQuestionCircle as IconProp}
-                              />
-                            </span>
-                            {/* <ReactTooltip
+                          <span className="mr-1">Use custom EVM address</span>
+                          <span>
+                            <FontAwesomeIcon
+                              icon={faQuestionCircle as IconProp}
                               id="custom-evm-select"
+                            />
+                            <Tooltip
+                              anchorSelect="#custom-evm-select"
                               place="top"
-                              effect="solid"
-                              backgroundColor="#46288b"
                             >
                               By default, your Reef account will be bound to a
                               predetermined EVM address. You should use this EVM
@@ -386,8 +386,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                               Enabling this option you will bind your Reef
                               account to an EVM address you own by signing a
                               message with an EVM wallet.
-                            </ReactTooltip> */}
-                          </div>
+                            </Tooltip>
+                          </span>
                         </div>
                       </span>
                     )}

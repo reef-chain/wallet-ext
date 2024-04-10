@@ -9,6 +9,7 @@ import { exportAccount } from "../messaging";
 import { useParams } from "react-router";
 import Account from "../Accounts/Account";
 import { AccountWithSigner } from "../types";
+import { SectionTitle } from "../SectionTitle";
 
 export const Export = (): JSX.Element => {
   const onAction = useContext(ActionContext);
@@ -44,7 +45,7 @@ export const Export = (): JSX.Element => {
 
   return (
     <>
-      <div className="text-center text-lg font-bold">Export account</div>
+      <SectionTitle text="Export account" />
       <div className="flex flex-col">
         {account && <Account account={{ ...account }} showCopyAddress={true} />}
         <div className="flex mb-2 border-l-primary border-l-4 pl-2">

@@ -13,6 +13,7 @@ import {
   AuthUrlInfo,
   AuthUrls,
 } from "../../extension-base/background/handlers/State";
+import { SectionTitle } from "../SectionTitle";
 
 export const AuthManagement = (): JSX.Element => {
   const [authList, setAuthList] = useState<AuthUrls | null>(null);
@@ -37,12 +38,10 @@ export const AuthManagement = (): JSX.Element => {
 
   return (
     <>
-      <div className="mb-4 text-center text-lg font-bold">
-        Manage website access
-      </div>
+      <SectionTitle text="Manage website access" />
       <div>
         {!authList || !Object.entries(authList)?.length ? (
-          <div>No website request yet!</div>
+          <div className="text-center">No website request yet!</div>
         ) : (
           <>
             <div>

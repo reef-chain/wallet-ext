@@ -5,6 +5,7 @@ import React from "react";
 
 import { MetadataRequest } from "../../extension-base/background/types";
 import Request from "./Request";
+import { SectionTitle } from "../SectionTitle";
 
 interface Props {
   requests: MetadataRequest[];
@@ -13,7 +14,7 @@ interface Props {
 export const Metadata = ({ requests }: Props): JSX.Element => {
   return requests?.length ? (
     <>
-      <div className="mb-2 text-center text-lg font-bold">Metadata</div>
+      <SectionTitle text="Metadata" />
       <Request
         key={requests[0].id}
         metaId={requests[0].id}

@@ -17,6 +17,7 @@ import Account from "../Accounts/Account";
 import { createAccountHardware } from "../messaging";
 import { ActionContext } from "../contexts";
 import { useLedger } from "../hooks/useLedger";
+import { SectionTitle } from "../SectionTitle";
 
 interface AccOption {
   text: string;
@@ -120,7 +121,7 @@ export const ImportLedger = (): JSX.Element => {
 
   return (
     <>
-      <div className="text-center text-lg font-bold">Import Ledger account</div>
+      <SectionTitle text="Import Ledger account" />
       <div className="flex flex-col">
         {/* {account && <Account account={account} showCopyAddress={true} />} */}
         <div className="flex flex-col items-start">

@@ -8,6 +8,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import { ActionContext } from "../contexts";
 import { batchRestore, jsonRestore } from "../messaging";
+import { SectionTitle } from "../SectionTitle";
 
 const enum Error {
   NONE,
@@ -75,9 +76,7 @@ export const RestoreJson = (): JSX.Element => {
 
   return (
     <>
-      <div className="mb-2 text-center text-lg font-bold">
-        Restore from JSON
-      </div>
+      <SectionTitle text="Restore from JSON" />
       <div className="text-left">
         <label className="text-base">Backup file</label>
         <input

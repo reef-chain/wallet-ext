@@ -13,6 +13,7 @@ import { extension as extLib } from "@reef-chain/util-lib";
 import Account from "../Accounts/Account";
 import { createAccountSuri, createSeed } from "../messaging";
 import { ActionContext } from "../contexts";
+import { SectionTitle } from "../SectionTitle";
 
 const enum Step {
   FIRST,
@@ -116,7 +117,7 @@ export const CreateAccount = (): JSX.Element => {
 
   return account ? (
     <>
-      <div className="text-center text-lg font-bold">Create an account</div>
+      <SectionTitle text="Create an account" />
       <div className="flex flex-col">
         <Account account={account} showCopyAddress={true} />
         {step === Step.FIRST && (
