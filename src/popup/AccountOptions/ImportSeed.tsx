@@ -109,7 +109,7 @@ export const ImportSeed = (): JSX.Element => {
   const create = async () => {
     try {
       await createAccountSuri(account.name, password, account.suri);
-      onAction(`/bind?bindAddress=${account.address}`);
+      onAction("/");
     } catch (e) {
       console.error(e);
     }

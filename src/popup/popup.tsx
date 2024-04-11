@@ -103,7 +103,7 @@ const Popup = () => {
   );
   const [selectedNetwork, setSelectedNetwork] = useState<ReefNetwork>();
   const [provider, setProvider] = useState<Provider>();
-  const [bindingPath, setBindingPath] = useState<string>();
+  const [signOverlay, setSignOverlay] = useState<boolean>(false);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(window.location.search);
@@ -150,16 +150,9 @@ const Popup = () => {
     } else if (metaRequests?.length) {
       _onAction("/requests/metadata");
     } else if (signRequests?.length) {
-      if (location.pathname.startsWith("/bind")) {
-        setBindingPath(location.pathname);
-      } else {
-        setBindingPath(undefined);
-      }
-      _onAction("/requests/sign");
-    } else if (bindingPath) {
-      const _bindingPath = bindingPath;
-      setBindingPath(undefined);
-      _onAction(_bindingPath);
+      setSignOverlay(true);
+    } else {
+      setSignOverlay(false);
     }
   }, [authRequests, metaRequests, signRequests, selectedAccount]);
 
@@ -296,43 +289,49 @@ const Popup = () => {
       <ActionContext.Provider value={_onAction}>
         <AccountsContext.Provider value={accountCtx}>
           <ProviderContext.Provider value={provider}>
-            <Routes>
-              <Route path="/" element={<Accounts />} />
-              <Route path="/auth-list" element={<AuthManagement />} />
-              <Route path="/account/menu" element={<AccountMenu />} />
-              <Route path="/account/create" element={<CreateAccount />} />
-              <Route
-                path="/account/derive/:address/locked"
-                element={<Derive isLocked />}
-              />
-              <Route path="/account/derive/:address" element={<Derive />} />
-              <Route path="/account/export/:address" element={<Export />} />
-              <Route path="/account/export-all" element={<ExportAll />} />
-              <Route path="/account/import-seed" element={<ImportSeed />} />
-              <Route path="/account/import-ledger" element={<ImportLedger />} />
-              <Route path="/account/restore-json" element={<RestoreJson />} />
-              <Route path="/account/forget/:address" element={<Forget />} />
-              <Route
-                path="/bind/:address"
-                element={<Bind provider={provider} />}
-              />
-              <Route
-                path="/requests/auth"
-                element={<Authorize requests={authRequests} />}
-              />
-              <Route
-                path="/requests/sign"
-                element={<Signing requests={signRequests} />}
-              />
-              <Route
-                path="/requests/metadata"
-                element={<Metadata requests={metaRequests} />}
-              />
-              <Route
-                path={PHISHING_PAGE_REDIRECT}
-                element={<PhishingDetected />}
-              />
-            </Routes>
+            {signOverlay && <Signing requests={signRequests} />}
+            <div className={signOverlay ? "hidden" : ""}>
+              <Routes>
+                <Route path="/" element={<Accounts />} />
+                <Route path="/auth-list" element={<AuthManagement />} />
+                <Route path="/account/menu" element={<AccountMenu />} />
+                <Route path="/account/create" element={<CreateAccount />} />
+                <Route
+                  path="/account/derive/:address/locked"
+                  element={<Derive isLocked />}
+                />
+                <Route path="/account/derive/:address" element={<Derive />} />
+                <Route path="/account/export/:address" element={<Export />} />
+                <Route path="/account/export-all" element={<ExportAll />} />
+                <Route path="/account/import-seed" element={<ImportSeed />} />
+                <Route
+                  path="/account/import-ledger"
+                  element={<ImportLedger />}
+                />
+                <Route path="/account/restore-json" element={<RestoreJson />} />
+                <Route path="/account/forget/:address" element={<Forget />} />
+                <Route
+                  path="/bind/:address"
+                  element={<Bind provider={provider} />}
+                />
+                <Route
+                  path="/requests/auth"
+                  element={<Authorize requests={authRequests} />}
+                />
+                <Route
+                  path="/requests/sign"
+                  element={<Signing requests={signRequests} />}
+                />
+                <Route
+                  path="/requests/metadata"
+                  element={<Metadata requests={metaRequests} />}
+                />
+                <Route
+                  path={PHISHING_PAGE_REDIRECT}
+                  element={<PhishingDetected />}
+                />
+              </Routes>
+            </div>
           </ProviderContext.Provider>
         </AccountsContext.Provider>
       </ActionContext.Provider>

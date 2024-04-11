@@ -163,7 +163,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
         account.name,
         password
       );
-      onAction(`/bind/${account.address}`);
+      onAction("/");
     } catch (e) {
       console.error(e);
     }

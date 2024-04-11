@@ -101,7 +101,7 @@ export const ImportLedger = (): JSX.Element => {
         addressOffset,
         name
       );
-      onAction(`/bind?bindAddress=${address}`);
+      onAction("/");
     } catch (e) {
       console.error(e);
     }
