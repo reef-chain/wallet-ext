@@ -13,7 +13,7 @@ import {
   AuthUrlInfo,
   AuthUrls,
 } from "../../extension-base/background/handlers/State";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
 
 export const AuthManagement = (): JSX.Element => {
   const [authList, setAuthList] = useState<AuthUrls | null>(null);

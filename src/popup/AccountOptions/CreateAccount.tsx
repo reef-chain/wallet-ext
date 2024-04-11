@@ -4,7 +4,6 @@ import {
   faArrowLeft,
   faArrowRight,
   faCopy,
-  faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -13,7 +12,9 @@ import { extension as extLib } from "@reef-chain/util-lib";
 import Account from "../Accounts/Account";
 import { createAccountSuri, createSeed } from "../messaging";
 import { ActionContext } from "../contexts";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
+import { WarnMessage } from "../components/WarnMessage";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 const enum Step {
   FIRST,
@@ -148,17 +149,11 @@ export const CreateAccount = (): JSX.Element => {
                 </div>
               </CopyToClipboard>
             </div>
-            <div className="flex my-3 border-l-primary border-l-4 pl-2">
-              <FontAwesomeIcon
-                className="text-primary mr-2 pt-1"
-                icon={faExclamationTriangle as IconProp}
-              />
-              <span className="text-left text-gray-300">
-                Please write down your wallet's mnemonic seed and keep it in a
-                safe place. The mnemonic can be used to restore your wallet.
-                Keep it carefully to not lose your assets.
-              </span>
-            </div>
+            <WarnMessage
+              text="Please write down your wallet's mnemonic seed and keep 
+              it in a safe place. The mnemonic can be used to restore your wallet. 
+              Keep it carefully to not lose your assets."
+            />
             <div>
               <input
                 type="checkbox"
@@ -195,13 +190,7 @@ export const CreateAccount = (): JSX.Element => {
                 }}
               />
               {error === Error.NAME_TOO_SHORT && (
-                <div className="text-red-500 mt-1">
-                  <FontAwesomeIcon
-                    className="mr-2"
-                    icon={faExclamationTriangle as IconProp}
-                  />
-                  <span>Account name is too short</span>
-                </div>
+                <ErrorMessage text="Account name is too short" />
               )}
             </div>
             <div className="flex flex-col items-start my-3">
@@ -216,13 +205,7 @@ export const CreateAccount = (): JSX.Element => {
                 }}
               />
               {error === Error.PASSWORD_TOO_SHORT && (
-                <div className="text-red-500 mt-1">
-                  <FontAwesomeIcon
-                    className="mr-2"
-                    icon={faExclamationTriangle as IconProp}
-                  />
-                  <span>Password is too short</span>
-                </div>
+                <ErrorMessage text="Password is too short" />
               )}
             </div>
             {password.length >= 6 && (
@@ -238,13 +221,7 @@ export const CreateAccount = (): JSX.Element => {
                   }}
                 />
                 {error === Error.PASSWORDS_DO_NOT_MATCH && (
-                  <div className="text-red-500 mt-1">
-                    <FontAwesomeIcon
-                      className="mr-2"
-                      icon={faExclamationTriangle as IconProp}
-                    />
-                    <span>Passwords do not match</span>
-                  </div>
+                  <ErrorMessage text="Passwords do not match" />
                 )}
               </div>
             )}

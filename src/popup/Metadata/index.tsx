@@ -5,7 +5,7 @@ import React from "react";
 
 import { MetadataRequest } from "../../extension-base/background/types";
 import Request from "./Request";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
 
 interface Props {
   requests: MetadataRequest[];

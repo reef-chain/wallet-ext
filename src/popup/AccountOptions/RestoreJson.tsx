@@ -1,14 +1,12 @@
 import React, { useContext, useState } from "react";
-import {
-  faCircleCheck,
-  faExclamationTriangle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import { ActionContext } from "../contexts";
 import { batchRestore, jsonRestore } from "../messaging";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 const enum Error {
   NONE,
@@ -87,13 +85,7 @@ export const RestoreJson = (): JSX.Element => {
           }}
         />
         {error === Error.INVALID_JSON && (
-          <div className="text-red-500 mt-1">
-            <FontAwesomeIcon
-              className="mr-2"
-              icon={faExclamationTriangle as IconProp}
-            />
-            <span>Invalid JSON file</span>
-          </div>
+          <ErrorMessage text="Invalid JSON file" />
         )}
         {json && (
           <div className="mt-1">
@@ -118,13 +110,7 @@ export const RestoreJson = (): JSX.Element => {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error === Error.INVALID_PASSWORD && (
-            <div className="text-red-500 mt-1">
-              <FontAwesomeIcon
-                className="mr-2"
-                icon={faExclamationTriangle as IconProp}
-              />
-              <span>Unable to decode using the supplied password</span>
-            </div>
+            <ErrorMessage text="Unable to decode using the supplied password" />
           )}
         </div>
       )}

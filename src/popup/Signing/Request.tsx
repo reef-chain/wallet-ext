@@ -20,6 +20,7 @@ import {
   isSignLocked,
 } from "../messaging";
 import { PASSWORD_EXPIRY_MIN } from "../../extension-base/defaults";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 interface Props {
   account: extLib.AccountJson;
@@ -55,6 +56,7 @@ export default function Request({
   const [savePass, setSavePass] = useState(false);
   const [isLocked, setIsLocked] = useState<boolean | null>(null);
   const [isBusy, setIsBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [{ hexBytes, payload }, setData] = useState<Data>({
     hexBytes: null,
     payload: null,
@@ -101,12 +103,12 @@ export default function Request({
   }, [request]);
 
   const _onSign = async () => {
-    setIsBusy(true);
+    setIsBusy(true); // TODO: manage busy state
 
     if (isLocked) {
       if (!password) {
         setIsBusy(false);
-        alert("Wrong password");
+        setError("Password not provided");
         return;
       }
     }
@@ -118,6 +120,7 @@ export default function Request({
       .catch((error: Error): void => {
         setIsBusy(false);
         console.error(error);
+        setError(error.message);
       });
   };
 
@@ -158,9 +161,10 @@ export default function Request({
             <span className="font-bold">
               Remember for the next {PASSWORD_EXPIRY_MIN} minutes.
             </span>
+            {error && <ErrorMessage text={error} />}
           </div>
         )}
-        <div>
+        <div className="flex">
           {isFirst && (
             <button onClick={_onSign} disabled={isBusy}>
               {buttonText}

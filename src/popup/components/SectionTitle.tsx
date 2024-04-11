@@ -1,22 +1,9 @@
-// Adapted from @polkadot/extension-ui (https://github.com/polkadot-js/extension)
-// SPDX-License-Identifier: Apache-2.0
+import React, { useContext } from "react";
 
-import React, { useCallback, useContext, useEffect, useState } from "react";
-
-import {
-  getAuthList,
-  removeAuthorization,
-  toggleAuthorization,
-} from "./messaging";
-import { WebsiteEntry } from "./AuthManagement/WebsiteEntry";
-import {
-  AuthUrlInfo,
-  AuthUrls,
-} from "../extension-base/background/handlers/State";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { ActionContext } from "./contexts";
+import { ActionContext } from "../contexts";
 
 interface Props {
   text: string;

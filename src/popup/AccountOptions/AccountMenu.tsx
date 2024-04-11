@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import { AccountsContext, ActionContext } from "../contexts";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
 
 export const AccountMenu = (): JSX.Element => {
   const onAction = useContext(ActionContext);

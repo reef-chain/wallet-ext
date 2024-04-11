@@ -3,7 +3,7 @@
 
 import React from "react";
 import { useLocation } from "react-router";
-import { SectionTitle } from "./SectionTitle";
+import { SectionTitle } from "./components/SectionTitle";
 
 export const PhishingDetected = (): JSX.Element => {
   const location = useLocation();

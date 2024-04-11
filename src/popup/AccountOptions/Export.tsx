@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import { saveAs } from "file-saver";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import { AccountsContext, ActionContext } from "../contexts";
 import { exportAccount } from "../messaging";
 import { useParams } from "react-router";
 import Account from "../Accounts/Account";
 import { AccountWithSigner } from "../types";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
+import { WarnMessage } from "../components/WarnMessage";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 export const Export = (): JSX.Element => {
   const onAction = useContext(ActionContext);
@@ -48,16 +47,7 @@ export const Export = (): JSX.Element => {
       <SectionTitle text="Export account" />
       <div className="flex flex-col">
         {account && <Account account={{ ...account }} showCopyAddress={true} />}
-        <div className="flex mb-2 border-l-primary border-l-4 pl-2">
-          <FontAwesomeIcon
-            className="text-primary mr-2 pt-1"
-            icon={faExclamationTriangle as IconProp}
-          />
-          <span className="text-left text-gray-300">
-            You are exporting your account. Keep it safe and don't share it with
-            anyone.
-          </span>
-        </div>
+        <WarnMessage text="You are exporting your account. Keep it safe and don't share it with anyone." />
         <div className="flex flex-col items-start my-3">
           <label className="text-base">Password for this account</label>
           <input
@@ -69,15 +59,7 @@ export const Export = (): JSX.Element => {
               setError("");
             }}
           />
-          {error && (
-            <div className="text-red-500 mt-1">
-              <FontAwesomeIcon
-                className="mr-2"
-                icon={faExclamationTriangle as IconProp}
-              />
-              <span>Password is not correct</span>
-            </div>
-          )}
+          {error && <ErrorMessage text="Password is not correct" />}
         </div>
         <button
           className="mt-4 py-3 hover:cursor-pointer"

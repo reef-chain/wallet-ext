@@ -1,10 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import {
-  faArrowLeft,
-  faArrowRight,
-  faExclamationTriangle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { extension as extLib } from "@reef-chain/util-lib";
@@ -17,7 +13,8 @@ import {
   validateDerivationPath,
 } from "../messaging";
 import AccountSelector from "../Accounts/AccountSelector";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 // TODO: Refactor code duplicated from CreateAccount
 
@@ -206,13 +203,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                 onChange={(e) => onParentPasswordChange(e.target.value)}
               />
               {error === Error.PARENT_PASSWORD_INCORRECT && (
-                <div className="text-red-500 mt-1">
-                  <FontAwesomeIcon
-                    className="mr-2"
-                    icon={faExclamationTriangle as IconProp}
-                  />
-                  <span>Wrong password</span>
-                </div>
+                <ErrorMessage text="Wrong password" />
               )}
             </div>
             <div className="flex flex-col items-start my-3">
@@ -223,13 +214,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                 onChange={(e) => setDerivationPath(e.target.value)}
               />
               {error === Error.DERIVATION_PATH_INVALID && (
-                <div className="text-red-500 mt-1">
-                  <FontAwesomeIcon
-                    className="mr-2"
-                    icon={faExclamationTriangle as IconProp}
-                  />
-                  <span>Invalid derivation path</span>
-                </div>
+                <ErrorMessage text="Invalid derivation path" />
               )}
             </div>
             <div>
@@ -259,13 +244,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                 }}
               />
               {error === Error.NAME_TOO_SHORT && (
-                <div className="text-red-500 mt-1">
-                  <FontAwesomeIcon
-                    className="mr-2"
-                    icon={faExclamationTriangle as IconProp}
-                  />
-                  <span>Account name is too short</span>
-                </div>
+                <ErrorMessage text="Account name is too short" />
               )}
             </div>
             <div className="flex flex-col items-start my-3">
@@ -280,13 +259,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                 }}
               />
               {error === Error.PASSWORD_TOO_SHORT && (
-                <div className="text-red-500 mt-1">
-                  <FontAwesomeIcon
-                    className="mr-2"
-                    icon={faExclamationTriangle as IconProp}
-                  />
-                  <span>Password is too short</span>
-                </div>
+                <ErrorMessage text="Password is too short" />
               )}
             </div>
             {password.length >= 6 && (
@@ -302,13 +275,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                   }}
                 />
                 {error === Error.PASSWORDS_DO_NOT_MATCH && (
-                  <div className="text-red-500 mt-1">
-                    <FontAwesomeIcon
-                      className="mr-2"
-                      icon={faExclamationTriangle as IconProp}
-                    />
-                    <span>Passwords do not match</span>
-                  </div>
+                  <ErrorMessage text="Passwords do not match" />
                 )}
               </div>
             )}

@@ -1,12 +1,11 @@
 import React, { useContext, useState } from "react";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { saveAs } from "file-saver";
 
 import { ActionContext } from "../contexts";
 import { exportAllAccounts } from "../messaging";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
+import { WarnMessage } from "../components/WarnMessage";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 const enum Error {
   NONE,
@@ -76,16 +75,10 @@ export const ExportAll = (): JSX.Element => {
     <>
       <SectionTitle text="Export all accounts" />
       <div className="flex flex-col">
-        <div className="flex my-3 border-l-primary border-l-4 pl-2">
-          <FontAwesomeIcon
-            className="text-primary mr-2 pt-1"
-            icon={faExclamationTriangle as IconProp}
-          />
-          <span className="text-left text-gray-300">
-            You are exporting your accounts. Keep it safe and don't share it
-            with anyone. Password must be at least 6 characters long.
-          </span>
-        </div>
+        <WarnMessage
+          text="You are exporting your accounts. Keep it safe and don't share it with anyone. 
+                Password must be at least 6 characters long."
+        />
         <div className="flex flex-col items-start my-3">
           <label className="text-base">
             Password for encrypting all accounts
@@ -100,13 +93,7 @@ export const ExportAll = (): JSX.Element => {
             }}
           />
           {error === Error.PASSWORD_TOO_SHORT && (
-            <div className="text-red-500 mt-1">
-              <FontAwesomeIcon
-                className="mr-2"
-                icon={faExclamationTriangle as IconProp}
-              />
-              <span>Password is too short</span>
-            </div>
+            <ErrorMessage text="Password is too short" />
           )}
         </div>
         {password.length >= 6 && (
@@ -122,13 +109,7 @@ export const ExportAll = (): JSX.Element => {
               }}
             />
             {error === Error.PASSWORDS_DO_NOT_MATCH && (
-              <div className="text-red-500 mt-1">
-                <FontAwesomeIcon
-                  className="mr-2"
-                  icon={faExclamationTriangle as IconProp}
-                />
-                <span>Passwords do not match</span>
-              </div>
+              <ErrorMessage text="Passwords do not match" />
             )}
           </div>
         )}

@@ -4,11 +4,8 @@
 import React, { useCallback } from "react";
 
 import { approveAuthRequest, rejectAuthRequest } from "../messaging";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-
 import { RequestAuthorizeTab } from "../../extension-base/background/types";
+import { WarnMessage } from "../components/WarnMessage";
 
 interface Props {
   authId: string;
@@ -44,14 +41,7 @@ function Request({
         .
       </div>
       <div className="flex my-4 border-l-primary border-l-4 pl-2">
-        <FontAwesomeIcon
-          className="text-primary mr-2 pt-1"
-          icon={faExclamationTriangle as IconProp}
-        />
-        <span className="text-left text-gray-300">
-          Only approve this request if you trust the application. Approving
-          gives the application access to the addresses of your accounts.
-        </span>
+        <WarnMessage text="Only approve this request if you trust the application. Approving gives the application access to the addresses of your accounts." />
       </div>
       <div>
         <button onClick={_onApprove}>Yes, allow this application access</button>

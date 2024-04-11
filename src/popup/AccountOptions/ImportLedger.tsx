@@ -5,10 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  faArrowRight,
-  faExclamationTriangle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import settings from "@polkadot/ui-settings";
@@ -17,7 +14,8 @@ import Account from "../Accounts/Account";
 import { createAccountHardware } from "../messaging";
 import { ActionContext } from "../contexts";
 import { useLedger } from "../hooks/useLedger";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 interface AccOption {
   text: string;
@@ -135,13 +133,7 @@ export const ImportLedger = (): JSX.Element => {
             }}
           />
           {error === Error.NAME_TOO_SHORT && (
-            <div className="text-red-500 mt-1">
-              <FontAwesomeIcon
-                className="mr-2"
-                icon={faExclamationTriangle as IconProp}
-              />
-              <span>Account name is too short</span>
-            </div>
+            <ErrorMessage text="Account name is too short" />
           )}
         </div>
 

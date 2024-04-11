@@ -18,7 +18,7 @@ import {
   signBindEvmAddress,
 } from "../util/bindUtil";
 import AccountSelector from "../Accounts/AccountSelector";
-import { SectionTitle } from "../SectionTitle";
+import { SectionTitle } from "../components/SectionTitle";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
@@ -164,6 +164,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
         customBindState.signature!,
         (val: TxStatusUpdate) => {
           if (val.error || val.isInBlock) {
+            console.log("bind tx status", val);
             setTxStatus({
               ...val,
               componentTxType: EvmBindComponentTxType.BIND,
@@ -186,6 +187,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
         provider as Provider,
         (val: TxStatusUpdate) => {
           if (val.error || val.isInBlock) {
+            console.log("bind tx status", val);
             setTxStatus({
               ...val,
               componentTxType: EvmBindComponentTxType.BIND,
@@ -208,6 +210,15 @@ export const Bind = ({ provider }: Props): JSX.Element => {
   return (
     <>
       <SectionTitle text="Connect EVM" />
+      {txStatus && (
+        <div>
+          <div>Ident: {txStatus.txIdent}</div>
+          <div>Error: {txStatus.error?.message || ""}</div>
+          <div>In block: {txStatus.isInBlock}</div>
+          <div>Complete: {txStatus.isComplete}</div>
+          <div>Component: {txStatus.componentTxType}</div>
+        </div>
+      )}
       {bindFor ? (
         <div className="flex flex-col align-top">
           {!bindFor.isEvmClaimed && (
