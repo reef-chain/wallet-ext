@@ -15,6 +15,7 @@ import { ActionContext } from "../contexts";
 import { SectionTitle } from "../components/SectionTitle";
 import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
+import { Loading } from "../components/Loading";
 
 const enum Step {
   FIRST,
@@ -124,9 +125,7 @@ export const CreateAccount = (): JSX.Element => {
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start">
-              <label className="text-base">
-                Generated 12-word mnemonic seed
-              </label>
+              <label>Generated 12-word mnemonic seed</label>
               <textarea
                 className="w-full p-3 rounded-lg bg-zinc-950 border-gray-600 text-primary"
                 readOnly
@@ -180,7 +179,7 @@ export const CreateAccount = (): JSX.Element => {
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <label className="text-base">Name for the account</label>
+              <label>Name for the account</label>
               <input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -194,7 +193,7 @@ export const CreateAccount = (): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <label className="text-base">Password for the account</label>
+              <label>Password for the account</label>
               <input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -210,7 +209,7 @@ export const CreateAccount = (): JSX.Element => {
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <label className="text-base">Repeat password</label>
+                <label>Repeat password</label>
                 <input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}
@@ -253,6 +252,6 @@ export const CreateAccount = (): JSX.Element => {
       </div>
     </>
   ) : (
-    <span>Generating new account...</span>
+    <Loading text="Generating new account..." />
   );
 };

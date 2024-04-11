@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: Apache-2.0
 
 import React, { useEffect, useState } from "react";
-
 import { TypeRegistry } from "@polkadot/types";
 import type { ExtrinsicPayload } from "@polkadot/types/interfaces";
 import type {
@@ -21,6 +20,7 @@ import {
 } from "../messaging";
 import { PASSWORD_EXPIRY_MIN } from "../../extension-base/defaults";
 import { ErrorMessage } from "../components/ErrorMessage";
+import { Loading } from "../components/Loading";
 
 interface Props {
   account: extLib.AccountJson;
@@ -103,7 +103,7 @@ export default function Request({
   }, [request]);
 
   const _onSign = async () => {
-    setIsBusy(true); // TODO: manage busy state
+    setIsBusy(true);
 
     if (isLocked) {
       if (!password) {
@@ -143,7 +143,7 @@ export default function Request({
         {isFirst && isLocked && (
           <div className="mt-2">
             <div className="flex flex-col items-start my-3">
-              <label className="text-base">Password for this account</label>
+              <label>Password for this account</label>
               <input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -152,7 +152,7 @@ export default function Request({
               />
             </div>
             <input
-              className="hover:cursor-pointer mr-2"
+              className="hover:cursor-pointer mr-2 accent-primary"
               type="checkbox"
               checked={savePass}
               onChange={(_) => setSavePass(!savePass)}
@@ -162,6 +162,7 @@ export default function Request({
               Remember for the next {PASSWORD_EXPIRY_MIN} minutes.
             </span>
             {error && <ErrorMessage text={error} />}
+            {isBusy && <Loading text="Processing..." />}
           </div>
         )}
         <div className="flex">

@@ -80,9 +80,7 @@ export const ExportAll = (): JSX.Element => {
                 Password must be at least 6 characters long."
         />
         <div className="flex flex-col items-start my-3">
-          <label className="text-base">
-            Password for encrypting all accounts
-          </label>
+          <label>Password for encrypting all accounts</label>
           <input
             className="text-primary rounded-md p-2 w-full"
             value={password}
@@ -98,7 +96,7 @@ export const ExportAll = (): JSX.Element => {
         </div>
         {password.length >= 6 && (
           <div className="flex flex-col items-start">
-            <label className="text-base">Repeat password</label>
+            <label>Repeat password</label>
             <input
               className="text-primary rounded-md p-2 w-full"
               value={passwordRepeat}

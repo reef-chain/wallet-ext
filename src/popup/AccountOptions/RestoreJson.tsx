@@ -76,7 +76,7 @@ export const RestoreJson = (): JSX.Element => {
     <>
       <SectionTitle text="Restore from JSON" />
       <div className="text-left">
-        <label className="text-base">Backup file</label>
+        <label>Backup file</label>
         <input
           className="text-primary rounded-md w-full"
           type="file"
@@ -102,7 +102,7 @@ export const RestoreJson = (): JSX.Element => {
       </div>
       {json && (
         <div className="flex flex-col items-start my-4">
-          <label className="text-base">Password for this file</label>
+          <label>Password for this file</label>
           <input
             className="text-primary rounded-md p-2 w-full"
             value={password}

@@ -49,7 +49,7 @@ export const Export = (): JSX.Element => {
         {account && <Account account={{ ...account }} showCopyAddress={true} />}
         <WarnMessage text="You are exporting your account. Keep it safe and don't share it with anyone." />
         <div className="flex flex-col items-start my-3">
-          <label className="text-base">Password for this account</label>
+          <label>Password for this account</label>
           <input
             className="text-primary rounded-md p-2 w-full"
             value={password}

@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { Tooltip } from "react-tooltip";
+import CopyToClipboard from "react-copy-to-clipboard";
 import { utils } from "ethers";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faQuestionCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Provider } from "@reef-chain/evm-provider";
 
@@ -12,28 +12,17 @@ import Account from "../Accounts/Account";
 import { toAddressShortDisplay, toReefAmount } from "../util/util";
 import { AccountWithSigner, TxStatusUpdate } from "../types";
 import { sendToNativeAddress } from "../util/transactionUtil";
-import {
-  bindCustomEvmAddress,
-  bindEvmAddress,
-  signBindEvmAddress,
-} from "../util/bindUtil";
+import { bindEvmAddress } from "../util/bindUtil";
 import AccountSelector from "../Accounts/AccountSelector";
 import { SectionTitle } from "../components/SectionTitle";
 import { Loading } from "../components/Loading";
+import { ErrorMessage } from "../components/ErrorMessage";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
 enum EvmBindComponentTxType {
   TRANSFER = "TRANSFER",
   BIND = "BIND",
-}
-
-interface CustomBindState {
-  useCustomEvmAddress: boolean;
-  signingInProcess?: boolean;
-  evmAddress?: string;
-  signature?: string;
-  error?: string;
 }
 
 interface Props {
@@ -45,11 +34,13 @@ const getSignersWithEnoughBalance = (
   bindFor: AccountWithSigner
 ): AccountWithSigner[] => {
   return signers?.length
-    ? signers.filter(
-        (sig) =>
-          sig.address !== bindFor.address &&
-          sig.balance > MIN_BALANCE * BigInt(2)
-      )
+    ? signers
+        .filter(
+          (sig) =>
+            sig.address !== bindFor.address &&
+            sig.balance > MIN_BALANCE * BigInt(2)
+        )
+        .sort((a, b) => (a.balance > b.balance ? -1 : 1))
     : [];
 };
 
@@ -65,9 +56,6 @@ export const Bind = ({ provider }: Props): JSX.Element => {
   const [transferBalanceFrom, setTransferBalanceFrom] =
     useState<AccountWithSigner>();
   const [txStatus, setTxStatus] = useState<TxStatusUpdate | undefined>();
-  const [customBindState, setCustomBindState] = useState<CustomBindState>({
-    useCustomEvmAddress: false,
-  });
 
   useEffect(() => {
     if (!accountsWithSigners.length || !bindAddress || !provider) return;
@@ -98,8 +86,6 @@ export const Bind = ({ provider }: Props): JSX.Element => {
       return;
     }
 
-    setCustomBindState({ ...customBindState, error: undefined });
-
     const txIdent = sendToNativeAddress(
       provider,
       transferBalanceFrom,
@@ -107,7 +93,6 @@ export const Bind = ({ provider }: Props): JSX.Element => {
       bindFor.address,
       (val: TxStatusUpdate) => {
         if (val.error || val.isInBlock) {
-          console.log("transfer tx status", val);
           setTxStatus({
             ...val,
             componentTxType: EvmBindComponentTxType.TRANSFER,
@@ -124,105 +109,47 @@ export const Bind = ({ provider }: Props): JSX.Element => {
     });
   };
 
-  const signEvmMessage = (): void => {
-    setCustomBindState({ useCustomEvmAddress: true, signingInProcess: true });
-    signBindEvmAddress(bindFor)
-      .then((res) => {
-        if (res.error) {
-          setCustomBindState({
-            useCustomEvmAddress: true,
-            signingInProcess: false,
-            error: res.error,
-          });
-        } else {
-          setCustomBindState({
-            useCustomEvmAddress: true,
-            signingInProcess: false,
-            evmAddress: res.evmAddress,
-            signature: res.signature,
-          });
-        }
-      })
-      .catch((e) => {
-        console.error(e);
-        setCustomBindState({
-          useCustomEvmAddress: true,
-          signingInProcess: false,
-          error: "Failed to sign message.",
-        });
-      });
-  };
-
   const bindAccount = async () => {
     if (!bindFor) return;
-    setCustomBindState({ ...customBindState, error: undefined });
 
-    if (customBindState.useCustomEvmAddress) {
-      const txIdent = bindCustomEvmAddress(
-        bindFor,
-        provider as Provider,
-        customBindState.evmAddress!,
-        customBindState.signature!,
-        (val: TxStatusUpdate) => {
-          if (val.error || val.isInBlock) {
-            console.log("bind tx status", val);
-            setTxStatus({
-              ...val,
-              componentTxType: EvmBindComponentTxType.BIND,
-              addresses: [bindFor.address],
+    const txIdent = bindEvmAddress(
+      bindFor,
+      provider as Provider,
+      (val: TxStatusUpdate) => {
+        if (val.error || val.isInBlock) {
+          provider.api.query.evmAccounts
+            .evmAddresses(bindFor.address)
+            .then((claimedAddress) => {
+              if (!claimedAddress.isEmpty) {
+                setBindFor({
+                  ...bindFor,
+                  isEvmClaimed: true,
+                });
+              }
             });
-          }
+          setTxStatus({
+            ...val,
+            componentTxType: EvmBindComponentTxType.BIND,
+            addresses: [bindFor.address],
+          });
         }
-      );
-
-      if (txIdent) {
-        setTxStatus({
-          txIdent,
-          componentTxType: EvmBindComponentTxType.BIND,
-          addresses: [bindFor.address],
-        });
       }
-    } else {
-      const txIdent = bindEvmAddress(
-        bindFor,
-        provider as Provider,
-        (val: TxStatusUpdate) => {
-          if (val.error || val.isInBlock) {
-            console.log("bind tx status", val);
-            setTxStatus({
-              ...val,
-              componentTxType: EvmBindComponentTxType.BIND,
-              addresses: [bindFor.address],
-            });
-          }
-        }
-      );
+    );
 
-      if (txIdent) {
-        setTxStatus({
-          txIdent,
-          componentTxType: EvmBindComponentTxType.BIND,
-          addresses: [bindFor.address],
-        });
-      }
+    if (txIdent) {
+      setTxStatus({
+        txIdent,
+        componentTxType: EvmBindComponentTxType.BIND,
+        addresses: [bindFor.address],
+      });
     }
   };
 
   return (
     <>
       <SectionTitle text="Connect EVM" />
-      {/* TODO: remove */}
-      {/* {txStatus && (
-        <div>
-          <div>Ident: {txStatus.txIdent}</div>
-          <div>Error: {txStatus.error?.message || ""}</div>
-          <div>In block: {txStatus.isInBlock}</div>
-          <div>Complete: {txStatus.isComplete}</div>
-          <div>Component: {txStatus.componentTxType}</div>
-        </div>
-      )} */}
       {bindFor ? (
-        <div className="flex flex-col align-top">
+        <div className="flex flex-col">
           {!bindFor.isEvmClaimed && (
             <>
               <div className="mb-2">Start using Reef EVM smart contracts.</div>
@@ -230,28 +157,28 @@ export const Bind = ({ provider }: Props): JSX.Element => {
               <Account account={{ ...bindFor }} />
             </>
           )}
-          {/* TODO: */}
           {bindFor.isEvmClaimed && (
             <>
               <Account account={{ ...bindFor }} />
-              <p>
-                {" "}
-                Successfully connected to EVM address&nbsp;
-                <b>{toAddressShortDisplay(bindFor.evmAddress)}</b>
-                .
+              <span className="mb-2">
+                Successfully connected to EVM address
                 <br />
-              </p>
-
-              <button
-                className="sm m-0"
-                onClick={() => alert("Copy EVM address")}
-              >
-                Copy EVM address
-              </button>
-
-              <button className="sm m-0" onClick={() => onAction("/")}>
-                Continue
-              </button>
+                <b>{toAddressShortDisplay(bindFor.evmAddress, 18)}</b>
+                <CopyToClipboard
+                  text={bindFor.evmAddress}
+                  className="inline-block hover:cursor-pointer"
+                >
+                  <span title={bindFor.evmAddress}>
+                    <FontAwesomeIcon
+                      className="ml-2"
+                      icon={faCopy as IconProp}
+                      size="sm"
+                      title="Copy EVM Address"
+                    />
+                  </span>
+                </CopyToClipboard>
+              </span>
+              <button onClick={() => onAction("/")}>Continue</button>
             </>
           )}
           {!bindFor.isEvmClaimed && (
@@ -259,45 +186,31 @@ export const Bind = ({ provider }: Props): JSX.Element => {
               {txStatus && (
                 <>
                   {/* In progress */}
-                  {/* TODO: */}
                   {!txStatus.error &&
                     !txStatus.isInBlock &&
                     !txStatus.isComplete && (
-                      <>
-                        <Loading
-                          text={
-                            txStatus.componentTxType ===
-                            EvmBindComponentTxType.BIND
-                              ? `Connecting EVM address in progress`
-                              : `Transfer in progress`
-                          }
-                        />
-                      </>
+                      <Loading
+                        text={
+                          txStatus.componentTxType ===
+                          EvmBindComponentTxType.BIND
+                            ? `Connecting EVM address in progress`
+                            : `Transfer in progress`
+                        }
+                      />
                     )}
-                  {/* TODO: */}
-                  {customBindState.signingInProcess && (
-                    <>
-                      <Loading text="Signing message with EVM wallet in progress" />
-                    </>
-                  )}
                   {/* Bound */}
-                  {/* TODO: */}
                   {!txStatus.error &&
                     txStatus.isInBlock &&
                     txStatus.componentTxType ===
                       EvmBindComponentTxType.BIND && (
                       <span>
-                        Connected Ethereum VM address is{" "}
-                        {customBindState.useCustomEvmAddress &&
-                        customBindState.evmAddress
-                          ? customBindState.evmAddress
-                          : bindFor.evmAddress}
+                        Connected EVM address is <b>{bindFor.evmAddress}</b>
                       </span>
                     )}
                   {/* Error message */}
-                  {/* TODO: */}
-                  {txStatus.error && <p>{txStatus.error.message}</p>}
-                  {customBindState.error && <p>{customBindState.error}</p>}
+                  {txStatus.error && (
+                    <ErrorMessage text={txStatus.error.message} />
+                  )}
                 </>
               )}
 
@@ -342,79 +255,22 @@ export const Bind = ({ provider }: Props): JSX.Element => {
               )}
 
               {/* Start binding */}
-              {!customBindState.signingInProcess &&
-                ((!txStatus && hasBalanceForBinding(bindFor.balance)) ||
-                  (txStatus &&
-                    !txStatus.error &&
-                    txStatus.isInBlock &&
-                    txStatus.componentTxType ===
-                      EvmBindComponentTxType.TRANSFER)) && (
-                  <>
-                    {/* TODO: */}
-                    {!customBindState.signature && txStatus && (
-                      <span>
-                        Transfer complete. Now run connect EVM account
-                        transaction.
-                      </span>
-                    )}
-                    {/* TODO: */}
-                    {customBindState.signature &&
-                      customBindState.evmAddress && (
-                        <span>
-                          Message signed for
-                          {customBindState.evmAddress} address. Now run connect
-                          EVM account transaction.
-                        </span>
-                      )}
-                    {/* TODO: */}
-                    {!customBindState.signature && (
-                      <span>
-                        {/* <Uik.Toggle
-                          value={customBindState.useCustomEvmAddress}
-                          onChange={() =>
-                            setCustomBindState({
-                              useCustomEvmAddress:
-                                !customBindState.useCustomEvmAddress,
-                            })
-                          }
-                        /> */}
-                        <div className="prompt">
-                          <span className="mr-1">Use custom EVM address</span>
-                          <span>
-                            <FontAwesomeIcon
-                              icon={faQuestionCircle as IconProp}
-                              id="custom-evm-select"
-                            />
-                            <Tooltip
-                              anchorSelect="#custom-evm-select"
-                              place="top"
-                            >
-                              By default, your Reef account will be bound to a
-                              predetermined EVM address. You should use this EVM
-                              address <b>only in the Reef network</b>
-                              .
-                              <br />
-                              Enabling this option you will bind your Reef
-                              account to an EVM address you own by signing a
-                              message with an EVM wallet.
-                            </Tooltip>
-                          </span>
-                        </div>
-                      </span>
-                    )}
-
-                    <button
-                      onClick={() =>
-                        customBindState.useCustomEvmAddress &&
-                        !customBindState.signature
-                          ? signEvmMessage()
-                          : bindAccount()
-                      }
-                    >
-                      Continue
-                    </button>
-                  </>
-                )}
+              {((!txStatus && hasBalanceForBinding(bindFor.balance)) ||
+                (txStatus &&
+                  !txStatus.error &&
+                  txStatus.isInBlock &&
+                  txStatus.componentTxType ===
+                    EvmBindComponentTxType.TRANSFER)) && (
+                <>
+                  {txStatus && (
+                    <span>
+                      Transfer complete. Now run connect EVM account
+                      transaction.
+                    </span>
+                  )}
+                  <button onClick={() => bindAccount()}>Continue</button>
+                </>
+              )}
             </>
           )}
         </div>

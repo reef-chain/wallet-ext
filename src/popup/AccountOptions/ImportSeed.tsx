@@ -123,9 +123,7 @@ export const ImportSeed = (): JSX.Element => {
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">
-              <label className="text-base">
-                Existing 12 or 24-word mnemonic seed
-              </label>
+              <label>Existing 12 or 24-word mnemonic seed</label>
               <textarea
                 className="w-full p-3 rounded-lg bg-zinc-950 border-gray-600 text-primary"
                 value={seed}
@@ -150,7 +148,7 @@ export const ImportSeed = (): JSX.Element => {
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <label className="text-base">Name for the account</label>
+              <label>Name for the account</label>
               <input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -164,7 +162,7 @@ export const ImportSeed = (): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <label className="text-base">Password for the account</label>
+              <label>Password for the account</label>
               <input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -180,7 +178,7 @@ export const ImportSeed = (): JSX.Element => {
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <label className="text-base">Repeat password</label>
+                <label>Repeat password</label>
                 <input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}

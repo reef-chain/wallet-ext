@@ -16,8 +16,6 @@ import AccountSelector from "../Accounts/AccountSelector";
 import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
 
-// TODO: Refactor code duplicated from CreateAccount
-
 interface Props {
   isLocked?: boolean;
 }
@@ -193,9 +191,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">
-              <label className="text-base">
-                Password for the account to derive from
-              </label>
+              <label>Password for the account to derive from</label>
               <input
                 className="text-primary rounded-md p-2 w-full"
                 value={parentPassword}
@@ -207,7 +203,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <label className="text-base">Derivation path</label>
+              <label>Derivation path</label>
               <input
                 className="text-primary rounded-md p-2 w-full"
                 value={derivationPath}
@@ -234,7 +230,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <label className="text-base">Name for the account</label>
+              <label>Name for the account</label>
               <input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -248,7 +244,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <label className="text-base">Password for the account</label>
+              <label>Password for the account</label>
               <input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -264,7 +260,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <label className="text-base">Repeat password</label>
+                <label>Repeat password</label>
                 <input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}
