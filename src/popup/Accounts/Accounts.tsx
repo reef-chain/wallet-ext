@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 
 import Account from "./Account";
 import { AccountsContext, ActionContext, ProviderContext } from "../contexts";
+import { Loading } from "../components/Loading";
 
 const Accounts = (): JSX.Element => {
   const { accounts, selectedAccount } = useContext(AccountsContext);
@@ -12,7 +13,7 @@ const Accounts = (): JSX.Element => {
     <>
       {/* Loading */}
       {(!accounts || (accounts.length > 0 && !provider)) && (
-        <div className="text-lg mt-12">Loading accounts...</div>
+        <Loading text="Loading accounts..." className="mt-12" />
       )}
       {/* No accounts */}
       {accounts?.length === 0 && (

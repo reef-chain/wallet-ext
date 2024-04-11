@@ -19,6 +19,7 @@ import {
 } from "../util/bindUtil";
 import AccountSelector from "../Accounts/AccountSelector";
 import { SectionTitle } from "../components/SectionTitle";
+import { Loading } from "../components/Loading";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
@@ -210,7 +211,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
   return (
     <>
       <SectionTitle text="Connect EVM" />
-      {txStatus && (
+      {/* TODO: remove */}
+      {/* {txStatus && (
         <div>
           <div>Ident: {txStatus.txIdent}</div>
           <div>Error: {txStatus.error?.message || ""}</div>
@@ -218,7 +220,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
           <div>Complete: {txStatus.isComplete}</div>
           <div>Component: {txStatus.componentTxType}</div>
         </div>
-      )}
+      )} */}
       {bindFor ? (
         <div className="flex flex-col align-top">
           {!bindFor.isEvmClaimed && (
@@ -262,22 +264,20 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                     !txStatus.isInBlock &&
                     !txStatus.isComplete && (
                       <>
-                        <span>Loading...</span>
-                        <span>Tx status: {txStatus.txIdent}</span>
-                        <span>
-                          {txStatus.componentTxType ===
-                          EvmBindComponentTxType.BIND
-                            ? "Connecting EVM address"
-                            : "Transfer"}{" "}
-                          in progress
-                        </span>
+                        <Loading
+                          text={
+                            txStatus.componentTxType ===
+                            EvmBindComponentTxType.BIND
+                              ? `Connecting EVM address in progress`
+                              : `Transfer in progress`
+                          }
+                        />
                       </>
                     )}
                   {/* TODO: */}
                   {customBindState.signingInProcess && (
                     <>
-                      <span>Loading...</span>
-                      <span>Signing message with EVM wallet in progress</span>
+                      <Loading text="Signing message with EVM wallet in progress" />
                     </>
                   )}
                   {/* Bound */}
@@ -419,7 +419,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
           )}
         </div>
       ) : (
-        <div>Loading ...</div>
+        <Loading text="Loading..." />
       )}
     </>
   );

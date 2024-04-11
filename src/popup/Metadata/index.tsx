@@ -6,6 +6,7 @@ import React from "react";
 import { MetadataRequest } from "../../extension-base/background/types";
 import Request from "./Request";
 import { SectionTitle } from "../components/SectionTitle";
+import { Loading } from "../components/Loading";
 
 interface Props {
   requests: MetadataRequest[];
@@ -23,6 +24,6 @@ export const Metadata = ({ requests }: Props): JSX.Element => {
       />
     </>
   ) : (
-    <span>Loading metadata requests...</span>
+    <Loading text="Loading metadata requests..." />
   );
 };

@@ -40,9 +40,7 @@ function Request({
         </a>
         .
       </div>
-      <div className="flex my-4 border-l-primary border-l-4 pl-2">
-        <WarnMessage text="Only approve this request if you trust the application. Approving gives the application access to the addresses of your accounts." />
-      </div>
+      <WarnMessage text="Only approve this request if you trust the application. Approving gives the application access to the addresses of your accounts." />
       <div>
         <button onClick={_onApprove}>Yes, allow this application access</button>
         <button onClick={_onReject}>Reject</button>

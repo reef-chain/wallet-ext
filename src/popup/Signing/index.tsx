@@ -8,6 +8,7 @@ import { SigningRequest } from "../../extension-base/background/types";
 import Request from "./Request";
 import RequestIndex from "../RequestIndex";
 import Account from "../Accounts/Account";
+import { Loading } from "../components/Loading";
 
 interface Props {
   requests: SigningRequest[];
@@ -67,6 +68,6 @@ export const Signing = ({ requests }: Props): JSX.Element => {
       />
     </>
   ) : (
-    <span>Loading signature requests...</span>
+    <Loading text="Loading sign requests..." />
   );
 };

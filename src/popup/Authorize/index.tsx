@@ -6,6 +6,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import RequestIndex from "../RequestIndex";
 import Request from "./Request";
 import { AuthorizeRequest } from "../../extension-base/background/types";
+import { Loading } from "../components/Loading";
 
 interface Props {
   requests: AuthorizeRequest[];
@@ -51,6 +52,6 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
       />
     </>
   ) : (
-    <span>Loading auth requests...</span>
+    <Loading text="Loading auth requests..." />
   );
 };

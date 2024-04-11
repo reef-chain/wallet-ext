@@ -44,11 +44,6 @@ button:disabled {
   background-color: #a931859b;
 }
 
-.loading {
-  font-size: 1.2rem;
-  margin: 86px 0;
-}
-
 .account {
   display: flex;
   background-color: #513f79;
