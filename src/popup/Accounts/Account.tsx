@@ -112,7 +112,7 @@ const Account = ({
             </button>
           )}
         </div>
-        {provider && (
+        {account.address && provider && (
           <div>
             <img src="/icons/icon.png" className="reef-amount-logo"></img>
             {balance !== undefined ? toReefAmount(balance) : "loading..."}
@@ -140,7 +140,7 @@ const Account = ({
             {toAddressShortDisplay(account.address)}
           </div>
         )}
-        {provider && (
+        {isEvmClaimed && (
           <>
             {showCopyAddress ? (
               <CopyToClipboard

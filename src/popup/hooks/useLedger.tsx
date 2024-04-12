@@ -5,8 +5,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { Ledger } from "@reef-defi/hw-ledger";
 import uiSettings from "@polkadot/ui-settings";
 
-// TODO: Mainnet/testnet selection required?
-
 interface StateBase {
   isLedgerCapable: boolean;
   isLedgerEnabled: boolean;
@@ -40,6 +38,7 @@ export function useLedger(accountIndex = 0, addressOffset = 0): State {
   const [warning, setWarning] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [address, setAddress] = useState<string | null>(null);
+
   const ledger = useMemo(() => {
     setIsLocked(false);
     setRefreshLock(false);
@@ -47,14 +46,11 @@ export function useLedger(accountIndex = 0, addressOffset = 0): State {
     // this trick allows to refresh the ledger on demand
     // when it is shown as locked and the user has actually
     // unlocked it, which we can't know.
-    if (refreshLock) {
-      return new Ledger("webusb", "reef-mainnet");
-    }
-
-    return null;
+    return new Ledger("webusb", "reef-mainnet");
   }, [refreshLock]);
 
   useEffect(() => {
+    console.log("Getting address from ledger");
     if (!ledger) {
       setAddress(null);
 

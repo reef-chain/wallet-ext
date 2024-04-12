@@ -109,6 +109,16 @@ const Popup = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const isDetached = queryParams.get("detached");
 
+  const openFullPage = () => {
+    const url = chrome.runtime.getURL(`index.html#${location.pathname}`);
+    void chrome.tabs.create({ url });
+    window.close();
+  };
+
+  if (isDetached && location.pathname.startsWith("/account/import-ledger")) {
+    openFullPage();
+  }
+
   const _onAction = useCallback((to?: string): void => {
     if (to) {
       window.location.hash = to;
@@ -224,12 +234,6 @@ const Popup = () => {
         throw e;
       }
     }
-  };
-
-  const openFullPage = () => {
-    const url = `${chrome.runtime.getURL("index.html")}`;
-    void chrome.tabs.create({ url });
-    window.close();
   };
 
   return (
