@@ -75,6 +75,7 @@ export const AccountMenu = (): JSX.Element => {
           <FontAwesomeIcon icon={faFileArrowUp as IconProp} />
           <span className="ml-3">Restore account from backup JSON file</span>
         </div>
+        <hr className="my-2 opacity-25" />
         <div
           className="flex justify-start items-center py-3 opacity-75 cursor-pointer hover:opacity-100"
           onClick={() => onAction("/account/import-ledger")}

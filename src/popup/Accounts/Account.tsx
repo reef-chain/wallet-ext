@@ -33,7 +33,7 @@ const Account = ({
 }: Props): JSX.Element => {
   const onAction = useContext(ActionContext);
   const provider = useContext(ProviderContext);
-  const [name, setName] = useState<string>(account.name);
+  const [name, setName] = useState<string>();
   const [balance, setBalance] = useState<BigInt>();
   const [evmAddress, setEvmAddress] = useState<string>();
   const [isEvmClaimed, setIsEvmClaimed] = useState<boolean>();
@@ -45,10 +45,12 @@ const Account = ({
     if (account.address && provider) {
       queryEvmAddress(account.address, provider);
       subscribeToBalance(account.address, provider);
+      setName(account.name);
     } else {
       setEvmAddress(undefined);
       setIsEvmClaimed(undefined);
       setBalance(undefined);
+      setName(undefined);
     }
   }, [account, provider]);
 
