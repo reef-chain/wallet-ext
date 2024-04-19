@@ -15,6 +15,7 @@ import {
 } from "../util/util";
 import { editAccount, selectAccount } from "../messaging";
 import { ActionContext, ProviderContext } from "../contexts";
+import Uik from "@reef-chain/ui-kit";
 
 interface Props {
   account: extLib.AccountJson;
@@ -69,7 +70,7 @@ const Account = ({
     }
   };
 
-  let unsubBalance = () => {};
+  let unsubBalance = () => { };
 
   const subscribeToBalance = async (address: string, provider: Provider) => {
     unsubBalance = await provider.api.query.system.account(
@@ -82,10 +83,12 @@ const Account = ({
 
   return (
     <div
-      className={`account w-full ${
-        isSelected && showOptions ? "border-white border-2" : ""
-      } ${onClick ? "hover:cursor-pointer" : ""}`}
-      onClick={() => onClick && onClick(account)}
+      className={`account w-full ${isSelected && showOptions ? "border-pink-600 border-2" : ""
+        } ${onClick ? "hover:cursor-pointer" : ""}`}
+      onClick={() => {
+        if (!isSelected) selectAccount(account.address)
+        onClick && onClick(account)
+      }}
     >
       <div className="avatar">
         <Identicon value={account.address} size={44} theme="substrate" />
@@ -103,15 +106,11 @@ const Account = ({
               }}
             />
           ) : (
-            account.name
-          )}
-          {showOptions && !isSelected && (
-            <button
-              className="sm inline-block m-0 ml-2"
-              onClick={() => selectAccount(account.address)}
-            >
-              Select
-            </button>
+            <div style={{
+              color: 'white!important'
+            }} >
+              <Uik.Text text={account.name} type="title" />
+            </div>
           )}
         </div>
         {account.address && provider && (
@@ -120,113 +119,114 @@ const Account = ({
             {balance !== undefined ? toReefAmount(balance) : "loading..."}
           </div>
         )}
-        {showCopyAddress ? (
-          <CopyToClipboard
-            text={account.address}
-            className="hover:cursor-pointer"
-          >
-            <div title={account.address}>
-              <label>Native address: </label>
-              {toAddressShortDisplay(account.address)}
-              <FontAwesomeIcon
-                className="ml-2"
-                icon={faCopy as IconProp}
-                size="sm"
-                title="Copy Reef Account Address"
-              />
-            </div>
-          </CopyToClipboard>
-        ) : (
-          <div title={account.address}>
-            <label>Native address: </label>
-            {toAddressShortDisplay(account.address)}
-          </div>
-        )}
-        {isEvmClaimed && (
-          <>
+        <div className="flex justify-start align-middle">
+          <div>
             {showCopyAddress ? (
               <CopyToClipboard
-                text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
-                className="inline-block hover:cursor-pointer"
+                text={account.address}
+                className="hover:cursor-pointer flex items-center"
               >
-                <div title={evmAddress || ""}>
-                  <label>EVM address: </label>
-                  {evmAddress
-                    ? toAddressShortDisplay(evmAddress)
-                    : "loading..."}
+                <div title={account.address}>
+                  <Uik.Text text="Native address:" type="mini" />
+                  {toAddressShortDisplay(account.address)}
                   <FontAwesomeIcon
                     className="ml-2"
                     icon={faCopy as IconProp}
                     size="sm"
-                    title="Copy EVM Address"
+                    title="Copy Reef Account Address"
                   />
                 </div>
               </CopyToClipboard>
             ) : (
-              <div title={evmAddress || ""}>
-                <label>EVM address: </label>
-                {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
+              <div title={account.address}>
+                <label>Native address: </label>
+                {toAddressShortDisplay(account.address)}
               </div>
             )}
-          </>
-        )}
-        {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
-          <button
-            className="sm m-0"
-            onClick={() => onAction(`/bind/${account.address}`)}
-          >
-            Connect EVM
-          </button>
-        )}
-      </div>
-      {showOptions && (
-        <div className="relative">
-          <FontAwesomeIcon
-            className="hover:cursor-pointer p-2"
-            onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-            icon={faEllipsisVertical as IconProp}
-            title="Account options"
-          />
-          {isOptionsOpen && (
-            <div className="absolute right-5 -top-9 p-2 bg-gray-200 text-secondary font-bold text-left rounded-lg w-[148px]">
-              <div
-                className="mb-1 hover:cursor-pointer hover:text-primary"
-                onClick={() => {
-                  setIsEditingName(true);
-                  setIsOptionsOpen(false);
-                }}
-              >
-                Rename
-              </div>
-              <div
-                className="mb-1 hover:cursor-pointer hover:text-primary"
-                onClick={() => {
-                  onAction(`/account/derive/${account.address}/locked`);
-                }}
-              >
-                Derive new account
-              </div>
-              <div
-                className="mb-1 hover:cursor-pointer hover:text-primary"
-                onClick={() => {
-                  onAction(`/account/export/${account.address}`);
-                }}
-              >
-                Export account
-              </div>
-              <div
-                className="hover:cursor-pointer hover:text-primary"
-                onClick={() => {
-                  onAction(`/account/forget/${account.address}`);
-                }}
-              >
-                Forget account
-              </div>
-            </div>
+            {isEvmClaimed && (
+              <>
+                {showCopyAddress ? (
+                  <CopyToClipboard
+                    text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
+                    className="hover:cursor-pointer flex items-center"
+                  >
+                    <div title={evmAddress || ""}>
+                      <Uik.Text text="EVM address:" type="mini" />
+                      {evmAddress
+                        ? toAddressShortDisplay(evmAddress)
+                        : "loading..."}
+                      <FontAwesomeIcon
+                        className="ml-2"
+                        icon={faCopy as IconProp}
+                        size="sm"
+                        title="Copy EVM Address"
+                      />
+                    </div>
+                  </CopyToClipboard>
+                ) : (
+                  <div title={evmAddress || ""}>
+                    <label>EVM address: </label>
+                    {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+          {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
+            <Uik.Button text="Bind EVM" onClick={() => onAction(`/bind/${account.address}`)} fill />
           )}
         </div>
-      )}
-    </div>
+      </div>
+      {
+        showOptions && (
+          <div className="relative">
+            <FontAwesomeIcon
+              className="hover:cursor-pointer p-2"
+              onClick={() => setIsOptionsOpen(!isOptionsOpen)}
+              icon={faEllipsisVertical as IconProp}
+              title="Account options"
+            />
+            {isOptionsOpen && (
+              <div className="absolute right-5 -top-9 p-2 bg-gray-200 text-secondary font-bold text-left rounded-lg w-[148px]">
+                <div
+                  className="mb-1 hover:cursor-pointer hover:text-primary"
+                  onClick={() => {
+                    setIsEditingName(true);
+                    setIsOptionsOpen(false);
+                  }}
+                >
+                  Rename
+                </div>
+                <div
+                  className="mb-1 hover:cursor-pointer hover:text-primary"
+                  onClick={() => {
+                    onAction(`/account/derive/${account.address}/locked`);
+                  }}
+                >
+                  Derive new account
+                </div>
+                <div
+                  className="mb-1 hover:cursor-pointer hover:text-primary"
+                  onClick={() => {
+                    onAction(`/account/export/${account.address}`);
+                  }}
+                >
+                  Export account
+                </div>
+                <div
+                  className="hover:cursor-pointer hover:text-primary"
+                  onClick={() => {
+                    onAction(`/account/forget/${account.address}`);
+                  }}
+                >
+                  Forget account
+                </div>
+              </div>
+            )}
+          </div>
+        )
+      }
+    </div >
   );
 };
 

@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import Account from "./Account";
 import { AccountsContext, ActionContext, ProviderContext } from "../contexts";
 import { Loading } from "../components/Loading";
+import Uik from "@reef-chain/ui-kit";
 
 const Accounts = (): JSX.Element => {
   const { accounts, selectedAccount } = useContext(AccountsContext);
@@ -13,7 +14,9 @@ const Accounts = (): JSX.Element => {
     <>
       {/* Loading */}
       {(!accounts || (accounts.length > 0 && !provider)) && (
-        <Loading text="Loading accounts..." className="mt-12" />
+        <div className="mt-16">
+          <Uik.Loading />
+        </div>
       )}
       {/* No accounts */}
       {accounts?.length === 0 && (

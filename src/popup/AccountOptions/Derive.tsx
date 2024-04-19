@@ -15,6 +15,7 @@ import {
 import AccountSelector from "../Accounts/AccountSelector";
 import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
+import Uik from "@reef-chain/ui-kit";
 
 interface Props {
   isLocked?: boolean;
@@ -214,16 +215,10 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
               )}
             </div>
             <div>
-              <button
-                className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => deriveCheck()}
+              <Uik.Button onClick={() => deriveCheck()}
                 disabled={
                   error !== Error.NONE || !parentPassword || !derivationPath
-                }
-              >
-                <span className="mr-3">Next step</span>
-                <FontAwesomeIcon icon={faArrowRight as IconProp} />
-              </button>
+                } text={"Next Step"} icon={faArrowRight} />
             </div>
           </>
         )}
@@ -288,8 +283,8 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                 onClick={() => create()}
                 disabled={
                   password === passwordRepeat &&
-                  passwordRepeat.length > 5 &&
-                  error === Error.NONE
+                    passwordRepeat.length > 5 &&
+                    error === Error.NONE
                     ? false
                     : true
                 }

@@ -16,6 +16,7 @@ import { SectionTitle } from "../components/SectionTitle";
 import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { Loading } from "../components/Loading";
+import Uik from "@reef-chain/ui-kit";
 
 const enum Step {
   FIRST,
@@ -165,14 +166,7 @@ export const CreateAccount = (): JSX.Element => {
               <span>I have saved my mnemonic seed safely.</span>
             </div>
             <div>
-              <button
-                className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => setStep(Step.SECOND)}
-                disabled={!confirmed}
-              >
-                <span className="mr-3">Next step</span>
-                <FontAwesomeIcon icon={faArrowRight as IconProp} />
-              </button>
+              <Uik.Button onClick={() => setStep(Step.SECOND)} text={"Next Step"} icon={faArrowRight} />
             </div>
           </>
         )}
@@ -237,8 +231,8 @@ export const CreateAccount = (): JSX.Element => {
                 onClick={() => create()}
                 disabled={
                   password === passwordRepeat &&
-                  passwordRepeat.length > 5 &&
-                  error === Error.NONE
+                    passwordRepeat.length > 5 &&
+                    error === Error.NONE
                     ? false
                     : true
                 }

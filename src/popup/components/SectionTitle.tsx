@@ -4,6 +4,7 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import { ActionContext } from "../contexts";
+import Uik from "@reef-chain/ui-kit";
 
 interface Props {
   text: string;
@@ -15,15 +16,14 @@ export const SectionTitle = ({ text, className }: Props): JSX.Element => {
 
   return (
     <div
-      className={`mb-2 text-center text-lg font-bold relative
+      className={`mb-2 text-center text-lg font-bold relative flex
       ${className || ""}`}
+      style={{
+        alignItems: 'center'
+      }}
     >
-      <span>{text}</span>
-      <FontAwesomeIcon
-        icon={faCircleXmark as IconProp}
-        onClick={() => onAction("/")}
-        className="text-primary cursor-pointer hover:opacity-75 mt-1 text-xl absolute right-0"
-      />
+      <Uik.Text text={text} type="light" className="text-white" />
+      <Uik.Button className="dark-btn" onClick={() => onAction("/")} icon={faCircleXmark} />
     </div>
   );
 };
