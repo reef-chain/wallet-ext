@@ -201,10 +201,8 @@ export const ImportSeed = (): JSX.Element => {
                 onClick={() => create()}
                 disabled={
                   password === passwordRepeat &&
-                    passwordRepeat.length > 5 &&
-                    error === Error.NONE
-                    ? false
-                    : true
+                  passwordRepeat.length > 5 &&
+                  error === Error.NONE
                 }
               >
                 <span className="mr-3">Add account</span>

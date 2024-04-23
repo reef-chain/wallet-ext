@@ -6,6 +6,7 @@ import React, { useCallback } from "react";
 import { approveAuthRequest, rejectAuthRequest } from "../messaging";
 import { RequestAuthorizeTab } from "../../extension-base/background/types";
 import { WarnMessage } from "../components/WarnMessage";
+import Uik from "@reef-chain/ui-kit";
 
 interface Props {
   authId: string;
@@ -42,8 +43,8 @@ function Request({
       </div>
       <WarnMessage text="Only approve this request if you trust the application. Approving gives the application access to the addresses of your accounts." />
       <div>
-        <button onClick={_onApprove}>Yes, allow this application access</button>
-        <button onClick={_onReject}>Reject</button>
+        <Uik.Button onClick={_onApprove} text="Yes, allow this application access" fill />
+        <Uik.Button onClick={_onReject} text="Reject" />
       </div>
     </>
   );

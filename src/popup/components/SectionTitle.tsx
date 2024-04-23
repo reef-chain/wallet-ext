@@ -22,7 +22,7 @@ export const SectionTitle = ({ text, className }: Props): JSX.Element => {
         alignItems: 'center'
       }}
     >
-      <Uik.Text text={text} type="light" className="text-white" />
+      <Uik.Text text={text} type="title" className="text-white" />
       <Uik.Button className="dark-btn" onClick={() => onAction("/")} icon={faCircleXmark} />
     </div>
   );
