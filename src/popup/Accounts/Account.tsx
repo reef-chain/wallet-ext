@@ -96,7 +96,7 @@ const Account = ({
       <div className="content">
         <div className="font-bold">
           {isEditingName ? (
-            <input
+            <Uik.Input
               className="text-primary rounded-md px-2 my-2"
               value={name}
               onChange={(e) => setName(e.target.value)}

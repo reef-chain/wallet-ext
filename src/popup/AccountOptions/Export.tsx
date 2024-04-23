@@ -51,7 +51,7 @@ export const Export = (): JSX.Element => {
         <WarnMessage text="You are exporting your account. Keep it safe and don't share it with anyone." />
         <div className="flex flex-col items-start my-3">
           <label>Password for this account</label>
-          <input
+          <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={password}
             type="password"

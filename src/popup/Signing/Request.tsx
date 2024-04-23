@@ -21,6 +21,7 @@ import {
 import { PASSWORD_EXPIRY_MIN } from "../../extension-base/defaults";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { Loading } from "../components/Loading";
+import Uik from "@reef-chain/ui-kit";
 
 interface Props {
   account: extLib.AccountJson;
@@ -144,36 +145,32 @@ export default function Request({
           <div className="mt-2">
             <div className="flex flex-col items-start my-3">
               <label>Password for this account</label>
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
                 type="password"
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-            <input
-              className="hover:cursor-pointer mr-2 accent-primary"
-              type="checkbox"
-              checked={savePass}
-              onChange={(_) => setSavePass(!savePass)}
-              disabled={isBusy}
-            />
-            <span className="font-bold">
-              Remember for the next {PASSWORD_EXPIRY_MIN} minutes.
-            </span>
+            <div className="flex align-middle items-center">
+              <Uik.Checkbox
+                value={savePass}
+                onChange={(_) => setSavePass(!savePass)}
+                disabled={isBusy}
+              />
+              <span className="font-bold ml-2">
+                Remember for the next {PASSWORD_EXPIRY_MIN} minutes.
+              </span>
+            </div>
             {error && <ErrorMessage text={error} />}
             {isBusy && <Loading text="Processing..." />}
           </div>
         )}
         <div className="flex">
           {isFirst && (
-            <button onClick={_onSign} disabled={isBusy}>
-              {buttonText}
-            </button>
+            <Uik.Button text={buttonText} onClick={_onSign} disabled={isBusy} fill />
           )}
-          <button onClick={_onCancel} disabled={isBusy}>
-            Cancel
-          </button>
+          <Uik.Button text="Cancel" onClick={_onCancel} disabled={isBusy} />
         </div>
       </div>
     </>

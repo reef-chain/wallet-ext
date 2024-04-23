@@ -21,8 +21,8 @@ const Accounts = (): JSX.Element => {
       {/* No accounts */}
       {accounts?.length === 0 && (
         <>
-          <div className="text-lg my-8 text-center">No accounts available.</div>
-          <button onClick={() => onAction("account/menu")}>Add account</button>
+          <Uik.Text text="No accounts available." type="title" />
+          <Uik.Button onClick={() => onAction("account/menu")} text="Add account" />
         </>
       )}
       {/* Selected account */}

@@ -157,3 +157,7 @@ button:disabled {
   border-color: var(--primary);
   box-shadow: 0 10px 15px -8px hsla(var(--secondary--h), var(--secondary--s), var(--secondary--l), .3);
 }
+
+.uik-text--light {
+  color: var(--text-light) !important;
+}

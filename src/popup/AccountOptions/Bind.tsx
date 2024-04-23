@@ -153,8 +153,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
         <div className="flex flex-col">
           {!bindFor.isEvmClaimed && (
             <>
-              <div className="mb-2">Start using Reef EVM smart contracts.</div>
-              <div>First connect EVM address for</div>
+              <Uik.Text type="light" className="mb-2" text="Start using Reef EVM smart contracts." />
+              <Uik.Text type="light" text="First connect EVM address for" />
               <Account account={{ ...bindFor }} />
             </>
           )}
@@ -219,10 +219,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
               {!txStatus && !hasBalanceForBinding(bindFor.balance) && (
                 <>
                   {!txStatus && !transferBalanceFrom && (
-                    <div>
-                      Not enough REEF in account for connect EVM address
-                      transaction fee.
-                    </div>
+                    <Uik.Text type="light" text="Not enough REEF in account for connect EVM address transaction fee." />
                   )}
                   {!txStatus && !!transferBalanceFrom && (
                     <>
@@ -230,10 +227,11 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                         <span className="font-bold">
                           ~{toReefAmount(MIN_BALANCE)} REEF{" "}
                         </span>
-                        <span>is needed for transaction fee.</span>
+                        <Uik.Text type="light" text="is needed for transaction fee." />
                       </div>
                       <div className="mt-2">
-                        Coins will be transferred from account:
+                        <Uik.Text type="light" text="Coins will be transferred from account:" />
+
                       </div>
                       <AccountSelector
                         accounts={availableTxAccounts.map((acc) => ({
@@ -264,10 +262,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                   EvmBindComponentTxType.TRANSFER)) && (
                   <>
                     {txStatus && (
-                      <span>
-                        Transfer complete. Now run connect EVM account
-                        transaction.
-                      </span>
+                      <Uik.Text type="light" text="Transfer complete. Now run connect EVM account
+                      transaction."/>
                     )}
                     <Uik.Button onClick={() => bindAccount()} text="Continue" />
                   </>

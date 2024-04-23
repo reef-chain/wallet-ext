@@ -154,7 +154,7 @@ export const CreateAccount = (): JSX.Element => {
               it in a safe place. The mnemonic can be used to restore your wallet. 
               Keep it carefully to not lose your assets."
             />
-            <div className="flex">
+            <div className="flex align-middle items-center">
               <Uik.Checkbox
                 className="mr-2"
                 value={confirmed}
@@ -216,27 +216,26 @@ export const CreateAccount = (): JSX.Element => {
               </div>
             )}
             <div className="flex mt-3">
-              <button
+              <Uik.Button
                 className="flex justify-start items-center py-3 mr-3 hover:cursor-pointer"
                 onClick={() => setStep(Step.FIRST)}
-              >
-                <FontAwesomeIcon icon={faArrowLeft as IconProp} />
-                <span className="ml-3">Previous step</span>
-              </button>
-              <button
+                icon={faArrowLeft}
+                text="Previous step"
+              />
+
+              <Uik.Button
                 className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => create()}
+                onClick={create}
                 disabled={
-                  password === passwordRepeat &&
-                    passwordRepeat.length > 5 &&
-                    error === Error.NONE
-                    ? false
-                    : true
+                  password !== passwordRepeat ||
+                  passwordRepeat.length <= 5 ||
+                  error !== Error.NONE
                 }
-              >
-                <span className="mr-3">Add account</span>
-                <FontAwesomeIcon icon={faArrowRight as IconProp} />
-              </button>
+                icon={faArrowRight}
+                text="Add account"
+                fill
+              />
+
             </div>
           </>
         )}
