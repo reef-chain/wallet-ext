@@ -149,3 +149,11 @@ button:disabled {
   color: white !important;
   line-height: 1.3;
 }
+
+.uik-input .uik-input__wrapper .uik-input__input-wrapper .uik-input__input:focus {
+  background-color: transparent;
+  outline: none;
+  color: white !important;
+  border-color: var(--primary);
+  box-shadow: 0 10px 15px -8px hsla(var(--secondary--h), var(--secondary--s), var(--secondary--l), .3);
+}

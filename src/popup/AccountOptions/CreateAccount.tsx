@@ -155,12 +155,9 @@ export const CreateAccount = (): JSX.Element => {
               Keep it carefully to not lose your assets."
             />
             <div className="flex">
-              <input
-                type="checkbox"
-                id="topping"
-                name="topping"
+              <Uik.Checkbox
                 className="mr-2"
-                checked={confirmed}
+                value={confirmed}
                 onChange={() => setConfirmed(!confirmed)}
               />
               <Uik.Text text="I have saved my mnemonic seed safely." type="mini" />
@@ -174,7 +171,7 @@ export const CreateAccount = (): JSX.Element => {
           <>
             <div className="flex flex-col items-start">
               <Uik.Label text="Name for the account" />
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
                 onChange={(e) => onNameChange(e.target.value)}
@@ -188,7 +185,7 @@ export const CreateAccount = (): JSX.Element => {
             </div>
             <div className="flex flex-col items-start my-3">
               <Uik.Label text="Password for the account" />
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
                 type="password"
@@ -204,7 +201,7 @@ export const CreateAccount = (): JSX.Element => {
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
                 <Uik.Label text="Repeat password" />
-                <input
+                <Uik.Input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}
                   type="password"

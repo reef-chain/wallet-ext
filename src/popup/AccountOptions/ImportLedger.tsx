@@ -125,7 +125,7 @@ export const ImportLedger = (): JSX.Element => {
         <Account account={{ address: address || "", name: name }} />
         <div className="flex flex-col items-start">
           <Uik.Label text="Name for the account" />
-          <input
+          <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={name}
             onChange={(e) => onNameChange(e.target.value)}

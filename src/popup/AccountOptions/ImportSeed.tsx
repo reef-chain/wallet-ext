@@ -144,7 +144,7 @@ export const ImportSeed = (): JSX.Element => {
           <>
             <div className="flex flex-col items-start">
               <label>Name for the account</label>
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
                 onChange={(e) => onNameChange(e.target.value)}
@@ -158,7 +158,7 @@ export const ImportSeed = (): JSX.Element => {
             </div>
             <div className="flex flex-col items-start my-3">
               <label>Password for the account</label>
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
                 type="password"
@@ -174,8 +174,8 @@ export const ImportSeed = (): JSX.Element => {
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
                 <label>Repeat password</label>
-                <input
-                  className="text-primary rounded-md p-2 w-full"
+                <Uik.Input
+                  className="text-primary rounded-md p-2 w-full text-white"
                   value={passwordRepeat}
                   type="password"
                   onChange={(e) => onPasswordRepeatChange(e.target.value)}

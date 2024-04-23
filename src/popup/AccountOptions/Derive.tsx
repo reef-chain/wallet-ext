@@ -193,7 +193,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
           <>
             <div className="flex flex-col items-start my-3">
               <Uik.Label text="Password for the account to derive from" />
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={parentPassword}
                 type="password"
@@ -205,7 +205,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
             </div>
             <div className="flex flex-col items-start my-3">
               <Uik.Label text="Derivation path" />
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={derivationPath}
                 onChange={(e) => setDerivationPath(e.target.value)}
@@ -226,7 +226,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
           <>
             <div className="flex flex-col items-start">
               <Uik.Label text="Name for the account" />
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
                 onChange={(e) => onNameChange(e.target.value)}
@@ -240,7 +240,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
             </div>
             <div className="flex flex-col items-start my-3">
               <Uik.Label text="Password for the account" />
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
                 type="password"
@@ -256,7 +256,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
                 <Uik.Label text="Repeat password" />
-                <input
+                <Uik.Input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}
                   type="password"
