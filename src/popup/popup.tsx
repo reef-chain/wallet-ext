@@ -59,6 +59,7 @@ import { Derive } from "./AccountOptions/Derive";
 import { ImportLedger } from "./AccountOptions/ImportLedger";
 import { Forget } from "./AccountOptions/Forget";
 import { network } from "@reef-chain/util-lib";
+import { REEF_NETWORK_KEY } from "../extension-base/background/handlers/Extension";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -107,16 +108,25 @@ const Popup = () => {
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
 
   useEffect(() => {
-    if (accountCtx.accounts.length == 0 || !extLib) return;
+    const initReefState = async () => {
+      // network fallback - check localstorage for last used network
+      const storedNetwork = await chrome.storage.local.get(REEF_NETWORK_KEY);
+      let _selectedNetwork = selectedNetwork;
+      if (storedNetwork) {
+        _selectedNetwork = network.AVAILABLE_NETWORKS[storedNetwork[REEF_NETWORK_KEY]]
+      }
 
-    // init reef state from util lib
-    reefState.initReefState({
-      jsonAccounts: {
-        accounts: accountCtx.accounts,
-        injectedSigner: extLib as any
-      },
-      network: selectedNetwork
-    })
+      // init reef state from util lib
+      reefState.initReefState({
+        jsonAccounts: {
+          accounts: accountCtx.accounts,
+          injectedSigner: extLib as any
+        },
+        network: _selectedNetwork
+      })
+    }
+    if (accountCtx.accounts.length == 0 || !extLib) return;
+    initReefState()
   }, [accountCtx])
 
   const location = useLocation();
