@@ -1,10 +1,10 @@
 import React, { useMemo, useEffect, useState, useCallback } from "react";
 import { Route, Routes, useLocation } from "react-router";
 import { Provider, Signer } from "@reef-chain/evm-provider";
-import { extension as extLib } from "@reef-chain/util-lib";
-import { WsProvider } from "@polkadot/api";
+import { extension as extLib, reefState } from "@reef-chain/util-lib";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { hooks } from "@reef-chain/react-lib";
 import {
   faCirclePlus,
   faArrowUpRightFromSquare,
@@ -58,6 +58,7 @@ import { Export } from "./AccountOptions/Export";
 import { Derive } from "./AccountOptions/Derive";
 import { ImportLedger } from "./AccountOptions/ImportLedger";
 import { Forget } from "./AccountOptions/Forget";
+import { network } from "@reef-chain/util-lib";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -102,8 +103,20 @@ const Popup = () => {
     null
   );
   const [selectedNetwork, setSelectedNetwork] = useState<ReefNetwork>();
-  const [provider, setProvider] = useState<Provider>();
+  const provider: Provider | undefined = hooks.useObservableState(reefState.selectedProvider$);
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (accountCtx.accounts.length == 0 || !extLib) return;
+
+    // init reef state from util lib
+    reefState.initReefState({
+      jsonAccounts: {
+        accounts: accountCtx.accounts,
+        injectedSigner: extLib as any
+      }
+    })
+  }, [accountCtx, extLib])
 
   const location = useLocation();
   const queryParams = new URLSearchParams(window.location.search);
@@ -219,20 +232,30 @@ const Popup = () => {
     });
   };
 
+  // handle network change by toggling provider
+  useEffect(() => {
+    const _selectedNw = network.AVAILABLE_NETWORKS[selectedNetwork ? selectedNetwork.name : 'mainnet']
+    if (_selectedNw) {
+      reefState.setSelectedNetwork(_selectedNw);
+    }
+  }, [selectedNetwork])
+
+
   const onNetworkChange = async (networkId: AvailableNetwork) => {
     if (networkId !== selectedNetwork?.id) {
       setSelectedNetwork(reefNetworks[networkId]);
 
-      const newProvider = new Provider({
-        provider: new WsProvider(reefNetworks[networkId].rpcUrl),
-      });
-      try {
-        await newProvider.api.isReadyOrError;
-        setProvider(newProvider);
-      } catch (e) {
-        console.log("Provider isReadyOrError ERROR=", e);
-        throw e;
-      }
+      //commented by @anukulpandey 
+      // const newProvider = new Provider({
+      //   provider: new WsProvider(reefNetworks[networkId].rpcUrl),
+      // });
+      // try {
+      //   await newProvider.api.isReadyOrError;
+      //   setProvider(newProvider);
+      // } catch (e) {
+      //   console.log("Provider isReadyOrError ERROR=", e);
+      //   throw e;
+      // }
     }
   };
 
