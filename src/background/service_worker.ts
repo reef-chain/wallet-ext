@@ -15,6 +15,7 @@ import keyring from "@polkadot/ui-keyring";
 import handlers from "../extension-base/background/handlers";
 import { PORT_CONTENT, PORT_EXTENSION } from "../extension-base/defaults";
 import { LocalStore } from "../extension-base/localStore";
+import { startHeartbeat } from "./heartbeat";
 
 // Fix Service Worker disconnection: https://stackoverflow.com/questions/66618136/persistent-service-worker-in-chrome-extension/66618269#66618269
 const keepAlive = () => setInterval(chrome.runtime.getPlatformInfo, 20e3);
@@ -51,6 +52,7 @@ cryptoWaitReady()
     keyring.loadAll({ store: new LocalStore(), type: "sr25519" });
     console.log("KEYRING LOADED ALL=", keyring.getAccounts().length);
     console.log("initialization completed");
+    startHeartbeat() //polls the service worker to keep extension alive
   })
   .catch((error): void => {
     console.error("initialization failed", error);
