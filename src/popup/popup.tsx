@@ -11,6 +11,8 @@ import {
   faExpand,
   faShuffle,
   faTasks,
+  faGear,
+  faExternalLinkAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./popup.css";
@@ -60,6 +62,7 @@ import { ImportLedger } from "./AccountOptions/ImportLedger";
 import { Forget } from "./AccountOptions/Forget";
 import { network } from "@reef-chain/util-lib";
 import { REEF_NETWORK_KEY } from "../extension-base/background/handlers/Extension";
+import Uik from "@reef-chain/ui-kit";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -105,6 +108,7 @@ const Popup = () => {
   const selectedNetwork = hooks.useObservableState(reefState.selectedNetwork$);
   const provider: Provider | undefined = hooks.useObservableState(reefState.selectedProvider$);
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const initReefState = async () => {
@@ -252,106 +256,134 @@ const Popup = () => {
   };
 
   return (
-    <div className="popup text-left">
-      {process.env.NODE_ENV === "development" && (
-        <div className="absolute left-5 top-3 text-gray-400">
-          <span>DEV</span>
-        </div>
-      )}
-
+    <div>
       {/* Header */}
-      <div className="flex justify-between mb-4">
+      <div className="flex justify-between mb-2 header-bg">
         {selectedNetwork && (
           <div>
-            <span className="text-lg">
-              {selectedNetwork.name.charAt(0).toUpperCase() +
-                selectedNetwork.name.slice(1)}
-            </span>
-            <button
-              className="md"
-              onClick={() =>
-                onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
-              }
-            >
-              <FontAwesomeIcon icon={faShuffle as IconProp} />
-            </button>
+            <div className="flex hover:cursor-pointer logo-w">
+              {selectedNetwork.name == "mainnet" ? <Uik.ReefLogo /> : <Uik.ReefTestnetLogo />}
+            </div>
           </div>
         )}
-        <div>
-          <button
-            className="md"
+        <div className="flex justify-end absolute right-2 top-1">
+          <Uik.Button
+            className="dark-btn"
+            text="Open App"
+            icon={faArrowUpRightFromSquare}
             onClick={() => window.open("https://app.reef.io/", "_blank")}
-          >
-            <FontAwesomeIcon icon={faArrowUpRightFromSquare as IconProp} />
-          </button>
-          {isDetached && (
-            <button className="md" onClick={() => openFullPage()}>
-              <FontAwesomeIcon icon={faExpand as IconProp} />
-            </button>
-          )}
+          />
           {!location.pathname.startsWith("/account/") && (
-            <button className="md" onClick={() => _onAction("/account/menu")}>
-              <FontAwesomeIcon icon={faCirclePlus as IconProp} />
-            </button>
+            <Uik.Button
+              className="dark-btn"
+              text="Add Account"
+              icon={faCirclePlus}
+              onClick={() => _onAction("/account/menu")}
+            />
           )}
-          {!location.pathname.startsWith("/auth-list") && (
-            <button className="md" onClick={() => _onAction("/auth-list")}>
-              <FontAwesomeIcon icon={faTasks as IconProp} />
-            </button>
-          )}
-        </div>
-      </div>
+          <Uik.Button
+            className="dark-btn"
+            icon={faGear}
+            onClick={() => setIsSettingsOpen(true)}
+          />
 
-      {/* Content */}
-      <ActionContext.Provider value={_onAction}>
-        <AccountsContext.Provider value={accountCtx}>
-          <ProviderContext.Provider value={provider}>
-            {signOverlay && <Signing requests={signRequests} />}
-            <div className={signOverlay ? "hidden" : ""}>
-              <Routes>
-                <Route path="/" element={<Accounts />} />
-                <Route path="/auth-list" element={<AuthManagement />} />
-                <Route path="/account/menu" element={<AccountMenu />} />
-                <Route path="/account/create" element={<CreateAccount />} />
-                <Route
-                  path="/account/derive/:address/locked"
-                  element={<Derive isLocked />}
+        </div>
+        <div className="relative top-8 right-4">
+          <Uik.Dropdown
+            isOpen={isSettingsOpen}
+            onClose={() => setIsSettingsOpen(false)}
+            position="bottomLeft"
+          >
+            {selectedNetwork &&
+              <>
+                <Uik.DropdownItem
+                  icon={faShuffle as IconProp}
+                  text='Toggle Network'
+                  onClick={() =>
+                    onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
+                  }
                 />
-                <Route path="/account/derive/:address" element={<Derive />} />
-                <Route path="/account/export/:address" element={<Export />} />
-                <Route path="/account/export-all" element={<ExportAll />} />
-                <Route path="/account/import-seed" element={<ImportSeed />} />
-                <Route
-                  path="/account/import-ledger"
-                  element={<ImportLedger />}
-                />
-                <Route path="/account/restore-json" element={<RestoreJson />} />
-                <Route path="/account/forget/:address" element={<Forget />} />
-                <Route
-                  path="/bind/:address"
-                  element={<Bind provider={provider} />}
-                />
-                <Route
-                  path="/requests/auth"
-                  element={<Authorize requests={authRequests} />}
-                />
-                <Route
-                  path="/requests/sign"
-                  element={<Signing requests={signRequests} />}
-                />
-                <Route
-                  path="/requests/metadata"
-                  element={<Metadata requests={metaRequests} />}
-                />
-                <Route
-                  path={PHISHING_PAGE_REDIRECT}
-                  element={<PhishingDetected />}
-                />
-              </Routes>
-            </div>
-          </ProviderContext.Provider>
-        </AccountsContext.Provider>
-      </ActionContext.Provider>
+                <Uik.Divider />
+              </>
+            }
+            {!location.pathname.startsWith("/auth-list") && (
+              <Uik.DropdownItem
+                icon={faTasks as IconProp}
+                text='Manage Website Access'
+                onClick={() => _onAction("/auth-list")}
+              />
+            )}
+            {isDetached && (
+              <Uik.DropdownItem
+                icon={faExpand as IconProp}
+                text='Open extension in new window'
+                onClick={() => openFullPage()}
+              />
+            )}
+          </Uik.Dropdown>
+        </div>
+
+      </div>
+      <div className="popup text-left">
+        {process.env.NODE_ENV === "development" && (
+          <div className="absolute left-5 top-3 text-gray-400">
+            <span>DEV</span>
+          </div>
+        )}
+
+
+
+        {/* Content */}
+        <ActionContext.Provider value={_onAction}>
+          <AccountsContext.Provider value={accountCtx}>
+            <ProviderContext.Provider value={provider}>
+              {signOverlay && <Signing requests={signRequests} />}
+              <div className={signOverlay ? "hidden" : ""}>
+                <Routes>
+                  <Route path="/" element={<Accounts />} />
+                  <Route path="/auth-list" element={<AuthManagement />} />
+                  <Route path="/account/menu" element={<AccountMenu />} />
+                  <Route path="/account/create" element={<CreateAccount />} />
+                  <Route
+                    path="/account/derive/:address/locked"
+                    element={<Derive isLocked />}
+                  />
+                  <Route path="/account/derive/:address" element={<Derive />} />
+                  <Route path="/account/export/:address" element={<Export />} />
+                  <Route path="/account/export-all" element={<ExportAll />} />
+                  <Route path="/account/import-seed" element={<ImportSeed />} />
+                  <Route
+                    path="/account/import-ledger"
+                    element={<ImportLedger />}
+                  />
+                  <Route path="/account/restore-json" element={<RestoreJson />} />
+                  <Route path="/account/forget/:address" element={<Forget />} />
+                  <Route
+                    path="/bind/:address"
+                    element={<Bind provider={provider} />}
+                  />
+                  <Route
+                    path="/requests/auth"
+                    element={<Authorize requests={authRequests} />}
+                  />
+                  <Route
+                    path="/requests/sign"
+                    element={<Signing requests={signRequests} />}
+                  />
+                  <Route
+                    path="/requests/metadata"
+                    element={<Metadata requests={metaRequests} />}
+                  />
+                  <Route
+                    path={PHISHING_PAGE_REDIRECT}
+                    element={<PhishingDetected />}
+                  />
+                </Routes>
+              </div>
+            </ProviderContext.Provider>
+          </AccountsContext.Provider>
+        </ActionContext.Provider>
+      </div>
     </div>
   );
 };

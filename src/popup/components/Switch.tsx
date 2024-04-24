@@ -1,3 +1,4 @@
+import Uik from "@reef-chain/ui-kit";
 import React, { ChangeEventHandler } from "react";
 
 interface Props {
@@ -19,15 +20,13 @@ export const Switch = ({
       className={`relative inline-flex items-center cursor-pointer mr-2
       ${className || ""}`}
     >
-      <input
-        type="checkbox"
-        className="sr-only peer"
-        checked={checked}
+      <Uik.Checkbox
+        value={checked}
         onChange={onChange}
       />
       <div
         className={`w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-500 peer-checked:after:translate-x-full 
-        rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] 
+        rtl:peer-checked:after:-translate-x-full peer-checked:after:border-pink-500 after:content-[''] 
         after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border 
         after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-200 peer-checked:bg-primary`}
       ></div>

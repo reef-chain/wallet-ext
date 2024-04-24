@@ -9,6 +9,7 @@ import { createAccountSuri, validateSeed } from "../messaging";
 import { ActionContext } from "../contexts";
 import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
+import Uik from "@reef-chain/ui-kit";
 
 const enum Step {
   FIRST,
@@ -123,7 +124,8 @@ export const ImportSeed = (): JSX.Element => {
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">
-              <label>Existing 12 or 24-word mnemonic seed</label>
+
+              <Uik.Label text="Existing 12 or 24-word mnemonic seed" className="mb-3" />
               <textarea
                 className="w-full p-3 rounded-lg bg-zinc-950 border-gray-600 text-primary"
                 value={seed}
@@ -134,14 +136,8 @@ export const ImportSeed = (): JSX.Element => {
               )}
             </div>
             <div>
-              <button
-                className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => setStep(Step.SECOND)}
-                disabled={!seed.length || error !== Error.NONE}
-              >
-                <span className="mr-3">Next step</span>
-                <FontAwesomeIcon icon={faArrowRight as IconProp} />
-              </button>
+              <Uik.Button onClick={() => setStep(Step.SECOND)}
+                disabled={!seed.length || error !== Error.NONE} text={"Next Step"} icon={faArrowRight} />
             </div>
           </>
         )}
@@ -149,7 +145,7 @@ export const ImportSeed = (): JSX.Element => {
           <>
             <div className="flex flex-col items-start">
               <label>Name for the account</label>
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
                 onChange={(e) => onNameChange(e.target.value)}
@@ -163,7 +159,7 @@ export const ImportSeed = (): JSX.Element => {
             </div>
             <div className="flex flex-col items-start my-3">
               <label>Password for the account</label>
-              <input
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
                 type="password"
@@ -179,8 +175,8 @@ export const ImportSeed = (): JSX.Element => {
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
                 <label>Repeat password</label>
-                <input
-                  className="text-primary rounded-md p-2 w-full"
+                <Uik.Input
+                  className="text-primary rounded-md p-2 w-full text-white"
                   value={passwordRepeat}
                   type="password"
                   onChange={(e) => onPasswordRepeatChange(e.target.value)}
@@ -194,27 +190,20 @@ export const ImportSeed = (): JSX.Element => {
               </div>
             )}
             <div className="flex mt-3">
-              <button
-                className="flex justify-start items-center py-3 mr-3 hover:cursor-pointer"
-                onClick={() => setStep(Step.FIRST)}
-              >
-                <FontAwesomeIcon icon={faArrowLeft as IconProp} />
-                <span className="ml-3">Previous step</span>
-              </button>
-              <button
+              <Uik.Button className="flex justify-start items-center py-3 mr-3 hover:cursor-pointer"
+                onClick={() => setStep(Step.FIRST)} icon={faArrowLeft} text="Previous step" />
+              <Uik.Button
                 className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => create()}
+                onClick={create}
                 disabled={
-                  password === passwordRepeat &&
-                  passwordRepeat.length > 5 &&
-                  error === Error.NONE
-                    ? false
-                    : true
+                  password !== passwordRepeat ||
+                  passwordRepeat.length <= 5 ||
+                  error !== Error.NONE
                 }
-              >
-                <span className="mr-3">Add account</span>
-                <FontAwesomeIcon icon={faArrowRight as IconProp} />
-              </button>
+                icon={faArrowRight}
+                text="Add account"
+                fill
+              />
             </div>
           </>
         )}

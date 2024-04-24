@@ -7,6 +7,7 @@ import { ActionContext } from "../contexts";
 import { batchRestore, jsonRestore } from "../messaging";
 import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
+import Uik from "@reef-chain/ui-kit";
 
 const enum Error {
   NONE,
@@ -77,7 +78,7 @@ export const RestoreJson = (): JSX.Element => {
       <SectionTitle text="Restore from JSON" />
       <div className="text-left">
         <label>Backup file</label>
-        <input
+        <Uik.Input
           className="text-primary rounded-md w-full"
           type="file"
           onChange={(e) => {
@@ -103,7 +104,7 @@ export const RestoreJson = (): JSX.Element => {
       {json && (
         <div className="flex flex-col items-start my-4">
           <label>Password for this file</label>
-          <input
+          <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={password}
             type="password"

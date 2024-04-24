@@ -6,6 +6,7 @@ import { exportAllAccounts } from "../messaging";
 import { SectionTitle } from "../components/SectionTitle";
 import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
+import Uik from "@reef-chain/ui-kit";
 
 const enum Error {
   NONE,
@@ -81,7 +82,7 @@ export const ExportAll = (): JSX.Element => {
         />
         <div className="flex flex-col items-start my-3">
           <label>Password for encrypting all accounts</label>
-          <input
+          <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={password}
             type="password"
@@ -97,7 +98,7 @@ export const ExportAll = (): JSX.Element => {
         {password.length >= 6 && (
           <div className="flex flex-col items-start">
             <label>Repeat password</label>
-            <input
+            <Uik.Input
               className="text-primary rounded-md p-2 w-full"
               value={passwordRepeat}
               type="password"
@@ -116,8 +117,8 @@ export const ExportAll = (): JSX.Element => {
           onClick={() => exportAll()}
           disabled={
             password === passwordRepeat &&
-            passwordRepeat.length > 5 &&
-            error === Error.NONE
+              passwordRepeat.length > 5 &&
+              error === Error.NONE
               ? false
               : true
           }
