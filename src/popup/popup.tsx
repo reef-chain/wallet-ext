@@ -244,18 +244,6 @@ const Popup = () => {
   const onNetworkChange = async (networkId: AvailableNetwork) => {
     if (networkId !== selectedNetwork?.id) {
       setSelectedNetwork(reefNetworks[networkId]);
-
-      //commented by @anukulpandey 
-      // const newProvider = new Provider({
-      //   provider: new WsProvider(reefNetworks[networkId].rpcUrl),
-      // });
-      // try {
-      //   await newProvider.api.isReadyOrError;
-      //   setProvider(newProvider);
-      // } catch (e) {
-      //   console.log("Provider isReadyOrError ERROR=", e);
-      //   throw e;
-      // }
     }
   };
 
