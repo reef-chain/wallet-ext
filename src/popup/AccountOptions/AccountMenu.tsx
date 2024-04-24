@@ -12,6 +12,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import { AccountsContext, ActionContext } from "../contexts";
 import { SectionTitle } from "../components/SectionTitle";
+import Uik from "@reef-chain/ui-kit";
 
 export const AccountMenu = (): JSX.Element => {
   const onAction = useContext(ActionContext);
@@ -29,7 +30,7 @@ export const AccountMenu = (): JSX.Element => {
   }
 
   return (
-    <>
+    <div className="p-4">
       <SectionTitle text="Add account" />
       <div className="flex flex-col">
         <div
@@ -37,7 +38,7 @@ export const AccountMenu = (): JSX.Element => {
           onClick={() => onAction("/account/create")}
         >
           <FontAwesomeIcon icon={faCirclePlus as IconProp} />
-          <span className="ml-3">Create new account</span>
+          <Uik.Text type="light" className="ml-5" text="Create new account" />
         </div>
         <hr className="my-2 opacity-25" />
         {accounts.length > 0 && (
@@ -48,7 +49,7 @@ export const AccountMenu = (): JSX.Element => {
                 onClick={() => onAction(`/account/derive/${accountToDerive}`)}
               >
                 <FontAwesomeIcon icon={faCodeBranch as IconProp} />
-                <span className="ml-3">Derive from an account</span>
+                <Uik.Text type="light" className="ml-5" text="Derive from an account" />
               </div>
             )}
             <hr className="my-2 opacity-25" />
@@ -57,7 +58,8 @@ export const AccountMenu = (): JSX.Element => {
               onClick={() => onAction("/account/export-all")}
             >
               <FontAwesomeIcon icon={faFileExport as IconProp} />
-              <span className="ml-3">Export all accounts</span>
+              <Uik.Text type="light" className="ml-5" text="Export all accounts" />
+
             </div>
           </>
         )}
@@ -66,14 +68,14 @@ export const AccountMenu = (): JSX.Element => {
           onClick={() => onAction("/account/import-seed")}
         >
           <FontAwesomeIcon icon={faKey as IconProp} />
-          <span className="ml-3">Import account from pre-existing seed</span>
+          <Uik.Text type="light" className="ml-5" text="Import account from pre-existing seed" />
         </div>
         <div
           className="flex justify-start items-center py-3 opacity-75 cursor-pointer hover:opacity-100"
           onClick={() => onAction("/account/restore-json")}
         >
           <FontAwesomeIcon icon={faFileArrowUp as IconProp} />
-          <span className="ml-3">Restore account from backup JSON file</span>
+          <Uik.Text type="light" className="ml-5" text="Restore account from backup JSON file" />
         </div>
         <hr className="my-2 opacity-25" />
         <div
@@ -81,9 +83,10 @@ export const AccountMenu = (): JSX.Element => {
           onClick={() => onAction("/account/import-ledger")}
         >
           <FontAwesomeIcon icon={faUsb as IconProp} rotation={270} />
-          <span className="ml-3">Connect Ledger device</span>
+          <Uik.Text type="light" className="ml-5" text="Connect Ledger device" />
+
         </div>
       </div>
-    </>
+    </div>
   );
 };

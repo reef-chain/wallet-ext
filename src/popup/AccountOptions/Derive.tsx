@@ -15,6 +15,7 @@ import {
 import AccountSelector from "../Accounts/AccountSelector";
 import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
+import Uik from "@reef-chain/ui-kit";
 
 interface Props {
   isLocked?: boolean;
@@ -191,8 +192,8 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">
-              <label>Password for the account to derive from</label>
-              <input
+              <Uik.Label text="Password for the account to derive from" />
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={parentPassword}
                 type="password"
@@ -203,8 +204,8 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <label>Derivation path</label>
-              <input
+              <Uik.Label text="Derivation path" />
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={derivationPath}
                 onChange={(e) => setDerivationPath(e.target.value)}
@@ -214,24 +215,18 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
               )}
             </div>
             <div>
-              <button
-                className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => deriveCheck()}
+              <Uik.Button onClick={() => deriveCheck()}
                 disabled={
                   error !== Error.NONE || !parentPassword || !derivationPath
-                }
-              >
-                <span className="mr-3">Next step</span>
-                <FontAwesomeIcon icon={faArrowRight as IconProp} />
-              </button>
+                } text={"Next Step"} icon={faArrowRight} />
             </div>
           </>
         )}
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <label>Name for the account</label>
-              <input
+              <Uik.Label text="Name for the account" />
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
                 onChange={(e) => onNameChange(e.target.value)}
@@ -244,8 +239,8 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <label>Password for the account</label>
-              <input
+              <Uik.Label text="Password for the account" />
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
                 type="password"
@@ -260,8 +255,8 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <label>Repeat password</label>
-                <input
+                <Uik.Label text="Repeat password" />
+                <Uik.Input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}
                   type="password"
@@ -276,27 +271,26 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
               </div>
             )}
             <div className="flex mt-3">
-              <button
+              <Uik.Button
                 className="flex justify-start items-center py-3 mr-3 hover:cursor-pointer"
                 onClick={() => setStep(Step.FIRST)}
-              >
-                <FontAwesomeIcon icon={faArrowLeft as IconProp} />
-                <span className="ml-3">Previous step</span>
-              </button>
-              <button
+                icon={faArrowLeft}
+                text="Previous step"
+              />
+
+              <Uik.Button
                 className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => create()}
+                onClick={create}
                 disabled={
-                  password === passwordRepeat &&
-                  passwordRepeat.length > 5 &&
-                  error === Error.NONE
-                    ? false
-                    : true
+                  password !== passwordRepeat ||
+                  passwordRepeat.length <= 5 ||
+                  error !== Error.NONE
                 }
-              >
-                <span className="mr-3">Add account</span>
-                <FontAwesomeIcon icon={faArrowRight as IconProp} />
-              </button>
+                icon={faArrowRight}
+                text="Add account"
+                fill
+              />
+
             </div>
           </>
         )}

@@ -9,6 +9,7 @@ import { AccountWithSigner } from "../types";
 import { SectionTitle } from "../components/SectionTitle";
 import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
+import Uik from "@reef-chain/ui-kit";
 
 export const Export = (): JSX.Element => {
   const onAction = useContext(ActionContext);
@@ -50,7 +51,7 @@ export const Export = (): JSX.Element => {
         <WarnMessage text="You are exporting your account. Keep it safe and don't share it with anyone." />
         <div className="flex flex-col items-start my-3">
           <label>Password for this account</label>
-          <input
+          <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={password}
             type="password"
@@ -61,13 +62,8 @@ export const Export = (): JSX.Element => {
           />
           {error && <ErrorMessage text="Password is not correct" />}
         </div>
-        <button
-          className="mt-4 py-3 hover:cursor-pointer"
-          onClick={() => exportOne()}
-          disabled={!password || error !== ""}
-        >
-          Export account
-        </button>
+        <Uik.Button text="Export Account" onClick={() => exportOne()}
+          disabled={!password || error !== ""} />
       </div>
     </>
   );
