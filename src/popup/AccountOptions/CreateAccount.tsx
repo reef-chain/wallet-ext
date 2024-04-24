@@ -16,6 +16,7 @@ import { SectionTitle } from "../components/SectionTitle";
 import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { Loading } from "../components/Loading";
+import Uik from "@reef-chain/ui-kit";
 
 const enum Step {
   FIRST,
@@ -124,17 +125,17 @@ export const CreateAccount = (): JSX.Element => {
         <Account account={account} showCopyAddress={true} />
         {step === Step.FIRST && (
           <>
-            <div className="flex flex-col items-start">
-              <label>Generated 12-word mnemonic seed</label>
+            <div className="flex flex-col items-start py-2">
+              <Uik.Label text="Generated 12-word mnemonic seed" />
               <textarea
-                className="w-full p-3 rounded-lg bg-zinc-950 border-gray-600 text-primary"
+                className="w-full p-5 rounded-lg bg-zinc-950 border-gray-600 text-primary"
                 readOnly
               >
                 {account.suri}
               </textarea>
               <CopyToClipboard
                 text={account.suri}
-                className="hover:cursor-pointer ml-1"
+                className="hover:cursor-pointer ml-1 py-2"
               >
                 <div title={account.suri}>
                   <FontAwesomeIcon
@@ -148,39 +149,29 @@ export const CreateAccount = (): JSX.Element => {
                 </div>
               </CopyToClipboard>
             </div>
-            <WarnMessage
+            <WarnMessage className="py-1"
               text="Please write down your wallet's mnemonic seed and keep 
               it in a safe place. The mnemonic can be used to restore your wallet. 
               Keep it carefully to not lose your assets."
             />
-            <div>
-              <input
-                type="checkbox"
-                id="topping"
-                name="topping"
+            <div className="flex align-middle items-center">
+              <Uik.Checkbox
                 className="mr-2"
-                checked={confirmed}
+                value={confirmed}
                 onChange={() => setConfirmed(!confirmed)}
               />
-              <span>I have saved my mnemonic seed safely.</span>
+              <Uik.Text text="I have saved my mnemonic seed safely." type="mini" />
             </div>
             <div>
-              <button
-                className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => setStep(Step.SECOND)}
-                disabled={!confirmed}
-              >
-                <span className="mr-3">Next step</span>
-                <FontAwesomeIcon icon={faArrowRight as IconProp} />
-              </button>
+              <Uik.Button onClick={() => setStep(Step.SECOND)} text={"Next Step"} icon={faArrowRight} fill />
             </div>
           </>
         )}
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <label>Name for the account</label>
-              <input
+              <Uik.Label text="Name for the account" />
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
                 onChange={(e) => onNameChange(e.target.value)}
@@ -193,8 +184,8 @@ export const CreateAccount = (): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <label>Password for the account</label>
-              <input
+              <Uik.Label text="Password for the account" />
+              <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
                 type="password"
@@ -209,8 +200,8 @@ export const CreateAccount = (): JSX.Element => {
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <label>Repeat password</label>
-                <input
+                <Uik.Label text="Repeat password" />
+                <Uik.Input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}
                   type="password"
@@ -225,27 +216,26 @@ export const CreateAccount = (): JSX.Element => {
               </div>
             )}
             <div className="flex mt-3">
-              <button
+              <Uik.Button
                 className="flex justify-start items-center py-3 mr-3 hover:cursor-pointer"
                 onClick={() => setStep(Step.FIRST)}
-              >
-                <FontAwesomeIcon icon={faArrowLeft as IconProp} />
-                <span className="ml-3">Previous step</span>
-              </button>
-              <button
+                icon={faArrowLeft}
+                text="Previous step"
+              />
+
+              <Uik.Button
                 className="flex justify-start items-center py-3 hover:cursor-pointer"
-                onClick={() => create()}
+                onClick={create}
                 disabled={
-                  password === passwordRepeat &&
-                  passwordRepeat.length > 5 &&
-                  error === Error.NONE
-                    ? false
-                    : true
+                  password !== passwordRepeat ||
+                  passwordRepeat.length <= 5 ||
+                  error !== Error.NONE
                 }
-              >
-                <span className="mr-3">Add account</span>
-                <FontAwesomeIcon icon={faArrowRight as IconProp} />
-              </button>
+                icon={faArrowRight}
+                text="Add account"
+                fill
+              />
+
             </div>
           </>
         )}

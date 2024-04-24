@@ -17,6 +17,7 @@ import AccountSelector from "../Accounts/AccountSelector";
 import { SectionTitle } from "../components/SectionTitle";
 import { Loading } from "../components/Loading";
 import { ErrorMessage } from "../components/ErrorMessage";
+import Uik from "@reef-chain/ui-kit";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
@@ -35,12 +36,12 @@ const getSignersWithEnoughBalance = (
 ): AccountWithSigner[] => {
   return signers?.length
     ? signers
-        .filter(
-          (sig) =>
-            sig.address !== bindFor.address &&
-            sig.balance > MIN_BALANCE * BigInt(2)
-        )
-        .sort((a, b) => (a.balance > b.balance ? -1 : 1))
+      .filter(
+        (sig) =>
+          sig.address !== bindFor.address &&
+          sig.balance > MIN_BALANCE * BigInt(2)
+      )
+      .sort((a, b) => (a.balance > b.balance ? -1 : 1))
     : [];
 };
 
@@ -152,8 +153,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
         <div className="flex flex-col">
           {!bindFor.isEvmClaimed && (
             <>
-              <div className="mb-2">Start using Reef EVM smart contracts.</div>
-              <div>First connect EVM address for</div>
+              <Uik.Text type="light" className="mb-2" text="Start using Reef EVM smart contracts." />
+              <Uik.Text type="light" text="First connect EVM address for" />
               <Account account={{ ...bindFor }} />
             </>
           )}
@@ -178,7 +179,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                   </span>
                 </CopyToClipboard>
               </span>
-              <button onClick={() => onAction("/")}>Continue</button>
+              <Uik.Button onClick={() => onAction("/")} text="Continue" />
             </>
           )}
           {!bindFor.isEvmClaimed && (
@@ -192,7 +193,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                       <Loading
                         text={
                           txStatus.componentTxType ===
-                          EvmBindComponentTxType.BIND
+                            EvmBindComponentTxType.BIND
                             ? `Connecting EVM address in progress`
                             : `Transfer in progress`
                         }
@@ -202,7 +203,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                   {!txStatus.error &&
                     txStatus.isInBlock &&
                     txStatus.componentTxType ===
-                      EvmBindComponentTxType.BIND && (
+                    EvmBindComponentTxType.BIND && (
                       <span>
                         Connected EVM address is <b>{bindFor.evmAddress}</b>
                       </span>
@@ -218,10 +219,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
               {!txStatus && !hasBalanceForBinding(bindFor.balance) && (
                 <>
                   {!txStatus && !transferBalanceFrom && (
-                    <div>
-                      Not enough REEF in account for connect EVM address
-                      transaction fee.
-                    </div>
+                    <Uik.Text type="light" text="Not enough REEF in account for connect EVM address transaction fee." />
                   )}
                   {!txStatus && !!transferBalanceFrom && (
                     <>
@@ -229,10 +227,11 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                         <span className="font-bold">
                           ~{toReefAmount(MIN_BALANCE)} REEF{" "}
                         </span>
-                        <span>is needed for transaction fee.</span>
+                        <Uik.Text type="light" text="is needed for transaction fee." />
                       </div>
                       <div className="mt-2">
-                        Coins will be transferred from account:
+                        <Uik.Text type="light" text="Coins will be transferred from account:" />
+
                       </div>
                       <AccountSelector
                         accounts={availableTxAccounts.map((acc) => ({
@@ -248,7 +247,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                         }
                         small={true}
                       />
-                      <button onClick={transfer}>Continue</button>
+                      <Uik.Button onClick={transfer} text="Continue" />
                     </>
                   )}
                 </>
@@ -260,17 +259,15 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                   !txStatus.error &&
                   txStatus.isInBlock &&
                   txStatus.componentTxType ===
-                    EvmBindComponentTxType.TRANSFER)) && (
-                <>
-                  {txStatus && (
-                    <span>
-                      Transfer complete. Now run connect EVM account
-                      transaction.
-                    </span>
-                  )}
-                  <button onClick={() => bindAccount()}>Continue</button>
-                </>
-              )}
+                  EvmBindComponentTxType.TRANSFER)) && (
+                  <>
+                    {txStatus && (
+                      <Uik.Text type="light" text="Transfer complete. Now run connect EVM account
+                      transaction."/>
+                    )}
+                    <Uik.Button onClick={() => bindAccount()} text="Continue" />
+                  </>
+                )}
             </>
           )}
         </div>

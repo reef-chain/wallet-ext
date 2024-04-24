@@ -17,6 +17,7 @@ import { useLedger } from "../hooks/useLedger";
 import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { WarnMessage } from "../components/WarnMessage";
+import Uik from "@reef-chain/ui-kit";
 
 interface AccOption {
   text: string;
@@ -123,8 +124,8 @@ export const ImportLedger = (): JSX.Element => {
       <div className="flex flex-col">
         <Account account={{ address: address || "", name: name }} />
         <div className="flex flex-col items-start">
-          <label>Name for the account</label>
-          <input
+          <Uik.Label text="Name for the account" />
+          <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={name}
             onChange={(e) => onNameChange(e.target.value)}
@@ -136,7 +137,7 @@ export const ImportLedger = (): JSX.Element => {
         {!!address && name?.length > 3 && (
           <>
             <form className="mt-3">
-              <label htmlFor="accountType">Account type</label>
+              <Uik.Label text="Account type" />
               <select
                 id="accountType"
                 className="text-sm rounded-lg w-full p-2 bg-white text-primary"
@@ -153,7 +154,7 @@ export const ImportLedger = (): JSX.Element => {
               </select>
             </form>
             <form className="mt-3">
-              <label htmlFor="addressIndex">Address index</label>
+              <Uik.Label text="Address index" />
               <select
                 id="addressIndex"
                 className="text-sm rounded-lg w-full p-2 bg-white text-primary"
