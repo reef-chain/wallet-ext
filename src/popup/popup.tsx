@@ -92,8 +92,7 @@ const Popup = () => {
     selectedAccount: null,
     accountsWithSigners: [],
   });
-  const [selectedAccount, setSelectedAccount] =
-    useState<null | extLib.AccountJson>(null);
+  const selectedAccount = hooks.useObservableState(reefState.selectedAccount$);
   const [authRequests, setAuthRequests] = useState<null | AuthorizeRequest[]>(
     null
   );
@@ -220,7 +219,7 @@ const Popup = () => {
 
   const onAccountsChange = async (_accounts: extLib.AccountJson[]) => {
     if (!_accounts?.length) {
-      setSelectedAccount(null);
+      reefState.setSelectedAddress(null);
       setAccountCtx({
         accounts: [],
         selectedAccount: null,
@@ -231,10 +230,10 @@ const Popup = () => {
 
     const selAcc = _accounts.find((acc) => !!acc.isSelected);
     if (selAcc) {
-      setSelectedAccount(selAcc);
+      reefState.setSelectedAddress(selAcc.address);
     } else {
       selectAccount(_accounts[0].address);
-      setSelectedAccount(_accounts[0]);
+      reefState.setSelectedAddress(_accounts[0].address);
     }
     setAccountCtx({
       ...accountCtx,
