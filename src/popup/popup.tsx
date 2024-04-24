@@ -102,7 +102,7 @@ const Popup = () => {
   const [signRequests, setSignRequests] = useState<null | SigningRequest[]>(
     null
   );
-  const [selectedNetwork, setSelectedNetwork] = useState<ReefNetwork>();
+  const selectedNetwork = hooks.useObservableState(reefState.selectedNetwork$);
   const provider: Provider | undefined = hooks.useObservableState(reefState.selectedProvider$);
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
 
@@ -114,9 +114,10 @@ const Popup = () => {
       jsonAccounts: {
         accounts: accountCtx.accounts,
         injectedSigner: extLib as any
-      }
+      },
+      network: selectedNetwork
     })
-  }, [accountCtx, extLib])
+  }, [accountCtx])
 
   const location = useLocation();
   const queryParams = new URLSearchParams(window.location.search);
@@ -232,18 +233,12 @@ const Popup = () => {
     });
   };
 
-  // handle network change by toggling provider
-  useEffect(() => {
-    const _selectedNw = network.AVAILABLE_NETWORKS[selectedNetwork ? selectedNetwork.name : 'mainnet']
-    if (_selectedNw) {
-      reefState.setSelectedNetwork(_selectedNw);
-    }
-  }, [selectedNetwork])
-
 
   const onNetworkChange = async (networkId: AvailableNetwork) => {
-    if (networkId !== selectedNetwork?.id) {
-      setSelectedNetwork(reefNetworks[networkId]);
+    // handle network change by toggling provider
+    if (networkId !== selectedNetwork?.name && selectedNetwork) {
+      reefState.setSelectedNetwork(network.AVAILABLE_NETWORKS[reefNetworks[networkId].id]);
+      selectNetwork(networkId);
     }
   };
 
@@ -260,15 +255,13 @@ const Popup = () => {
         {selectedNetwork && (
           <div>
             <span className="text-lg">
-              {selectedNetwork.id.charAt(0).toUpperCase() +
-                selectedNetwork.id.slice(1)}
+              {selectedNetwork.name.charAt(0).toUpperCase() +
+                selectedNetwork.name.slice(1)}
             </span>
             <button
               className="md"
               onClick={() =>
-                selectNetwork(
-                  selectedNetwork.id === "mainnet" ? "testnet" : "mainnet"
-                )
+                onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
               }
             >
               <FontAwesomeIcon icon={faShuffle as IconProp} />
