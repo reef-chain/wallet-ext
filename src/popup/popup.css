@@ -182,6 +182,19 @@ button:disabled {
   margin: 6px;
 }
 
+.nft-icon__container-no-hover {
+  height: 10rem;
+  width: 10rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  margin: 6px;
+}
+
 .nft-icon__container:hover {
   scale: 1.04;
   cursor: pointer;
@@ -227,4 +240,10 @@ button:disabled {
 .nft-icon__container_info {
   font-size: 0.7rem;
   color: #ffffff85
+}
+
+.nft-container__dropdown-close {
+  position: absolute;
+  top: -8px;
+  right: 2px;
 }
