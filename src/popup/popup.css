@@ -1,6 +1,6 @@
 .popup-container {
   height: 600px;
-  width: 500px;
+  width: 580px;
   margin: auto;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -161,4 +161,70 @@ button:disabled {
 
 .uik-text--light {
   color: var(--text-light) !important;
+}
+
+
+.nft-icon {
+  width: auto;
+  height: 10rem;
+}
+
+.nft-icon__container {
+  height: 10rem;
+  width: 10rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  margin: 6px;
+}
+
+.nft-icon__container:hover {
+  scale: 1.04;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+}
+
+.nft-icon__balance {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  background-color: #5d3bad;
+  color: white;
+  border-radius: 10px 0 10px 0;
+}
+
+.nfts-container__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: start;
+}
+
+.nft_loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nft-icon__container_dropdown {
+  position: absolute;
+  z-index: 10;
+  background-color: #5d3aad;
+  padding: 10px;
+  border-radius: 0px 0px 10px 10px;
+  margin-top: -12px;
+  margin-left: 6px;
+  width: 10rem;
+}
+
+.nft-icon__container_info {
+  font-size: 0.7rem;
+  color: #ffffff85
 }

@@ -13,6 +13,7 @@ import {
   faTasks,
   faGear,
   faExternalLinkAlt,
+  faPhotoFilm,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./popup.css";
@@ -63,6 +64,8 @@ import { Forget } from "./AccountOptions/Forget";
 import { network } from "@reef-chain/util-lib";
 import { REEF_NETWORK_KEY } from "../extension-base/background/handlers/Extension";
 import Uik from "@reef-chain/ui-kit";
+import NFTs from "./NFTs/NFTs";
+import { Link } from "react-router-dom";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -283,6 +286,12 @@ const Popup = () => {
           )}
           <Uik.Button
             className="dark-btn"
+            text="NFTs"
+            icon={faPhotoFilm}
+            onClick={() => _onAction("/nfts")}
+          />
+          <Uik.Button
+            className="dark-btn"
             icon={faGear}
             onClick={() => setIsSettingsOpen(true)}
           />
@@ -373,6 +382,10 @@ const Popup = () => {
                   <Route
                     path="/requests/metadata"
                     element={<Metadata requests={metaRequests} />}
+                  />
+                  <Route
+                    path="/nfts"
+                    element={<NFTs />}
                   />
                   <Route
                     path={PHISHING_PAGE_REDIRECT}
