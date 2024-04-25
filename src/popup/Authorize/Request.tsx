@@ -42,7 +42,7 @@ function Request({
         .
       </div>
       <WarnMessage text="Only approve this request if you trust the application. Approving gives the application access to the addresses of your accounts." />
-      <div>
+      <div className="flex">
         <Uik.Button onClick={_onApprove} text="Yes, allow this application access" fill />
         <Uik.Button onClick={_onReject} text="Reject" />
       </div>

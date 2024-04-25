@@ -61,7 +61,7 @@ import { KeyringPairs$Json } from "@polkadot/ui-keyring/types";
 
 type CachedUnlocks = Record<string, number>;
 
-const REEF_NETWORK_KEY = "selected_reef_network";
+export const REEF_NETWORK_KEY = "selected_reef_network";
 const SEED_LENGTHS = [12, 24];
 
 // a global registry to use internally

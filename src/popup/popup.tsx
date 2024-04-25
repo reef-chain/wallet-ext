@@ -1,10 +1,10 @@
 import React, { useMemo, useEffect, useState, useCallback } from "react";
 import { Route, Routes, useLocation } from "react-router";
 import { Provider, Signer } from "@reef-chain/evm-provider";
-import { extension as extLib } from "@reef-chain/util-lib";
-import { WsProvider } from "@polkadot/api";
+import { extension as extLib, reefState } from "@reef-chain/util-lib";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { hooks } from "@reef-chain/react-lib";
 import {
   faCirclePlus,
   faArrowUpRightFromSquare,
@@ -60,6 +60,8 @@ import { Export } from "./AccountOptions/Export";
 import { Derive } from "./AccountOptions/Derive";
 import { ImportLedger } from "./AccountOptions/ImportLedger";
 import { Forget } from "./AccountOptions/Forget";
+import { network } from "@reef-chain/util-lib";
+import { REEF_NETWORK_KEY } from "../extension-base/background/handlers/Extension";
 import Uik from "@reef-chain/ui-kit";
 
 const accountToReefSigner = async (
@@ -93,8 +95,7 @@ const Popup = () => {
     selectedAccount: null,
     accountsWithSigners: [],
   });
-  const [selectedAccount, setSelectedAccount] =
-    useState<null | extLib.AccountJson>(null);
+  const selectedAccount = hooks.useObservableState(reefState.selectedAccount$);
   const [authRequests, setAuthRequests] = useState<null | AuthorizeRequest[]>(
     null
   );
@@ -104,10 +105,32 @@ const Popup = () => {
   const [signRequests, setSignRequests] = useState<null | SigningRequest[]>(
     null
   );
-  const [selectedNetwork, setSelectedNetwork] = useState<ReefNetwork>();
-  const [provider, setProvider] = useState<Provider>();
+  const selectedNetwork = hooks.useObservableState(reefState.selectedNetwork$);
+  const provider: Provider | undefined = hooks.useObservableState(reefState.selectedProvider$);
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    const initReefState = async () => {
+      // network fallback - check localstorage for last used network
+      const storedNetwork = await chrome.storage.local.get(REEF_NETWORK_KEY);
+      let _selectedNetwork = selectedNetwork;
+      if (storedNetwork) {
+        _selectedNetwork = network.AVAILABLE_NETWORKS[storedNetwork[REEF_NETWORK_KEY]]
+      }
+
+      // init reef state from util lib
+      reefState.initReefState({
+        jsonAccounts: {
+          accounts: accountCtx.accounts,
+          injectedSigner: extLib as any
+        },
+        network: _selectedNetwork
+      })
+    }
+    if (accountCtx.accounts.length == 0 || !extLib) return;
+    initReefState()
+  }, [accountCtx])
 
   const location = useLocation();
   const queryParams = new URLSearchParams(window.location.search);
@@ -200,7 +223,7 @@ const Popup = () => {
 
   const onAccountsChange = async (_accounts: extLib.AccountJson[]) => {
     if (!_accounts?.length) {
-      setSelectedAccount(null);
+      reefState.setSelectedAddress(null);
       setAccountCtx({
         accounts: [],
         selectedAccount: null,
@@ -211,10 +234,10 @@ const Popup = () => {
 
     const selAcc = _accounts.find((acc) => !!acc.isSelected);
     if (selAcc) {
-      setSelectedAccount(selAcc);
+      reefState.setSelectedAddress(selAcc.address);
     } else {
       selectAccount(_accounts[0].address);
-      setSelectedAccount(_accounts[0]);
+      reefState.setSelectedAddress(_accounts[0].address);
     }
     setAccountCtx({
       ...accountCtx,
@@ -223,20 +246,12 @@ const Popup = () => {
     });
   };
 
-  const onNetworkChange = async (networkId: AvailableNetwork) => {
-    if (networkId !== selectedNetwork?.id) {
-      setSelectedNetwork(reefNetworks[networkId]);
 
-      const newProvider = new Provider({
-        provider: new WsProvider(reefNetworks[networkId].rpcUrl),
-      });
-      try {
-        await newProvider.api.isReadyOrError;
-        setProvider(newProvider);
-      } catch (e) {
-        console.log("Provider isReadyOrError ERROR=", e);
-        throw e;
-      }
+  const onNetworkChange = async (networkId: AvailableNetwork) => {
+    // handle network change by toggling provider
+    if (networkId !== selectedNetwork?.name && selectedNetwork) {
+      reefState.setSelectedNetwork(network.AVAILABLE_NETWORKS[reefNetworks[networkId].id]);
+      selectNetwork(networkId);
     }
   };
 
@@ -247,7 +262,7 @@ const Popup = () => {
         {selectedNetwork && (
           <div>
             <div className="flex hover:cursor-pointer logo-w">
-              {selectedNetwork.name == "Reef Mainnet" ? <Uik.ReefLogo /> : <Uik.ReefTestnetLogo />}
+              {selectedNetwork.name == "mainnet" ? <Uik.ReefLogo /> : <Uik.ReefTestnetLogo />}
             </div>
           </div>
         )}
@@ -285,9 +300,7 @@ const Popup = () => {
                   icon={faShuffle as IconProp}
                   text='Toggle Network'
                   onClick={() =>
-                    selectNetwork(
-                      selectedNetwork.id === "mainnet" ? "testnet" : "mainnet"
-                    )
+                    onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
                   }
                 />
                 <Uik.Divider />
