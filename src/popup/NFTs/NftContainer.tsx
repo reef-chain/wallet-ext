@@ -2,6 +2,7 @@ import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import Uik from '@reef-chain/ui-kit';
 import React, { useState } from 'react';
 
+
 interface Props {
     iconUrl: string;
     balance: string;

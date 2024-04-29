@@ -65,7 +65,7 @@ import { network } from "@reef-chain/util-lib";
 import { REEF_NETWORK_KEY } from "../extension-base/background/handlers/Extension";
 import Uik from "@reef-chain/ui-kit";
 import NFTs from "./NFTs/NFTs";
-import { Link } from "react-router-dom";
+import ReefSigners from "./context/ReefSigners";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -134,6 +134,10 @@ const Popup = () => {
     if (accountCtx.accounts.length == 0 || !extLib) return;
     initReefState()
   }, [accountCtx])
+
+
+  const selectedSigner = hooks.useObservableState(reefState.selectedAccount$);
+  const signers = hooks.useObservableState(reefState.accounts$);
 
   const location = useLocation();
   const queryParams = new URLSearchParams(window.location.search);
@@ -346,53 +350,58 @@ const Popup = () => {
         <ActionContext.Provider value={_onAction}>
           <AccountsContext.Provider value={accountCtx}>
             <ProviderContext.Provider value={provider}>
-              {signOverlay && <Signing requests={signRequests} />}
-              <div className={signOverlay ? "hidden" : ""}>
-                <Routes>
-                  <Route path="/" element={<Accounts />} />
-                  <Route path="/auth-list" element={<AuthManagement />} />
-                  <Route path="/account/menu" element={<AccountMenu />} />
-                  <Route path="/account/create" element={<CreateAccount />} />
-                  <Route
-                    path="/account/derive/:address/locked"
-                    element={<Derive isLocked />}
-                  />
-                  <Route path="/account/derive/:address" element={<Derive />} />
-                  <Route path="/account/export/:address" element={<Export />} />
-                  <Route path="/account/export-all" element={<ExportAll />} />
-                  <Route path="/account/import-seed" element={<ImportSeed />} />
-                  <Route
-                    path="/account/import-ledger"
-                    element={<ImportLedger />}
-                  />
-                  <Route path="/account/restore-json" element={<RestoreJson />} />
-                  <Route path="/account/forget/:address" element={<Forget />} />
-                  <Route
-                    path="/bind/:address"
-                    element={<Bind provider={provider} />}
-                  />
-                  <Route
-                    path="/requests/auth"
-                    element={<Authorize requests={authRequests} />}
-                  />
-                  <Route
-                    path="/requests/sign"
-                    element={<Signing requests={signRequests} />}
-                  />
-                  <Route
-                    path="/requests/metadata"
-                    element={<Metadata requests={metaRequests} />}
-                  />
-                  <Route
-                    path="/nfts"
-                    element={<NFTs />}
-                  />
-                  <Route
-                    path={PHISHING_PAGE_REDIRECT}
-                    element={<PhishingDetected />}
-                  />
-                </Routes>
-              </div>
+              {/* anukul fix the as any types */}
+              <ReefSigners.Provider value={{
+                accounts: signers as any, selectedSigner: selectedSigner as any, network: selectedNetwork, reefState: reefState as any, provider,
+              }} >
+                {signOverlay && <Signing requests={signRequests} />}
+                <div className={signOverlay ? "hidden" : ""}>
+                  <Routes>
+                    <Route path="/" element={<Accounts />} />
+                    <Route path="/auth-list" element={<AuthManagement />} />
+                    <Route path="/account/menu" element={<AccountMenu />} />
+                    <Route path="/account/create" element={<CreateAccount />} />
+                    <Route
+                      path="/account/derive/:address/locked"
+                      element={<Derive isLocked />}
+                    />
+                    <Route path="/account/derive/:address" element={<Derive />} />
+                    <Route path="/account/export/:address" element={<Export />} />
+                    <Route path="/account/export-all" element={<ExportAll />} />
+                    <Route path="/account/import-seed" element={<ImportSeed />} />
+                    <Route
+                      path="/account/import-ledger"
+                      element={<ImportLedger />}
+                    />
+                    <Route path="/account/restore-json" element={<RestoreJson />} />
+                    <Route path="/account/forget/:address" element={<Forget />} />
+                    <Route
+                      path="/bind/:address"
+                      element={<Bind provider={provider} />}
+                    />
+                    <Route
+                      path="/requests/auth"
+                      element={<Authorize requests={authRequests} />}
+                    />
+                    <Route
+                      path="/requests/sign"
+                      element={<Signing requests={signRequests} />}
+                    />
+                    <Route
+                      path="/requests/metadata"
+                      element={<Metadata requests={metaRequests} />}
+                    />
+                    <Route
+                      path="/nfts"
+                      element={<NFTs />}
+                    />
+                    <Route
+                      path={PHISHING_PAGE_REDIRECT}
+                      element={<PhishingDetected />}
+                    />
+                  </Routes>
+                </div>
+              </ReefSigners.Provider>
             </ProviderContext.Provider>
           </AccountsContext.Provider>
         </ActionContext.Provider>
