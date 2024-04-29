@@ -350,9 +350,12 @@ const Popup = () => {
         <ActionContext.Provider value={_onAction}>
           <AccountsContext.Provider value={accountCtx}>
             <ProviderContext.Provider value={provider}>
-              {/* anukul fix the as any types */}
               <ReefSigners.Provider value={{
-                accounts: signers as any, selectedSigner: selectedSigner as any, network: selectedNetwork, reefState: reefState as any, provider,
+                accounts: signers,
+                selectedSigner: selectedSigner,
+                network: selectedNetwork,
+                reefState: reefState,
+                provider,
               }} >
                 {signOverlay && <Signing requests={signRequests} />}
                 <div className={signOverlay ? "hidden" : ""}>

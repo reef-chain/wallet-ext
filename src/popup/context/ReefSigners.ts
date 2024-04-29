@@ -1,6 +1,5 @@
 import { createContext } from 'react';
-import { ReefSigner } from '@reef-chain/react-lib';
-import { network as nw } from '@reef-chain/util-lib';
+import { ReefAccount, network as nw } from '@reef-chain/util-lib';
 import { Provider } from '@reef-chain/evm-provider';
 import { Observable } from 'rxjs';
 
@@ -17,11 +16,11 @@ export interface ReefState {
 }
 
 interface ReefSignersContext {
-    accounts: ReefSigner[] | undefined;
-    selectedSigner: ReefSigner | undefined;
+    accounts: ReefAccount[] | undefined;
+    selectedSigner: ReefAccount | undefined;
     network: nw.Network;
     provider: Provider | undefined;
-    reefState: ReefState;
+    reefState: any;
 }
 export default createContext<ReefSignersContext>({
     accounts: [],
