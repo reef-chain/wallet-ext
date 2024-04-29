@@ -85,10 +85,6 @@ const Account = ({
     <div
       className={`account w-full ${isSelected && showOptions ? "border-pink-600 border-2" : ""
         } ${onClick ? "hover:cursor-pointer" : ""}`}
-      onClick={() => {
-        if (!isSelected) selectAccount(account.address)
-        onClick && onClick(account)
-      }}
     >
       <div className="avatar">
         <Identicon value={account.address} size={44} theme="substrate" />
@@ -175,6 +171,13 @@ const Account = ({
           {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
             <Uik.Button text="Bind EVM" onClick={() => onAction(`/bind/${account.address}`)} fill />
           )}
+          {!isSelected && <Uik.Button onClick={() => {
+            if (!isSelected) {
+              selectAccount(account.address)
+              onClick && onClick(account)
+            }
+          }} text="Select" />}
+
         </div>
       </div>
       {
