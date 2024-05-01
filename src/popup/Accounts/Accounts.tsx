@@ -4,12 +4,13 @@ import Account from "./Account";
 import { AccountsContext, ActionContext, ProviderContext } from "../contexts";
 import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
+import { useTheme } from "../context/ThemeContext";
 
 const Accounts = (): JSX.Element => {
   const { accounts, selectedAccount } = useContext(AccountsContext);
   const provider = useContext(ProviderContext);
   const onAction = useContext(ActionContext);
-
+  const { isDarkMode } = useTheme();
   return (
     <>
       {/* Loading */}
@@ -21,7 +22,7 @@ const Accounts = (): JSX.Element => {
       {/* No accounts */}
       {accounts?.length === 0 && (
         <>
-          <Uik.Text text="No accounts available." type="title" />
+          <Uik.Text text="No accounts available." type="title" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
           <Uik.Button onClick={() => onAction("account/menu")} text="Add account" />
         </>
       )}

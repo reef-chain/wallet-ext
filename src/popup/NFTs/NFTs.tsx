@@ -4,12 +4,14 @@ import { reefState } from '@reef-chain/util-lib';
 import React, { useContext, useState } from 'react'
 import { SectionTitle } from '../components/SectionTitle';
 import ReefSigners from '../context/ReefSigners';
+import { useTheme } from '../context/ThemeContext';
 const { NFTCard, OverlayNFT } = Components;
 
 function NFTs() {
     const nfts = hooks.useObservableState(reefState.selectedNFTs$);
     const [selectedNFT, setSelectedNFT] = useState<NFTData | undefined>(undefined)
     const { accounts, selectedSigner, provider } = useContext(ReefSigners);
+    const { isDarkMode } = useTheme();
     return (
         <div>
             <SectionTitle text='NFTs' />
@@ -25,7 +27,7 @@ function NFTs() {
                         name={nft.name}
                         mimetype={nft.mimetype}
                     />
-                </div>) : "No NFTs"}
+                </div>) : <Uik.Text text={"No NFTs"} className={isDarkMode ? "text--dark-mode" : ""} />}
                 {!!selectedNFT && (
 
                     <OverlayNFT

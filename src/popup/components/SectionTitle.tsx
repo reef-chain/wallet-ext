@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 
 import { ActionContext } from "../contexts";
 import Uik from "@reef-chain/ui-kit";
+import { useTheme } from "../context/ThemeContext";
 
 interface Props {
   text: string;
@@ -13,17 +12,18 @@ interface Props {
 
 export const SectionTitle = ({ text, className }: Props): JSX.Element => {
   const onAction = useContext(ActionContext);
+  const { isDarkMode } = useTheme();
 
   return (
     <div
-      className={`mb-2 text-center text-lg font-bold relative flex
+      className={`mb-2 text-center text-lg font-bold relative flex 
       ${className || ""}`}
       style={{
         alignItems: 'center'
       }}
     >
-      <Uik.Text text={text} type="title" className="text-white" />
-      <Uik.Button className="dark-btn" onClick={() => onAction("/")} icon={faCircleXmark} />
+      <Uik.Text text={text} type="title" className={`text-white ${isDarkMode ? "text--dark-mode" : ""}`} />
+      <Uik.Button className={`${isDarkMode ? 'dark-btn' : ""} absolute right-10 `} onClick={() => onAction("/")} icon={faCircleXmark} />
     </div>
   );
 };

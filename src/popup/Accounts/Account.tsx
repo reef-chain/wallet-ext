@@ -16,6 +16,7 @@ import {
 import { editAccount, selectAccount } from "../messaging";
 import { ActionContext, ProviderContext } from "../contexts";
 import Uik from "@reef-chain/ui-kit";
+import { useTheme } from "../context/ThemeContext";
 
 interface Props {
   account: extLib.AccountJson;
@@ -40,7 +41,7 @@ const Account = ({
   const [isEvmClaimed, setIsEvmClaimed] = useState<boolean>();
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
-
+  const { isDarkMode } = useTheme();
   useEffect(() => {
     unsubBalance();
     if (account.address && provider) {
@@ -83,7 +84,7 @@ const Account = ({
 
   return (
     <div
-      className={`account w-full ${isSelected && showOptions ? "border-pink-600 border-2" : ""
+      className={`account ${isDarkMode ? "account--dark" : "account--light"} w-full ${isSelected && showOptions ? "border-pink-600 border-2" : ""
         } ${onClick ? "hover:cursor-pointer" : ""}`}
     >
       <div className="avatar">
@@ -105,7 +106,7 @@ const Account = ({
             <div style={{
               color: 'white!important'
             }} >
-              <Uik.Text text={account.name} type="title" />
+              <Uik.Text text={account.name} type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
             </div>
           )}
         </div>
@@ -123,10 +124,10 @@ const Account = ({
                 className="hover:cursor-pointer flex items-center"
               >
                 <div title={account.address}>
-                  <Uik.Text text="Native address:" type="mini" />
+                  <Uik.Text text="Native address:" type="mini" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
                   {toAddressShortDisplay(account.address)}
                   <FontAwesomeIcon
-                    className="ml-2"
+                    className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
                     icon={faCopy as IconProp}
                     size="sm"
                     title="Copy Reef Account Address"
@@ -147,12 +148,12 @@ const Account = ({
                     className="hover:cursor-pointer flex items-center"
                   >
                     <div title={evmAddress || ""}>
-                      <Uik.Text text="EVM address:" type="mini" />
+                      <Uik.Text text="EVM address:" type="mini" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
                       {evmAddress
                         ? toAddressShortDisplay(evmAddress)
                         : "loading..."}
                       <FontAwesomeIcon
-                        className="ml-2"
+                        className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
                         icon={faCopy as IconProp}
                         size="sm"
                         title="Copy EVM Address"
@@ -171,7 +172,7 @@ const Account = ({
           {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
             <Uik.Button text="Bind EVM" onClick={() => onAction(`/bind/${account.address}`)} fill />
           )}
-          {!isSelected && <Uik.Button onClick={() => {
+          {!isSelected && <Uik.Button className="dark-theme" onClick={() => {
             if (!isSelected) {
               selectAccount(account.address)
               onClick && onClick(account)
@@ -184,7 +185,7 @@ const Account = ({
         showOptions && (
           <div className="relative">
             <FontAwesomeIcon
-              className="hover:cursor-pointer p-2"
+              className={`${isDarkMode ? "text--dark-mode" : "text-black"} hover:cursor-pointer p-2`}
               onClick={() => setIsOptionsOpen(!isOptionsOpen)}
               icon={faEllipsisVertical as IconProp}
               title="Account options"

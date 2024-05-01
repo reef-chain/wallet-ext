@@ -22,6 +22,7 @@ import { PASSWORD_EXPIRY_MIN } from "../../extension-base/defaults";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
+import { useTheme } from "../context/ThemeContext";
 
 interface Props {
   account: extLib.AccountJson;
@@ -128,6 +129,7 @@ export default function Request({
   const _onCancel = () => {
     cancelSignRequest(signId);
   };
+  const { isDarkMode } = useTheme();
 
   return (
     <>
@@ -144,7 +146,7 @@ export default function Request({
         {isFirst && isLocked && (
           <div className="mt-2">
             <div className="flex flex-col items-start my-3">
-              <label>Password for this account</label>
+              <label className={isDarkMode ? "" : "text-black"}>Password for this account</label>
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}

@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { extension as extLib } from "@reef-chain/util-lib";
 
 import Account from "../Accounts/Account";
