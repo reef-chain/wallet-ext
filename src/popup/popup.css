@@ -60,6 +60,8 @@ button.sm {
   align-items: center;
   color: var(--bg-dark);
   background-color: rgba(169, 49, 133, 0.1);
+  justify-content: start;
+  align-items: start;
 }
 
 .account--light:hover {

@@ -118,68 +118,75 @@ const Account = ({
         )}
         <div className="flex justify-start align-middle">
           <div>
-            {showCopyAddress ? (
-              <CopyToClipboard
-                text={account.address}
-                className="hover:cursor-pointer flex items-center"
-              >
-                <div title={account.address}>
-                  <Uik.Text text="Native address:" type="mini" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
-                  {toAddressShortDisplay(account.address)}
-                  <FontAwesomeIcon
-                    className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
-                    icon={faCopy as IconProp}
-                    size="sm"
-                    title="Copy Reef Account Address"
-                  />
-                </div>
-              </CopyToClipboard>
-            ) : (
-              <div title={account.address}>
-                <label>Native address: </label>
-                {toAddressShortDisplay(account.address)}
-              </div>
-            )}
-            {isEvmClaimed && (
-              <>
-                {showCopyAddress ? (
-                  <CopyToClipboard
-                    text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
-                    className="hover:cursor-pointer flex items-center"
-                  >
-                    <div title={evmAddress || ""}>
-                      <Uik.Text text="EVM address:" type="mini" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
-                      {evmAddress
-                        ? toAddressShortDisplay(evmAddress)
-                        : "loading..."}
-                      <FontAwesomeIcon
-                        className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
-                        icon={faCopy as IconProp}
-                        size="sm"
-                        title="Copy EVM Address"
-                      />
-                    </div>
-                  </CopyToClipboard>
-                ) : (
-                  <div title={evmAddress || ""}>
-                    <label>EVM address: </label>
-                    {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
+            <div onClick={() => Uik.notify.success(`Copied ${account.address} successfully!`)}>
+              {showCopyAddress ? (
+                <CopyToClipboard
+                  text={account.address}
+                  className="hover:cursor-pointer flex items-center"
+                >
+                  <div title={account.address}>
+                    <Uik.Text text="Native address:" type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
+                    {toAddressShortDisplay(account.address)}
+                    <FontAwesomeIcon
+                      className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
+                      icon={faCopy as IconProp}
+                      size="sm"
+                      title="Copy Reef Account Address"
+                    />
                   </div>
-                )}
-              </>
-            )}
-          </div>
-          {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
-            <Uik.Button text="Bind EVM" onClick={() => onAction(`/bind/${account.address}`)} fill />
-          )}
-          {!isSelected && <Uik.Button className="dark-theme" onClick={() => {
-            if (!isSelected) {
-              selectAccount(account.address)
-              onClick && onClick(account)
-            }
-          }} text="Select" />}
+                </CopyToClipboard>
+              ) : (
+                <div title={account.address}>
+                  <label>Native address: </label>
+                  {toAddressShortDisplay(account.address)}
+                </div>
+              )}
+            </div>
+            <div onClick={() => Uik.notify.success(`Copied ${evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""} successfully!`)}>
+              {isEvmClaimed && (
+                <div>
+                  {showCopyAddress ? (
+                    <CopyToClipboard
+                      text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
+                      className="hover:cursor-pointer flex items-center"
 
+                    >
+                      <div title={evmAddress || ""}>
+                        <Uik.Text text="EVM address:" type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
+                        {evmAddress
+                          ? toAddressShortDisplay(evmAddress)
+                          : "loading..."}
+                        <FontAwesomeIcon
+                          className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
+                          icon={faCopy as IconProp}
+                          size="sm"
+                          title="Copy EVM Address"
+                        />
+                      </div>
+                    </CopyToClipboard>
+                  ) : (
+                    <div title={evmAddress || ""}>
+                      <label>EVM address: </label>
+                      {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
+      </div>
+      <div className="flex ">
+        {!isSelected && <Uik.Button className="dark-theme mr-2" onClick={() => {
+          if (!isSelected) {
+            selectAccount(account.address)
+            onClick && onClick(account)
+          }
+        }} text="Select" />}
+        {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
+          <Uik.Button text="Bind" onClick={() => onAction(`/bind/${account.address}`)} fill />
+        )}
+
       </div>
       {
         showOptions && (
