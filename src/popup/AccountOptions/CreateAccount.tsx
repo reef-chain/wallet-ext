@@ -50,7 +50,7 @@ export const CreateAccount = (): JSX.Element => {
         setAccount({
           address,
           suri: seed,
-          name: "<No Name>",
+          name: "",
         });
       })
       .catch(console.error);

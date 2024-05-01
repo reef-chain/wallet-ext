@@ -191,48 +191,51 @@ const Account = ({
       {
         showOptions && (
           <div className="relative">
-            <FontAwesomeIcon
-              className={`${isDarkMode ? "text--dark-mode" : "text-black"} hover:cursor-pointer p-2`}
-              onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-              icon={faEllipsisVertical as IconProp}
-              title="Account options"
-            />
-            <Uik.Dropdown
-              isOpen={isOptionsOpen}
-              onClose={() => setIsOptionsOpen(false)}
-              className="relative right-20 bottom-2"
-            >
-              <Uik.DropdownItem
-                className="mb-1 hover:cursor-pointer hover:text-primary"
-                text="Rename"
-                onClick={() => {
-                  setIsEditingName(true);
-                  setIsOptionsOpen(false);
-                }}
-              />
-              <Uik.DropdownItem
-                text="Derive new account"
-                className="mb-1 hover:cursor-pointer hover:text-primary"
-                onClick={() => {
-                  onAction(`/account/derive/${account.address}/locked`);
-                }}
-              />
-              <Uik.DropdownItem
-                text="Export account"
-                className="mb-1 hover:cursor-pointer hover:text-primary"
-                onClick={() => {
-                  onAction(`/account/export/${account.address}`);
-                }}
-              />
-              <Uik.DropdownItem
-                text="Forget account"
-                className="hover:cursor-pointer hover:text-primary"
-                onClick={() => {
-                  onAction(`/account/forget/${account.address}`);
-                }}
-              />
+            <div className="ellipsis-wrapper">
 
-            </Uik.Dropdown>
+              <FontAwesomeIcon
+                className={`three-dots hover:cursor-pointer p-2`}
+                onClick={() => setIsOptionsOpen(!isOptionsOpen)}
+                icon={faEllipsisVertical as IconProp}
+                title="Account options"
+              />
+              <Uik.Dropdown
+                isOpen={isOptionsOpen}
+                onClose={() => setIsOptionsOpen(false)}
+                className="relative right-20 bottom-2"
+              >
+                <Uik.DropdownItem
+                  className="mb-1 hover:cursor-pointer hover:text-primary"
+                  text="Rename"
+                  onClick={() => {
+                    setIsEditingName(true);
+                    setIsOptionsOpen(false);
+                  }}
+                />
+                <Uik.DropdownItem
+                  text="Derive new account"
+                  className="mb-1 hover:cursor-pointer hover:text-primary"
+                  onClick={() => {
+                    onAction(`/account/derive/${account.address}/locked`);
+                  }}
+                />
+                <Uik.DropdownItem
+                  text="Export account"
+                  className="mb-1 hover:cursor-pointer hover:text-primary"
+                  onClick={() => {
+                    onAction(`/account/export/${account.address}`);
+                  }}
+                />
+                <Uik.DropdownItem
+                  text="Forget account"
+                  className="hover:cursor-pointer hover:text-primary"
+                  onClick={() => {
+                    onAction(`/account/forget/${account.address}`);
+                  }}
+                />
+
+              </Uik.Dropdown>
+            </div>
 
 
           </div>

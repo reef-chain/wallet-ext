@@ -60,8 +60,8 @@ button.sm {
   align-items: center;
   color: var(--bg-dark);
   background-color: rgba(169, 49, 133, 0.1);
-  justify-content: start;
-  align-items: start;
+  justify-content: center;
+  align-items: center;
 }
 
 .account--light:hover {
@@ -564,4 +564,25 @@ button.sm {
 
 .uik-checkbox .uik-checkbox__wrapper .uik-checkbox__checkbox {
   border: 1px solid white;
+}
+
+.three-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: -10px;
+  color: var(--text-light);
+  transition: all 0.15s;
+  font-size: 15px;
+}
+
+.ellipsis-wrapper {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

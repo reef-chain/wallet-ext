@@ -139,7 +139,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
 
         setAccount({
           ...account,
-          name: "<No Name>",
+          name: "",
         });
         setStep(Step.SECOND);
       } catch (error) {

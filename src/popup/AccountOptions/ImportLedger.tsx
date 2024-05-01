@@ -35,7 +35,7 @@ export const ImportLedger = (): JSX.Element => {
   const [addressOffset, setAddressOffset] = useState<number>(0);
   const [error, setError] = useState<string>();
   const [isBusy, setIsBusy] = useState(false);
-  const [name, setName] = useState<string>("<No Name>");
+  const [name, setName] = useState<string>("");
   const [nameTouched, setNameTouched] = useState<boolean>(false);
 
   const {
