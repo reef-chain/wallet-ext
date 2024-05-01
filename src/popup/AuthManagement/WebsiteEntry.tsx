@@ -34,7 +34,7 @@ export const WebsiteEntry = ({
   const { isDarkMode } = useTheme();
   return (
     <div className="flex mb-3">
-      <div className="flex-auto text-left">{url}</div>
+      <div className={`flex-auto text-left ${isDarkMode ? "" : "text-black"}`}>{url}</div>
       <Switch
         checked={info.isAllowed}
         onChange={switchAccess}
