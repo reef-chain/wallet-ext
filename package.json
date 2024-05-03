@@ -22,10 +22,11 @@
     "@polkadot/util-crypto": "^12.5.1",
     "@popperjs/core": "^2.11.8",
     "@reef-chain/evm-provider": "^2.0.3",
-    "@reef-chain/react-lib": "^2.6.2",
+    "@reef-chain/react-lib": "file:.yalc/@reef-chain/react-lib",
     "@reef-chain/ui-kit": "^2.0.4",
     "@reef-chain/util-lib": "^2.4.14",
     "@reef-defi/hw-ledger": "^7.8.2",
+    "axios": "^1.6.8",
     "crypto-browserify": "^3.12.0",
     "file-saver": "^2.0.5",
     "process": "^0.11.10",
@@ -34,6 +35,7 @@
     "react-dom": "^18.2.0",
     "react-router": "^6.22.3",
     "react-router-dom": "^6.22.3",
+    "react-toastify": "^10.0.5",
     "react-tooltip": "^5.26.3"
   },
   "devDependencies": {

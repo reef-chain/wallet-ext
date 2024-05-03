@@ -1,0 +1,50 @@
+.uik-tabs {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    padding: 7px;
+    border-radius: 15px;
+    background-color: #282630 !important;
+    width: fit-content;
+    color: #9b9c9f;
+    box-shadow: none;
+    margin-top: -2rem;
+}
+
+.uik-tabs .uik-tabs__tab+.uik-tabs__tab {
+    margin-left: 8px;
+    color: #9b9c9f;
+}
+
+.uik-tabs .uik-tabs__tab--selected:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #373840;
+    box-shadow: 0 5px 10px -5px #0003;
+    border-radius: inherit;
+    z-index: 1;
+    animation: uik-tab-selected .15s;
+}
+
+.uik-tabs .uik-tabs__tab--selected span {
+    position: relative;
+    z-index: 2;
+    color: #9b9c9f;
+}
+
+.uik-tabs .uik-tabs__tab {
+    border: none;
+    background-color: transparent;
+    padding: 10px 14px;
+    color: #9b9c9f;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.2;
+    border-radius: 9px;
+    position: relative;
+}
