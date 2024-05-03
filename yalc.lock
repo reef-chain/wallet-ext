@@ -1,9 +1,0 @@
-{
-  "version": "v1",
-  "packages": {
-    "@reef-chain/react-lib": {
-      "signature": "0d3ca3a9e3418e94291f8475ea3f0e81",
-      "replaced": "^2.6.2"
-    }
-  }
-}
