@@ -48,7 +48,7 @@ function Tokens() {
         .map((token) => (
             <TokenCard
                 accounts={accounts as any}
-                hideBalance={false} //todo anukul
+                hideBalance={false} //todo: if we want to use hiding eye
                 pools={pools}
                 tokenPrices={tokenPrices as any}
                 signer={selectedSigner as any}
@@ -56,7 +56,7 @@ function Tokens() {
                 selectedSigner={selectedSigner as any}
                 provider={provider}
                 useDexConfig={useDexConfig}
-                isReefswapUI={false} //todo anukul
+                isReefswapUI={false} //todo: set to true if we want to show swap overlay
                 price={tokenPrices[token.address] || 0}
                 token={token}
                 tokens={tokens}
