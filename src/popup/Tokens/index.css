@@ -273,3 +273,56 @@
     border-radius: 50%;
     transition: box-shadow .15s, background-color .15s;
 }
+
+.send__address input {
+    background-color: #e6e2f1;
+    border: none;
+    border-radius: 15px;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 15px;
+    font-weight: 500;
+    height: 70px;
+    line-height: 1.2;
+    padding: 0 17px 1px 71px;
+    transition: all .125s;
+    width: 100%;
+}
+
+.send__address .send__address-identicon {
+    background-color: #dad5eaad;
+    border-radius: 10px;
+    left: 6rem;
+    top: 9.5rem;
+    pointer-events: none;
+    position: absolute;
+}
+
+.uik-dropdown .uik-dropdown__dropdown.enter-active,
+.uik-dropdown .uik-dropdown__dropdown.enter-done,
+.uik-dropdown .uik-dropdown__dropdown.exit {
+    opacity: 1;
+    transform: none;
+    position: absolute;
+    left: 1rem;
+    width: 12rem;
+    background: #38393f;
+    color: white !important;
+}
+
+.uik-pool-actions .uik-pool-actions-token .uik-pool-actions-token__token {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px 0 15px 15px;
+    margin-left: 10px;
+}
+
+.uik-pool-actions-token__symbol {
+    color: white !important;
+}
+
+.uik-pool-actions-token__amount {
+    color: white !important;
+}
