@@ -257,3 +257,19 @@
     border: none;
     margin-bottom: -30px;
 }
+
+.uik-slider .uik-slider__slider .uik-slider__helpers .uik-slider__helper {
+    position: absolute;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    left: calc(var(--position)* 1% - 4.5px);
+    width: 9px;
+    height: 9px;
+    padding: 5px !important;
+    background: hsl(220deg, 27.2727272727%, calc(93.5294117647% - 5%));
+    border: none;
+    border-radius: 50%;
+    transition: box-shadow .15s, background-color .15s;
+}
