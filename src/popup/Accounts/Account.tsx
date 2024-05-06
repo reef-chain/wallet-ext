@@ -124,7 +124,7 @@ const Account = ({
                 className="hover:cursor-pointer flex items-center"
               >
                 <div title={account.address}>
-                  <Uik.Text text="Native address:" type="mini" />
+                  <Uik.Text text={strings.native_addr} type="mini" />
                   {toAddressShortDisplay(account.address)}
                   <FontAwesomeIcon
                     className="ml-2"
@@ -148,7 +148,7 @@ const Account = ({
                     className="hover:cursor-pointer flex items-center"
                   >
                     <div title={evmAddress || ""}>
-                      <Uik.Text text="EVM address:" type="mini" />
+                      <Uik.Text text={strings.evm_addr} type="mini" />
                       {evmAddress
                         ? toAddressShortDisplay(evmAddress)
                         : strings.loading}

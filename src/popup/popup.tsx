@@ -13,6 +13,7 @@ import {
   faTasks,
   faGear,
   faPhotoFilm,
+  faLanguage,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./popup.css";
@@ -264,6 +265,20 @@ const Popup = () => {
     }
   };
 
+  //fetch stored language
+  useEffect(() => {
+    try {
+      const storedLang = localStorage.getItem("REEF_LANGUAGE_IDENT");
+      if (storedLang) {
+        console.log(storedLang)
+        setSelectedLanguage(JSON.parse(storedLang).lang);
+        strings.setLanguage(JSON.parse(storedLang).lang)
+      }
+    } catch (error) {
+      console.log("error in fetching stored language", error.message);
+    }
+  }, [])
+
   return (
     <div>
       {/* Header */}
@@ -278,7 +293,7 @@ const Popup = () => {
         <div className="flex justify-end absolute right-2 top-1">
           <Uik.Button
             className="dark-btn"
-            text="Open App"
+            text={strings.open_app}
             icon={faArrowUpRightFromSquare}
             onClick={() => window.open("https://app.reef.io/", "_blank")}
           />
@@ -310,7 +325,7 @@ const Popup = () => {
             position="bottomLeft"
           >
             <Uik.DropdownItem
-              icon={faShuffle as IconProp}
+              icon={faLanguage as IconProp}
               text={strings.change_language}
               onClick={() =>
                 setIsLanguageChangeModalOpen(true)
@@ -344,11 +359,12 @@ const Popup = () => {
             )}
           </Uik.Dropdown>
           <div className="modal-container">
-            <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title="Select Language">
+            <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title={strings.select_a_lang}>
               <div>
                 <select value={selectedLanguage} onChange={(e) => {
                   setSelectedLanguage(e.target.value)
                   strings.setLanguage(e.target.value)
+                  localStorage.setItem("REEF_LANGUAGE_IDENT", JSON.stringify({ lang: e.target.value }));
                 }
                 } className="select-language">
                   <option value="">{strings.select_a_lang}</option>

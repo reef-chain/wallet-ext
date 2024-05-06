@@ -26,7 +26,8 @@ export const PhishingDetected = (): JSX.Element => {
             className="underline"
             href="https://github.com/polkadot-js/phishing/issues/new"
           >
-            {strings.please_open_issue}
+            {strings.please_open_issue
+            }
           </a>
           .
         </p>
