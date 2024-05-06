@@ -18,6 +18,7 @@ import { SectionTitle } from "../components/SectionTitle";
 import { Loading } from "../components/Loading";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
+import { useTheme } from "../context/ThemeContext";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
@@ -146,6 +147,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
     }
   };
 
+  const { isDarkMode } = useTheme();
+
   return (
     <>
       <SectionTitle text="Connect EVM" />
@@ -153,8 +156,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
         <div className="flex flex-col">
           {!bindFor.isEvmClaimed && (
             <>
-              <Uik.Text type="light" className="mb-2" text="Start using Reef EVM smart contracts." />
-              <Uik.Text type="light" text="First connect EVM address for" />
+              <Uik.Text type="light" className={`mb-2  ${isDarkMode ? "text--dark-mode" : ""}`} text="Start using Reef EVM smart contracts." />
+              <Uik.Text type="light" text="First connect EVM address for" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
               <Account account={{ ...bindFor }} />
             </>
           )}
@@ -171,7 +174,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                 >
                   <span title={bindFor.evmAddress}>
                     <FontAwesomeIcon
-                      className="ml-2"
+                      className={isDarkMode ? "text--dark-mode ml-2" : "text-black ml-2"}
                       icon={faCopy as IconProp}
                       size="sm"
                       title="Copy EVM Address"
@@ -219,7 +222,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
               {!txStatus && !hasBalanceForBinding(bindFor.balance) && (
                 <>
                   {!txStatus && !transferBalanceFrom && (
-                    <Uik.Text type="light" text="Not enough REEF in account for connect EVM address transaction fee." />
+                    <Uik.Text type="light" text="Not enough REEF in account for connect EVM address transaction fee." className={`${isDarkMode ? "text--dark-mode" : ""}`} />
                   )}
                   {!txStatus && !!transferBalanceFrom && (
                     <>
@@ -227,10 +230,10 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                         <span className="font-bold">
                           ~{toReefAmount(MIN_BALANCE)} REEF{" "}
                         </span>
-                        <Uik.Text type="light" text="is needed for transaction fee." />
+                        <Uik.Text type="light" text="is needed for transaction fee." className={`${isDarkMode ? "text--dark-mode" : ""}`} />
                       </div>
                       <div className="mt-2">
-                        <Uik.Text type="light" text="Coins will be transferred from account:" />
+                        <Uik.Text type="light" text="Coins will be transferred from account:" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
 
                       </div>
                       <AccountSelector
@@ -263,7 +266,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                   <>
                     {txStatus && (
                       <Uik.Text type="light" text="Transfer complete. Now run connect EVM account
-                      transaction."/>
+                      transaction." className={`${isDarkMode ? "text--dark-mode" : ""}`} />
                     )}
                     <Uik.Button onClick={() => bindAccount()} text="Continue" />
                   </>

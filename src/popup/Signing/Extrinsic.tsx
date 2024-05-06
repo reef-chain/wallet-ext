@@ -14,6 +14,7 @@ import BN from "bn.js";
 import { Chain } from "../../chains/types";
 import useMetadata from "../hooks/useMetadata";
 import { PORT_EXTENSION } from "../../extension-base/defaults";
+import { useTheme } from "../context/ThemeContext";
 
 interface Decoded {
   args: AnyJson | null;
@@ -31,9 +32,8 @@ function displayDecodeVersion(
   chain: Chain,
   specVersion: BN
 ): string {
-  return `${message}: chain=${
-    chain.name
-  }, specVersion=${chain.specVersion.toString()} (request specVersion=${specVersion.toString()})`;
+  return `${message}: chain=${chain.name
+    }, specVersion=${chain.specVersion.toString()} (request specVersion=${specVersion.toString()})`;
 }
 
 function decodeMethod(data: string, chain: Chain, specVersion: BN): Decoded {
@@ -51,8 +51,7 @@ function decodeMethod(data: string, chain: Chain, specVersion: BN): Decoded {
     }
   } catch (error) {
     console.error(
-      `${displayDecodeVersion("Error decoding method", chain, specVersion)}:: ${
-        (error as Error).message
+      `${displayDecodeVersion("Error decoding method", chain, specVersion)}:: ${(error as Error).message
       }`
     );
 
@@ -142,8 +141,9 @@ function Extrinsic({
     [method, chain, specVersion]
   );
 
+  const { isDarkMode } = useTheme();
   return (
-    <table className="flex overflow-x-scroll">
+    <table className={`flex overflow-x-scroll ${isDarkMode ? "" : "text-black"}`}>
       <tbody>
         {url !== PORT_EXTENSION && (
           <tr>

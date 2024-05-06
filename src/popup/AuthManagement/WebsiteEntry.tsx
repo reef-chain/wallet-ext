@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthUrlInfo } from "../../extension-base/background/handlers/State";
 import { Switch } from "../components/Switch";
+import { useTheme } from "../context/ThemeContext";
 
 interface Props {
   info: AuthUrlInfo;
@@ -30,9 +31,10 @@ export const WebsiteEntry = ({
     removeAuth(url);
   }, [removeAuth, url]);
 
+  const { isDarkMode } = useTheme();
   return (
     <div className="flex mb-3">
-      <div className="flex-auto text-left">{url}</div>
+      <div className={`flex-auto text-left ${isDarkMode ? "" : "text-black"}`}>{url}</div>
       <Switch
         checked={info.isAllowed}
         onChange={switchAccess}
@@ -41,7 +43,8 @@ export const WebsiteEntry = ({
       <div>
         <FontAwesomeIcon
           onClick={removeAccess}
-          className="hover:cursor-pointer"
+          className={`${isDarkMode ? "text--dark-mode" : "text-black"}
+          hover:cursor-pointer`}
           icon={faTrash as IconProp}
         />
       </div>
