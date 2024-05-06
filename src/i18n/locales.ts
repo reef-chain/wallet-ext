@@ -69,6 +69,16 @@ let strings = new LocalizedStrings({
         pass_for_file: "Password for this file",
         unable_to_decode: "Unable to decode using the supplied password",
         restore: "Restore",
+        copy_reef_acc_addr: "Copy Reef Account Address",
+        native_addr: "Native address: ",
+        only_for_reef: " (ONLY for Reef chain!)",
+        evm_addr: "EVM address: ",
+        bind_evm: "Bind EVM",
+        select: "Select",
+        acc_options: "Account options",
+        rename: "Rename",
+        derive_new_acc: "Derive new account",
+        no_accs_available: "No accounts available.",
     },
 });
 

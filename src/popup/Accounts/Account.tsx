@@ -16,6 +16,7 @@ import {
 import { editAccount, selectAccount } from "../messaging";
 import { ActionContext, ProviderContext } from "../contexts";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 
 interface Props {
   account: extLib.AccountJson;
@@ -112,7 +113,7 @@ const Account = ({
         {account.address && provider && (
           <div>
             <img src="/icons/icon.png" className="reef-amount-logo"></img>
-            {balance !== undefined ? toReefAmount(balance) : "loading..."}
+            {balance !== undefined ? toReefAmount(balance) : strings.loading}
           </div>
         )}
         <div className="flex justify-start align-middle">
@@ -129,13 +130,13 @@ const Account = ({
                     className="ml-2"
                     icon={faCopy as IconProp}
                     size="sm"
-                    title="Copy Reef Account Address"
+                    title={strings.copy_reef_acc_addr}
                   />
                 </div>
               </CopyToClipboard>
             ) : (
               <div title={account.address}>
-                <label>Native address: </label>
+                <label>{strings.native_addr}</label>
                 {toAddressShortDisplay(account.address)}
               </div>
             )}
@@ -143,40 +144,40 @@ const Account = ({
               <>
                 {showCopyAddress ? (
                   <CopyToClipboard
-                    text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
+                    text={evmAddress ? evmAddress + strings.only_for_reef : ""}
                     className="hover:cursor-pointer flex items-center"
                   >
                     <div title={evmAddress || ""}>
                       <Uik.Text text="EVM address:" type="mini" />
                       {evmAddress
                         ? toAddressShortDisplay(evmAddress)
-                        : "loading..."}
+                        : strings.loading}
                       <FontAwesomeIcon
                         className="ml-2"
                         icon={faCopy as IconProp}
                         size="sm"
-                        title="Copy EVM Address"
+                        title={strings.copy_evm_addr}
                       />
                     </div>
                   </CopyToClipboard>
                 ) : (
                   <div title={evmAddress || ""}>
-                    <label>EVM address: </label>
-                    {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
+                    <label>{strings.evm_addr}</label>
+                    {evmAddress ? toAddressShortDisplay(evmAddress) : strings.loading}
                   </div>
                 )}
               </>
             )}
           </div>
           {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
-            <Uik.Button text="Bind EVM" onClick={() => onAction(`/bind/${account.address}`)} fill />
+            <Uik.Button text={strings.bind_evm} onClick={() => onAction(`/bind/${account.address}`)} fill />
           )}
           {!isSelected && <Uik.Button onClick={() => {
             if (!isSelected) {
               selectAccount(account.address)
               onClick && onClick(account)
             }
-          }} text="Select" />}
+          }} text={strings.select} />}
 
         </div>
       </div>
@@ -187,7 +188,7 @@ const Account = ({
               className="hover:cursor-pointer p-2"
               onClick={() => setIsOptionsOpen(!isOptionsOpen)}
               icon={faEllipsisVertical as IconProp}
-              title="Account options"
+              title={strings.acc_options}
             />
             <Uik.Dropdown
               isOpen={isOptionsOpen}
@@ -196,28 +197,28 @@ const Account = ({
             >
               <Uik.DropdownItem
                 className="mb-1 hover:cursor-pointer hover:text-primary"
-                text="Rename"
+                text={strings.rename}
                 onClick={() => {
                   setIsEditingName(true);
                   setIsOptionsOpen(false);
                 }}
               />
               <Uik.DropdownItem
-                text="Derive new account"
+                text={strings.derive_new_acc}
                 className="mb-1 hover:cursor-pointer hover:text-primary"
                 onClick={() => {
                   onAction(`/account/derive/${account.address}/locked`);
                 }}
               />
               <Uik.DropdownItem
-                text="Export account"
+                text={strings.export_acc}
                 className="mb-1 hover:cursor-pointer hover:text-primary"
                 onClick={() => {
                   onAction(`/account/export/${account.address}`);
                 }}
               />
               <Uik.DropdownItem
-                text="Forget account"
+                text={strings.forget_account}
                 className="hover:cursor-pointer hover:text-primary"
                 onClick={() => {
                   onAction(`/account/forget/${account.address}`);
@@ -225,8 +226,6 @@ const Account = ({
               />
 
             </Uik.Dropdown>
-
-
           </div>
         )
       }

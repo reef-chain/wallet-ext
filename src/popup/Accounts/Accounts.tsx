@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 
 import Account from "./Account";
 import { AccountsContext, ActionContext, ProviderContext } from "../contexts";
-import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 
 const Accounts = (): JSX.Element => {
   const { accounts, selectedAccount } = useContext(AccountsContext);
@@ -21,7 +21,7 @@ const Accounts = (): JSX.Element => {
       {/* No accounts */}
       {accounts?.length === 0 && (
         <>
-          <Uik.Text text="No accounts available." type="title" />
+          <Uik.Text text={strings.no_accs_available} type="title" />
           <Uik.Button onClick={() => onAction("account/menu")} text="Add account" />
         </>
       )}
