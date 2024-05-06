@@ -79,6 +79,9 @@ let strings = new LocalizedStrings({
         rename: "Rename",
         derive_new_acc: "Derive new account",
         no_accs_available: "No accounts available.",
+        no_website_request_yet: "No website request yet!",
+        allowed: "Allowed",
+        blocked: "Blocked",
     },
 });
 
