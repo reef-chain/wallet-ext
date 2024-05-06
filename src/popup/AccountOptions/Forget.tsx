@@ -6,6 +6,7 @@ import { forgetAccount } from "../messaging";
 import { AccountsContext, ActionContext } from "../contexts";
 import { SectionTitle } from "../components/SectionTitle";
 import { WarnMessage } from "../components/WarnMessage";
+import strings from "../../i18n/locales";
 
 export const Forget = (): JSX.Element => {
   const { address } = useParams();
@@ -26,14 +27,13 @@ export const Forget = (): JSX.Element => {
 
   return (
     <>
-      <SectionTitle text="Forget account" />
+      <SectionTitle text={strings.forget_account} />
       <div className="flex flex-col">
         <Account account={{ address, name }} showCopyAddress={true} />
         <WarnMessage
-          text="You are about to remove the account. This means that you will not be able to access it via this extension anymore. 
-          If you wish to recover it, you would need to use the seed."
+          text={strings.remove_the_account}
         />
-        <button onClick={() => forget()}>Forget account</button>
+        <button onClick={() => forget()}>{strings.forget_account}</button>
       </div>
     </>
   );

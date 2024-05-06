@@ -1,7 +1,5 @@
 import React, { useContext, useState } from "react";
 import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { extension as extLib } from "@reef-chain/util-lib";
 
 import Account from "../Accounts/Account";
@@ -10,6 +8,7 @@ import { ActionContext } from "../contexts";
 import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 
 const enum Step {
   FIRST,
@@ -118,33 +117,33 @@ export const ImportSeed = (): JSX.Element => {
 
   return (
     <>
-      <SectionTitle text="Import account" />
+      <SectionTitle text={strings.import_acc} />
       <div className="flex flex-col">
         {account && <Account account={account} showCopyAddress={true} />}
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">
 
-              <Uik.Label text="Existing 12 or 24-word mnemonic seed" className="mb-3" />
+              <Uik.Label text={strings.existing_mnemonic} className="mb-3" />
               <textarea
                 className="w-full p-3 rounded-lg bg-zinc-950 border-gray-600 text-primary"
                 value={seed}
                 onChange={(e) => onSeedChange(e.target.value)}
               />
               {error === Error.INVALID_SEED && (
-                <ErrorMessage text="Invalid mnemonic seed" />
+                <ErrorMessage text={strings.invalid_mnemonic} />
               )}
             </div>
             <div>
               <Uik.Button onClick={() => setStep(Step.SECOND)}
-                disabled={!seed.length || error !== Error.NONE} text={"Next Step"} icon={faArrowRight} />
+                disabled={!seed.length || error !== Error.NONE} text={strings.next_step} icon={faArrowRight} />
             </div>
           </>
         )}
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <label>Name for the account</label>
+              <label>{strings.name_for_the_acc}</label>
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -154,11 +153,11 @@ export const ImportSeed = (): JSX.Element => {
                 }}
               />
               {error === Error.NAME_TOO_SHORT && (
-                <ErrorMessage text="Account name is too short" />
+                <ErrorMessage text={strings.acc_name_too_short} />
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <label>Password for the account</label>
+              <label>{strings.pass_for_acc}</label>
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -169,14 +168,14 @@ export const ImportSeed = (): JSX.Element => {
                 }}
               />
               {error === Error.PASSWORD_TOO_SHORT && (
-                <ErrorMessage text="Password is too short" />
+                <ErrorMessage text={strings.pass_too_short} />
               )}
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <label>Repeat password</label>
+                <label>{strings.repeat_password}</label>
                 <Uik.Input
-                  className="text-primary rounded-md p-2 w-full text-white"
+                  className="rounded-md p-2 w-full text-white"
                   value={passwordRepeat}
                   type="password"
                   onChange={(e) => onPasswordRepeatChange(e.target.value)}
@@ -185,13 +184,13 @@ export const ImportSeed = (): JSX.Element => {
                   }}
                 />
                 {error === Error.PASSWORDS_DO_NOT_MATCH && (
-                  <ErrorMessage text="Passwords do not match" />
+                  <ErrorMessage text={strings.pass_dont_match} />
                 )}
               </div>
             )}
             <div className="flex mt-3">
               <Uik.Button className="flex justify-start items-center py-3 mr-3 hover:cursor-pointer"
-                onClick={() => setStep(Step.FIRST)} icon={faArrowLeft} text="Previous step" />
+                onClick={() => setStep(Step.FIRST)} icon={faArrowLeft} text={strings.prev_step} />
               <Uik.Button
                 className="flex justify-start items-center py-3 hover:cursor-pointer"
                 onClick={create}
@@ -201,7 +200,7 @@ export const ImportSeed = (): JSX.Element => {
                   error !== Error.NONE
                 }
                 icon={faArrowRight}
-                text="Add account"
+                text={strings.add_acc}
                 fill
               />
             </div>

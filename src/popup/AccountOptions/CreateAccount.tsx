@@ -17,6 +17,7 @@ import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 
 const enum Step {
   FIRST,
@@ -126,7 +127,7 @@ export const CreateAccount = (): JSX.Element => {
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start py-2">
-              <Uik.Label text="Generated 12-word mnemonic seed" />
+              <Uik.Label text={strings.generated_12_words} />
               <textarea
                 className="w-full p-5 rounded-lg bg-zinc-950 border-gray-600 text-primary"
                 readOnly
@@ -144,15 +145,13 @@ export const CreateAccount = (): JSX.Element => {
                     size="sm"
                   />
                   <label className="hover:cursor-pointer">
-                    Copy to clipboard
+                    {strings.copy_to_clipboard}
                   </label>
                 </div>
               </CopyToClipboard>
             </div>
             <WarnMessage className="py-1"
-              text="Please write down your wallet's mnemonic seed and keep 
-              it in a safe place. The mnemonic can be used to restore your wallet. 
-              Keep it carefully to not lose your assets."
+              text={strings.please_write_down}
             />
             <div className="flex align-middle items-center">
               <Uik.Checkbox
@@ -160,17 +159,17 @@ export const CreateAccount = (): JSX.Element => {
                 value={confirmed}
                 onChange={() => setConfirmed(!confirmed)}
               />
-              <Uik.Text text="I have saved my mnemonic seed safely." type="mini" />
+              <Uik.Text text={strings.i_have_saved_mnemonic} type="mini" />
             </div>
             <div>
-              <Uik.Button onClick={() => setStep(Step.SECOND)} text={"Next Step"} icon={faArrowRight} fill />
+              <Uik.Button onClick={() => setStep(Step.SECOND)} text={strings.next_step} icon={faArrowRight} fill />
             </div>
           </>
         )}
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <Uik.Label text="Name for the account" />
+              <Uik.Label text={strings.name_for_the_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -180,11 +179,11 @@ export const CreateAccount = (): JSX.Element => {
                 }}
               />
               {error === Error.NAME_TOO_SHORT && (
-                <ErrorMessage text="Account name is too short" />
+                <ErrorMessage text={strings.acc_name_too_short} />
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <Uik.Label text="Password for the account" />
+              <Uik.Label text={strings.pass_for_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -195,12 +194,12 @@ export const CreateAccount = (): JSX.Element => {
                 }}
               />
               {error === Error.PASSWORD_TOO_SHORT && (
-                <ErrorMessage text="Password is too short" />
+                <ErrorMessage text={strings.pass_too_short} />
               )}
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <Uik.Label text="Repeat password" />
+                <Uik.Label text={strings.repeat_password} />
                 <Uik.Input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}
@@ -211,7 +210,7 @@ export const CreateAccount = (): JSX.Element => {
                   }}
                 />
                 {error === Error.PASSWORDS_DO_NOT_MATCH && (
-                  <ErrorMessage text="Passwords do not match" />
+                  <ErrorMessage text={strings.pass_dont_match} />
                 )}
               </div>
             )}
@@ -220,7 +219,7 @@ export const CreateAccount = (): JSX.Element => {
                 className="flex justify-start items-center py-3 mr-3 hover:cursor-pointer"
                 onClick={() => setStep(Step.FIRST)}
                 icon={faArrowLeft}
-                text="Previous step"
+                text={strings.prev_step}
               />
 
               <Uik.Button
@@ -232,7 +231,7 @@ export const CreateAccount = (): JSX.Element => {
                   error !== Error.NONE
                 }
                 icon={faArrowRight}
-                text="Add account"
+                text={strings.add_acc}
                 fill
               />
 

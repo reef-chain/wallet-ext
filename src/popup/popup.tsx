@@ -12,7 +12,6 @@ import {
   faShuffle,
   faTasks,
   faGear,
-  faExternalLinkAlt,
   faPhotoFilm,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -66,6 +65,7 @@ import { REEF_NETWORK_KEY } from "../extension-base/background/handlers/Extensio
 import Uik from "@reef-chain/ui-kit";
 import NFTs from "./NFTs/NFTs";
 import ReefSigners from "./context/ReefSigners";
+import strings from "../i18n/locales";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -112,6 +112,8 @@ const Popup = () => {
   const provider: Provider | undefined = hooks.useObservableState(reefState.selectedProvider$);
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isLanguageChangeModalOpen, setIsLanguageChangeModalOpen] = useState<boolean>(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
 
   useEffect(() => {
     const initReefState = async () => {
@@ -283,14 +285,14 @@ const Popup = () => {
           {!location.pathname.startsWith("/account/") && (
             <Uik.Button
               className="dark-btn"
-              text="Add Account"
+              text={strings.add_account}
               icon={faCirclePlus}
               onClick={() => _onAction("/account/menu")}
             />
           )}
           <Uik.Button
             className="dark-btn"
-            text="NFTs"
+            text={strings.nfts}
             icon={faPhotoFilm}
             onClick={() => _onAction("/nfts")}
           />
@@ -301,17 +303,24 @@ const Popup = () => {
           />
 
         </div>
-        <div className="relative top-8 right-4">
+        <div className="relative top-8 positioned-right">
           <Uik.Dropdown
             isOpen={isSettingsOpen}
             onClose={() => setIsSettingsOpen(false)}
             position="bottomLeft"
           >
+            <Uik.DropdownItem
+              icon={faShuffle as IconProp}
+              text={strings.change_language}
+              onClick={() =>
+                setIsLanguageChangeModalOpen(true)
+              }
+            />
             {selectedNetwork &&
               <>
                 <Uik.DropdownItem
                   icon={faShuffle as IconProp}
-                  text='Toggle Network'
+                  text={strings.toggle_network}
                   onClick={() =>
                     onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
                   }
@@ -322,29 +331,42 @@ const Popup = () => {
             {!location.pathname.startsWith("/auth-list") && (
               <Uik.DropdownItem
                 icon={faTasks as IconProp}
-                text='Manage Website Access'
+                text={strings.manage_website_access}
                 onClick={() => _onAction("/auth-list")}
               />
             )}
             {isDetached && (
               <Uik.DropdownItem
                 icon={faExpand as IconProp}
-                text='Open extension in new window'
+                text={strings.open_in_new_window}
                 onClick={() => openFullPage()}
               />
             )}
           </Uik.Dropdown>
+          <div className="modal-container">
+            <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title="Select Language">
+              <div>
+                <select value={selectedLanguage} onChange={(e) => {
+                  setSelectedLanguage(e.target.value)
+                  strings.setLanguage(e.target.value)
+                }
+                } className="select-language">
+                  <option value="">{strings.select_a_lang}</option>
+                  <option value="en">{strings.en}</option>
+                  <option value="hi">{strings.hi}</option>
+                </select>
+              </div>
+            </Uik.Modal>
+          </div>
         </div>
 
       </div>
       <div className="popup text-left">
         {process.env.NODE_ENV === "development" && (
           <div className="absolute left-5 top-3 text-gray-400">
-            <span>DEV</span>
+            <span>{strings.dev}</span>
           </div>
         )}
-
-
 
         {/* Content */}
         <ActionContext.Provider value={_onAction}>
