@@ -4,6 +4,7 @@ import { reefState } from '@reef-chain/util-lib';
 import React, { useContext, useState } from 'react'
 import { SectionTitle } from '../components/SectionTitle';
 import ReefSigners from '../context/ReefSigners';
+import strings from '../../i18n/locales';
 const { NFTCard, OverlayNFT } = Components;
 
 function NFTs() {
@@ -12,7 +13,7 @@ function NFTs() {
     const { accounts, selectedSigner, provider } = useContext(ReefSigners);
     return (
         <div>
-            <SectionTitle text='NFTs' />
+            <SectionTitle text={strings.nfts} />
             <div className={nfts == undefined ? 'nft_loader' : `nfts-container__list`}>
                 {nfts == undefined ? <Uik.Loading /> : nfts && nfts.length > 0 ? nfts.map((nft) => <div
                     className='nft__button'
@@ -25,7 +26,7 @@ function NFTs() {
                         name={nft.name}
                         mimetype={nft.mimetype}
                     />
-                </div>) : "No NFTs"}
+                </div>) : strings.no_nfts}
                 {!!selectedNFT && (
 
                     <OverlayNFT

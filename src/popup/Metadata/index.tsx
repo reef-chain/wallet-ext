@@ -7,6 +7,7 @@ import { MetadataRequest } from "../../extension-base/background/types";
 import Request from "./Request";
 import { SectionTitle } from "../components/SectionTitle";
 import { Loading } from "../components/Loading";
+import strings from "../../i18n/locales";
 
 interface Props {
   requests: MetadataRequest[];
@@ -15,7 +16,7 @@ interface Props {
 export const Metadata = ({ requests }: Props): JSX.Element => {
   return requests?.length ? (
     <>
-      <SectionTitle text="Metadata" />
+      <SectionTitle text={strings.metadata} />
       <Request
         key={requests[0].id}
         metaId={requests[0].id}
@@ -24,6 +25,6 @@ export const Metadata = ({ requests }: Props): JSX.Element => {
       />
     </>
   ) : (
-    <Loading text="Loading metadata requests..." />
+    <Loading text={strings.loading_metadata} />
   );
 };

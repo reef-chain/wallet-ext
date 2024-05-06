@@ -7,6 +7,7 @@ import RequestIndex from "../RequestIndex";
 import Request from "./Request";
 import { AuthorizeRequest } from "../../extension-base/background/types";
 import { Loading } from "../components/Loading";
+import strings from "../../i18n/locales";
 
 interface Props {
   requests: AuthorizeRequest[];
@@ -34,7 +35,7 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
   return requests.length && requests[requestIndex] ? (
     <>
       <div className="mb-2 text-center text-lg font-bold">
-        <span>Authorize</span>
+        <span>{strings.authorize}</span>
         {requests.length > 1 && (
           <RequestIndex
             index={requestIndex}
@@ -52,6 +53,6 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
       />
     </>
   ) : (
-    <Loading text="Loading auth requests..." />
+    <Loading text={strings.loading_auth_requests} />
   );
 };
