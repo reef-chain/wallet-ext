@@ -19,6 +19,7 @@ import { ErrorMessage } from "../components/ErrorMessage";
 import { WarnMessage } from "../components/WarnMessage";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
+import { useTheme } from "../context/ThemeContext";
 
 interface AccOption {
   text: string;
@@ -35,7 +36,7 @@ export const ImportLedger = (): JSX.Element => {
   const [addressOffset, setAddressOffset] = useState<number>(0);
   const [error, setError] = useState<string>();
   const [isBusy, setIsBusy] = useState(false);
-  const [name, setName] = useState<string>("<No Name>");
+  const [name, setName] = useState<string>("");
   const [nameTouched, setNameTouched] = useState<boolean>(false);
 
   const {
@@ -119,6 +120,8 @@ export const ImportLedger = (): JSX.Element => {
     []
   );
 
+  const { isDarkMode } = useTheme();
+
   return (
     <>
       <SectionTitle text="Import Ledger account" />
@@ -183,7 +186,8 @@ export const ImportLedger = (): JSX.Element => {
             disabled={ledgerLoading || isBusy}
             className="mt-4"
           >
-            <FontAwesomeIcon icon={faSync as IconProp} />
+
+            <FontAwesomeIcon icon={faSync as IconProp} className={`${isDarkMode ? "text--dark-mode" : "text-black"}`} />
             <span className="ml-3">{strings.refresh}</span>
           </button>
         ) : (

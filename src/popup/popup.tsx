@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from "react-router";
 import { Provider, Signer } from "@reef-chain/evm-provider";
 import { extension as extLib, reefState } from "@reef-chain/util-lib";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { hooks } from "@reef-chain/react-lib";
 import {
   faCirclePlus,
@@ -14,6 +13,8 @@ import {
   faGear,
   faPhotoFilm,
   faLanguage,
+  faSun,
+  faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./popup.css";
@@ -24,7 +25,7 @@ import {
 } from "../extension-base/background/types";
 import SigningKey from "../extension-base/page/Signer";
 import { PHISHING_PAGE_REDIRECT } from "../extension-base/defaults";
-import { AvailableNetwork, ReefNetwork, reefNetworks } from "../config";
+import { AvailableNetwork, reefNetworks } from "../config";
 import {
   getDetachedWindowId,
   selectAccount,
@@ -67,6 +68,8 @@ import Uik from "@reef-chain/ui-kit";
 import NFTs from "./NFTs/NFTs";
 import ReefSigners from "./context/ReefSigners";
 import strings from "../i18n/locales";
+import { useTheme } from "./context/ThemeContext";
+import { faThemeco } from "@fortawesome/free-brands-svg-icons";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -94,6 +97,7 @@ const accountToReefSigner = async (
 };
 
 const Popup = () => {
+  const { isDarkMode, toggleTheme } = useTheme();
   const [accountCtx, setAccountCtx] = useState<AccountsCtx>({
     accounts: [],
     selectedAccount: null,
@@ -115,6 +119,19 @@ const Popup = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [isLanguageChangeModalOpen, setIsLanguageChangeModalOpen] = useState<boolean>(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
+
+  //handles body color change if dark mode toggled
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+
+    return () => {
+      document.body.classList.remove('dark-mode');
+    };
+  }, [isDarkMode]);
 
   useEffect(() => {
     const initReefState = async () => {
@@ -282,7 +299,7 @@ const Popup = () => {
   return (
     <div>
       {/* Header */}
-      <div className="flex justify-between mb-2 header-bg">
+      <div className={`flex justify-between mb-2 header-base header-bg${isDarkMode ? "--dark" : ""} `}>
         {selectedNetwork && (
           <div>
             <div className="flex hover:cursor-pointer logo-w">
@@ -292,27 +309,31 @@ const Popup = () => {
         )}
         <div className="flex justify-end absolute right-2 top-1">
           <Uik.Button
-            className="dark-btn"
+            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
             text={strings.open_app}
             icon={faArrowUpRightFromSquare}
+
             onClick={() => window.open("https://app.reef.io/", "_blank")}
           />
           {!location.pathname.startsWith("/account/") && (
             <Uik.Button
-              className="dark-btn"
+              className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base filled-btn`}
               text={strings.add_account}
               icon={faCirclePlus}
               onClick={() => _onAction("/account/menu")}
+              fill
             />
           )}
+
           <Uik.Button
-            className="dark-btn"
+            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
             text={strings.nfts}
             icon={faPhotoFilm}
             onClick={() => _onAction("/nfts")}
           />
+
           <Uik.Button
-            className="dark-btn"
+            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
             icon={faGear}
             onClick={() => setIsSettingsOpen(true)}
           />
@@ -323,6 +344,7 @@ const Popup = () => {
             isOpen={isSettingsOpen}
             onClose={() => setIsSettingsOpen(false)}
             position="bottomLeft"
+            className="dark-mode-modal"
           >
             <Uik.DropdownItem
               icon={faLanguage as IconProp}
@@ -338,6 +360,13 @@ const Popup = () => {
                   text={strings.toggle_network}
                   onClick={() =>
                     onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
+                  }
+                />
+                <Uik.DropdownItem
+                  icon={isDarkMode ? faSun : faMoon as IconProp}
+                  text='Toggle Theme'
+                  onClick={() =>
+                    toggleTheme()
                   }
                 />
                 <Uik.Divider />

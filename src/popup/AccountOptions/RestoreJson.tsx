@@ -9,6 +9,7 @@ import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
+import { useTheme } from "../context/ThemeContext";
 
 const enum Error {
   NONE,
@@ -74,11 +75,12 @@ export const RestoreJson = (): JSX.Element => {
     }
   };
 
+  const { isDarkMode } = useTheme();
   return (
     <>
       <SectionTitle text={strings.restore_from_json} />
       <div className="text-left">
-        <label>{strings.backup_file}</label>
+        <label className={isDarkMode ? "" : "text-black"}>{strings.backup_file}</label>
         <Uik.Input
           className="text-primary rounded-md w-full"
           type="file"
@@ -93,6 +95,7 @@ export const RestoreJson = (): JSX.Element => {
           <div className="mt-1">
             <FontAwesomeIcon
               className="mr-2 text-green-500"
+
               icon={faCircleCheck as IconProp}
             />
             <span className="text-gray-300">

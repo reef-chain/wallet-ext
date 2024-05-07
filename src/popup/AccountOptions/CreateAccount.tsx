@@ -18,6 +18,7 @@ import { ErrorMessage } from "../components/ErrorMessage";
 import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
+import { useTheme } from "../context/ThemeContext";
 
 const enum Step {
   FIRST,
@@ -50,7 +51,7 @@ export const CreateAccount = (): JSX.Element => {
         setAccount({
           address,
           suri: seed,
-          name: "<No Name>",
+          name: "",
         });
       })
       .catch(console.error);
@@ -119,6 +120,7 @@ export const CreateAccount = (): JSX.Element => {
     }
   };
 
+  const { isDarkMode } = useTheme();
   return account ? (
     <>
       <SectionTitle text="Create an account" />
@@ -140,7 +142,7 @@ export const CreateAccount = (): JSX.Element => {
               >
                 <div title={account.suri}>
                   <FontAwesomeIcon
-                    className="mr-2"
+                    className={`${isDarkMode ? "text--dark-mode" : "text-black"} mr-2`}
                     icon={faCopy as IconProp}
                     size="sm"
                   />
@@ -159,7 +161,8 @@ export const CreateAccount = (): JSX.Element => {
                 value={confirmed}
                 onChange={() => setConfirmed(!confirmed)}
               />
-              <Uik.Text text={strings.i_have_saved_mnemonic} type="mini" />
+              <Uik.Text text={strings.i_have_saved_mnemonic} type="mini" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
+
             </div>
             <div>
               <Uik.Button onClick={() => setStep(Step.SECOND)} text={strings.next_step} icon={faArrowRight} fill />
@@ -241,6 +244,6 @@ export const CreateAccount = (): JSX.Element => {
       </div>
     </>
   ) : (
-    <Loading text="Generating new account..." />
+    <Loading text={strings.generating_new_acc} />
   );
 };

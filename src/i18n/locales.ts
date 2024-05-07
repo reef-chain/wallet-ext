@@ -103,6 +103,7 @@ let strings = new LocalizedStrings({
         community_flagged_phishing: "Note that this website was reported on a community-driven, curated list. It might be incomplete or inaccurate. If you think that this website was flagged incorrectly,",
         please_open_issue: "please open an issue by clicking here",
         open_app: "Open App",
+        generating_new_acc: "Generating new account..."
     },
     hi: {
         dev: "डेव",
@@ -204,7 +205,8 @@ let strings = new LocalizedStrings({
         redirected_due_to_phishing: "आपको इसलिए पुनर्निर्देशित किया गया है क्योंकि रीफ एक्सटेंशन का यह मानता है कि यह वेबसाइट आपके खातों और आपके टोकनों की सुरक्षा को खतरे में डाल सकती है।",
         community_flagged_phishing: "ध्यान दें कि इस वेबसाइट को सामुदायिक द्वारा रिपोर्ट किया गया था। यह अधूरा या अवैध हो सकता है। यदि आपको लगता है कि इस वेबसाइट को गलती से झंडा लगाया गया है,",
         please_open_issue: "कृपया यहां क्लिक करके एक मुद्दा खोलें",
-        open_app: "ऐप खोलें"
+        open_app: "ऐप खोलें",
+        generating_new_acc: "नया खाता जनरेट किया जा रहा है..."
     }
 });
 

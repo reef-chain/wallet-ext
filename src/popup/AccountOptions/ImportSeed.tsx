@@ -43,7 +43,7 @@ export const ImportSeed = (): JSX.Element => {
       setAccount({
         address: validatedAccount.address,
         suri: seed,
-        name: "<No Name>",
+        name: "",
       });
       setError(Error.NONE);
     } catch (e) {
