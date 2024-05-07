@@ -318,7 +318,7 @@ const Popup = () => {
           {!location.pathname.startsWith("/account/") && (
             <Uik.Button
               className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base filled-btn`}
-              text={strings.add_account}
+              text={strings.add_acc}
               icon={faCirclePlus}
               onClick={() => _onAction("/account/menu")}
               fill
@@ -364,7 +364,7 @@ const Popup = () => {
                 />
                 <Uik.DropdownItem
                   icon={isDarkMode ? faSun : faMoon as IconProp}
-                  text='Toggle Theme'
+                  text={strings.toggle_theme}
                   onClick={() =>
                     toggleTheme()
                   }

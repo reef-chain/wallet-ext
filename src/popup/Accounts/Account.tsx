@@ -183,9 +183,9 @@ const Account = ({
             selectAccount(account.address)
             onClick && onClick(account)
           }
-        }} text="Select" />}
+        }} text={strings.select} />}
         {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
-          <Uik.Button text="Bind" onClick={() => onAction(`/bind/${account.address}`)} fill />
+          <Uik.Button text={strings.bind} onClick={() => onAction(`/bind/${account.address}`)} fill />
         )}
 
       </div>

@@ -35,7 +35,7 @@ export const AccountMenu = (): JSX.Element => {
 
   return (
     <div className="p-4">
-      <SectionTitle text="Add account" />
+      <SectionTitle text={strings.add_acc} />
       <div className="flex flex-col">
         <div
           className="flex justify-start items-center py-3 opacity-75 cursor-pointer hover:opacity-100"

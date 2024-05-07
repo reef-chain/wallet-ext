@@ -24,7 +24,7 @@ const Accounts = (): JSX.Element => {
         <>
 
           <Uik.Text text={strings.no_accs_available} type="title" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
-          <Uik.Button onClick={() => onAction("account/menu")} text="Add account" />
+          <Uik.Button onClick={() => onAction("account/menu")} text={strings.add_acc} />
         </>
       )}
       {/* Selected account */}

@@ -8,7 +8,6 @@ let strings = new LocalizedStrings({
         manage_website_access: 'Manage Website Access',
         toggle_network: 'Toggle Network',
         nfts: "NFTs",
-        add_account: "Add Account",
         change_language: "Change Language",
         select_a_lang: "Select a language...",
         en: "English",
@@ -103,7 +102,9 @@ let strings = new LocalizedStrings({
         community_flagged_phishing: "Note that this website was reported on a community-driven, curated list. It might be incomplete or inaccurate. If you think that this website was flagged incorrectly,",
         please_open_issue: "please open an issue by clicking here",
         open_app: "Open App",
-        generating_new_acc: "Generating new account..."
+        generating_new_acc: "Generating new account...",
+        bind: "Bind",
+        toggle_theme: 'Toggle Theme'
     },
     hi: {
         dev: "डेव",
@@ -206,7 +207,9 @@ let strings = new LocalizedStrings({
         community_flagged_phishing: "ध्यान दें कि इस वेबसाइट को सामुदायिक द्वारा रिपोर्ट किया गया था। यह अधूरा या अवैध हो सकता है। यदि आपको लगता है कि इस वेबसाइट को गलती से झंडा लगाया गया है,",
         please_open_issue: "कृपया यहां क्लिक करके एक मुद्दा खोलें",
         open_app: "ऐप खोलें",
-        generating_new_acc: "नया खाता जनरेट किया जा रहा है..."
+        generating_new_acc: "नया खाता जनरेट किया जा रहा है...",
+        bind: "जोड़ें",
+        toggle_theme: 'थीम बदलें'
     }
 });
 
