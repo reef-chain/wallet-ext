@@ -16,6 +16,7 @@ import {
 import { editAccount, selectAccount } from "../messaging";
 import { ActionContext, ProviderContext } from "../contexts";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 
 interface Props {
@@ -113,7 +114,7 @@ const Account = ({
         {account.address && provider && (
           <div>
             <img src="/icons/icon.png" className="reef-amount-logo"></img>
-            {balance !== undefined ? toReefAmount(balance) : "loading..."}
+            {balance !== undefined ? toReefAmount(balance) : strings.loading}
           </div>
         )}
         <div className="flex justify-start align-middle">
@@ -125,19 +126,19 @@ const Account = ({
                   className="hover:cursor-pointer flex items-center"
                 >
                   <div title={account.address}>
-                    <Uik.Text text="Native address:" type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
+                    <Uik.Text text={strings.native_addr} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
                     {toAddressShortDisplay(account.address)}
                     <FontAwesomeIcon
                       className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
                       icon={faCopy as IconProp}
                       size="sm"
-                      title="Copy Reef Account Address"
+                      title={strings.copy_reef_acc_addr}
                     />
                   </div>
                 </CopyToClipboard>
               ) : (
                 <div title={account.address}>
-                  <label>Native address: </label>
+                  <label>{strings.native_addr}</label>
                   {toAddressShortDisplay(account.address)}
                 </div>
               )}
@@ -147,26 +148,26 @@ const Account = ({
                 <div>
                   {showCopyAddress ? (
                     <CopyToClipboard
-                      text={evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""}
+                      text={evmAddress ? evmAddress + strings.only_for_reef : ""}
                       className="hover:cursor-pointer flex items-center"
 
                     >
                       <div title={evmAddress || ""}>
-                        <Uik.Text text="EVM address:" type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
+                        <Uik.Text text={strings.evm_addr} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
                         {evmAddress
                           ? toAddressShortDisplay(evmAddress)
-                          : "loading..."}
+                          : strings.loading}
                         <FontAwesomeIcon
                           className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
                           icon={faCopy as IconProp}
                           size="sm"
-                          title="Copy EVM Address"
+                          title={strings.copy_evm_addr}
                         />
                       </div>
                     </CopyToClipboard>
                   ) : (
                     <div title={evmAddress || ""}>
-                      <label>EVM address: </label>
+                      <label>{strings.evm_addr}</label>
                       {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
                     </div>
                   )}
@@ -182,22 +183,29 @@ const Account = ({
             selectAccount(account.address)
             onClick && onClick(account)
           }
-        }} text="Select" />}
+        }} text={strings.select} />}
         {showOptions && isEvmClaimed !== undefined && !isEvmClaimed && (
-          <Uik.Button text="Bind" onClick={() => onAction(`/bind/${account.address}`)} fill />
+          <Uik.Button text={strings.bind} onClick={() => onAction(`/bind/${account.address}`)} fill />
         )}
 
       </div>
       {
         showOptions && (
           <div className="relative">
+            <FontAwesomeIcon
+              className="hover:cursor-pointer p-2"
+              onClick={() => setIsOptionsOpen(!isOptionsOpen)}
+              icon={faEllipsisVertical as IconProp}
+              title={strings.acc_options}
+            />
+
             <div className="ellipsis-wrapper">
 
               <FontAwesomeIcon
                 className={`three-dots hover:cursor-pointer p-2`}
                 onClick={() => setIsOptionsOpen(!isOptionsOpen)}
                 icon={faEllipsisVertical as IconProp}
-                title="Account options"
+                title={strings.acc_options}
               />
               <Uik.Dropdown
                 isOpen={isOptionsOpen}
@@ -213,21 +221,21 @@ const Account = ({
                   }}
                 />
                 <Uik.DropdownItem
-                  text="Derive new account"
+                  text={strings.derive_new_acc}
                   className="mb-1 hover:cursor-pointer hover:text-primary"
                   onClick={() => {
                     onAction(`/account/derive/${account.address}/locked`);
                   }}
                 />
                 <Uik.DropdownItem
-                  text="Export account"
+                  text={strings.export_acc}
                   className="mb-1 hover:cursor-pointer hover:text-primary"
                   onClick={() => {
                     onAction(`/account/export/${account.address}`);
                   }}
                 />
                 <Uik.DropdownItem
-                  text="Forget account"
+                  text={strings.forget_account}
                   className="hover:cursor-pointer hover:text-primary"
                   onClick={() => {
                     onAction(`/account/forget/${account.address}`);
@@ -236,9 +244,7 @@ const Account = ({
 
               </Uik.Dropdown>
             </div>
-
-
-          </div>
+          </div >
         )
       }
     </div >

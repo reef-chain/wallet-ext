@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthUrlInfo } from "../../extension-base/background/handlers/State";
 import { Switch } from "../components/Switch";
+import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 
 interface Props {
@@ -38,7 +39,7 @@ export const WebsiteEntry = ({
       <Switch
         checked={info.isAllowed}
         onChange={switchAccess}
-        text={info.isAllowed ? "Allowed" : "Blocked"}
+        text={info.isAllowed ? strings.allowed : strings.blocked}
       />
       <div>
         <FontAwesomeIcon

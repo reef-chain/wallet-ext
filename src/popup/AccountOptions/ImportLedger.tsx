@@ -18,6 +18,7 @@ import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { WarnMessage } from "../components/WarnMessage";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 
 interface AccOption {
@@ -56,7 +57,7 @@ export const ImportLedger = (): JSX.Element => {
   const accOps = useRef(
     AVAIL.map(
       (value): AccOption => ({
-        text: `Account type ${value}`,
+        text: `${strings.acc_type} ${value}`,
         value,
       })
     )
@@ -65,7 +66,7 @@ export const ImportLedger = (): JSX.Element => {
   const addOps = useRef(
     AVAIL.map(
       (value): AccOption => ({
-        text: `Address index ${value}`,
+        text: `${strings.addr_idx} ${value}`,
         value,
       })
     )
@@ -74,7 +75,7 @@ export const ImportLedger = (): JSX.Element => {
   const onNameChange = (name: string) => {
     setName(name);
     if (nameTouched && name.length < 3) {
-      setError("Account name is too short");
+      setError(strings.acc_name_too_short);
     } else {
       setError(undefined);
     }
@@ -83,7 +84,7 @@ export const ImportLedger = (): JSX.Element => {
   const onNameBlur = () => {
     setNameTouched(true);
     if (name.length < 3) {
-      setError("Account name is too short");
+      setError(strings.acc_name_too_short);
     } else {
       setError(undefined);
     }
@@ -127,7 +128,7 @@ export const ImportLedger = (): JSX.Element => {
       <div className="flex flex-col">
         <Account account={{ address: address || "", name: name }} />
         <div className="flex flex-col items-start">
-          <Uik.Label text="Name for the account" />
+          <Uik.Label text={strings.name_for_the_acc} />
           <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={name}
@@ -140,7 +141,7 @@ export const ImportLedger = (): JSX.Element => {
         {!!address && name?.length > 3 && (
           <>
             <form className="mt-3">
-              <Uik.Label text="Account type" />
+              <Uik.Label text={strings.acc_type} />
               <select
                 id="accountType"
                 className="text-sm rounded-lg w-full p-2 bg-white text-primary"
@@ -157,7 +158,7 @@ export const ImportLedger = (): JSX.Element => {
               </select>
             </form>
             <form className="mt-3">
-              <Uik.Label text="Address index" />
+              <Uik.Label text={strings.addr_idx} />
               <select
                 id="addressIndex"
                 className="text-sm rounded-lg w-full p-2 bg-white text-primary"
@@ -185,8 +186,9 @@ export const ImportLedger = (): JSX.Element => {
             disabled={ledgerLoading || isBusy}
             className="mt-4"
           >
+
             <FontAwesomeIcon icon={faSync as IconProp} className={`${isDarkMode ? "text--dark-mode" : "text-black"}`} />
-            <span className="ml-3">Refresh</span>
+            <span className="ml-3">{strings.refresh}</span>
           </button>
         ) : (
           <button
@@ -194,7 +196,7 @@ export const ImportLedger = (): JSX.Element => {
             disabled={!address || !!error || !!ledgerError}
             className="mt-4"
           >
-            <span className="mr-3">Import account</span>
+            <span className="mr-3">{strings.import_acc}</span>
           </button>
         )}
       </div>

@@ -13,6 +13,7 @@ import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { AccountsContext, ActionContext } from "../contexts";
 import { SectionTitle } from "../components/SectionTitle";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 
 export const AccountMenu = (): JSX.Element => {
@@ -34,14 +35,15 @@ export const AccountMenu = (): JSX.Element => {
 
   return (
     <div className="p-4">
-      <SectionTitle text="Add account" />
+      <SectionTitle text={strings.add_acc} />
       <div className="flex flex-col">
         <div
           className="flex justify-start items-center py-3 opacity-75 cursor-pointer hover:opacity-100"
           onClick={() => onAction("/account/create")}
         >
+
           <FontAwesomeIcon icon={faCirclePlus as IconProp} className={isDarkMode ? "text--dark-mode" : "text-black"} />
-          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text="Create new account" />
+          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.create_new_acc} />
         </div>
         <hr className={`my-2 opacity-25`} style={isDarkMode ? {
 
@@ -56,7 +58,7 @@ export const AccountMenu = (): JSX.Element => {
                 onClick={() => onAction(`/account/derive/${accountToDerive}`)}
               >
                 <FontAwesomeIcon icon={faCodeBranch as IconProp} className={isDarkMode ? "text--dark-mode" : "text-black"} />
-                <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text="Derive from an account" />
+                <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.derive} />
               </div>
             )}
             <hr className="my-2 opacity-25" style={isDarkMode ? {
@@ -69,8 +71,7 @@ export const AccountMenu = (): JSX.Element => {
               onClick={() => onAction("/account/export-all")}
             >
               <FontAwesomeIcon icon={faFileExport as IconProp} className={isDarkMode ? "text--dark-mode" : "text-black"} />
-              <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text="Export all accounts" />
-
+              <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.export_all} />
             </div>
           </>
         )}
@@ -78,15 +79,19 @@ export const AccountMenu = (): JSX.Element => {
           className="flex justify-start items-center py-3 opacity-75 cursor-pointer hover:opacity-100"
           onClick={() => onAction("/account/import-seed")}
         >
+
           <FontAwesomeIcon icon={faKey as IconProp} className={isDarkMode ? "text--dark-mode" : "text-black"} />
-          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text="Import account from pre-existing seed" />
+          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.import_pre_existing_seed} />
+
         </div>
         <div
           className="flex justify-start items-center py-3 opacity-75 cursor-pointer hover:opacity-100"
           onClick={() => onAction("/account/restore-json")}
         >
+
           <FontAwesomeIcon icon={faFileArrowUp as IconProp} className={isDarkMode ? "text--dark-mode" : "text-black"} />
-          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "dark-mode" : ""}`} text="Restore account from backup JSON file" />
+          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "dark-mode" : ""}`} text={strings.restore_account_json} />
+
         </div>
         <hr className="my-2 opacity-25" style={isDarkMode ? {
 
@@ -97,8 +102,9 @@ export const AccountMenu = (): JSX.Element => {
           className="flex justify-start items-center py-3 opacity-75 cursor-pointer hover:opacity-100"
           onClick={() => onAction("/account/import-ledger")}
         >
+
           <FontAwesomeIcon icon={faUsb as IconProp} rotation={270} className={isDarkMode ? "text--dark-mode" : "text-black"} />
-          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text="Connect Ledger device" />
+          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.connect_ledger_device} />
 
         </div>
       </div>

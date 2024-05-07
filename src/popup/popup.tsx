@@ -11,8 +11,8 @@ import {
   faShuffle,
   faTasks,
   faGear,
-  faExternalLinkAlt,
   faPhotoFilm,
+  faLanguage,
   faSun,
   faMoon,
 } from "@fortawesome/free-solid-svg-icons";
@@ -67,6 +67,7 @@ import { REEF_NETWORK_KEY } from "../extension-base/background/handlers/Extensio
 import Uik from "@reef-chain/ui-kit";
 import NFTs from "./NFTs/NFTs";
 import ReefSigners from "./context/ReefSigners";
+import strings from "../i18n/locales";
 import { useTheme } from "./context/ThemeContext";
 import { faThemeco } from "@fortawesome/free-brands-svg-icons";
 
@@ -116,6 +117,8 @@ const Popup = () => {
   const provider: Provider | undefined = hooks.useObservableState(reefState.selectedProvider$);
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isLanguageChangeModalOpen, setIsLanguageChangeModalOpen] = useState<boolean>(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
 
   //handles body color change if dark mode toggled
   useEffect(() => {
@@ -279,6 +282,20 @@ const Popup = () => {
     }
   };
 
+  //fetch stored language
+  useEffect(() => {
+    try {
+      const storedLang = localStorage.getItem("REEF_LANGUAGE_IDENT");
+      if (storedLang) {
+        console.log(storedLang)
+        setSelectedLanguage(JSON.parse(storedLang).lang);
+        strings.setLanguage(JSON.parse(storedLang).lang)
+      }
+    } catch (error) {
+      console.log("error in fetching stored language", error.message);
+    }
+  }, [])
+
   return (
     <div>
       {/* Header */}
@@ -293,27 +310,28 @@ const Popup = () => {
         <div className="flex justify-end absolute right-2 top-1">
           <Uik.Button
             className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
-            text="Open App"
+            text={strings.open_app}
             icon={faArrowUpRightFromSquare}
 
             onClick={() => window.open("https://app.reef.io/", "_blank")}
           />
-
-          <Uik.Button
-            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
-            text="NFTs"
-            icon={faPhotoFilm}
-            onClick={() => _onAction("/nfts")}
-          />
           {!location.pathname.startsWith("/account/") && (
             <Uik.Button
               className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base filled-btn`}
-              text="Add Account"
+              text={strings.add_acc}
               icon={faCirclePlus}
               onClick={() => _onAction("/account/menu")}
               fill
             />
           )}
+
+          <Uik.Button
+            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
+            text={strings.nfts}
+            icon={faPhotoFilm}
+            onClick={() => _onAction("/nfts")}
+          />
+
           <Uik.Button
             className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
             icon={faGear}
@@ -321,25 +339,32 @@ const Popup = () => {
           />
 
         </div>
-        <div className="relative top-8 right-4">
+        <div className="relative top-8 positioned-right">
           <Uik.Dropdown
             isOpen={isSettingsOpen}
             onClose={() => setIsSettingsOpen(false)}
             position="bottomLeft"
             className="dark-mode-modal"
           >
+            <Uik.DropdownItem
+              icon={faLanguage as IconProp}
+              text={strings.change_language}
+              onClick={() =>
+                setIsLanguageChangeModalOpen(true)
+              }
+            />
             {selectedNetwork &&
               <>
                 <Uik.DropdownItem
                   icon={faShuffle as IconProp}
-                  text='Toggle Network'
+                  text={strings.toggle_network}
                   onClick={() =>
                     onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
                   }
                 />
                 <Uik.DropdownItem
                   icon={isDarkMode ? faSun : faMoon as IconProp}
-                  text='Toggle Theme'
+                  text={strings.toggle_theme}
                   onClick={() =>
                     toggleTheme()
                   }
@@ -350,29 +375,43 @@ const Popup = () => {
             {!location.pathname.startsWith("/auth-list") && (
               <Uik.DropdownItem
                 icon={faTasks as IconProp}
-                text='Manage Website Access'
+                text={strings.manage_website_access}
                 onClick={() => _onAction("/auth-list")}
               />
             )}
             {isDetached && (
               <Uik.DropdownItem
                 icon={faExpand as IconProp}
-                text='Open extension in new window'
+                text={strings.open_in_new_window}
                 onClick={() => openFullPage()}
               />
             )}
           </Uik.Dropdown>
+          <div className="modal-container">
+            <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title={strings.select_a_lang}>
+              <div>
+                <select value={selectedLanguage} onChange={(e) => {
+                  setSelectedLanguage(e.target.value)
+                  strings.setLanguage(e.target.value)
+                  localStorage.setItem("REEF_LANGUAGE_IDENT", JSON.stringify({ lang: e.target.value }));
+                }
+                } className="select-language">
+                  <option value="">{strings.select_a_lang}</option>
+                  <option value="en">{strings.en}</option>
+                  <option value="hi">{strings.hi}</option>
+                </select>
+              </div>
+            </Uik.Modal>
+          </div>
         </div>
 
       </div>
       <div className="popup text-left">
         {process.env.NODE_ENV === "development" && (
           <div className="absolute left-5 top-3 text-gray-400">
-            <span>DEV</span>
+            <span>{strings.dev}</span>
           </div>
         )}
-
-
 
         {/* Content */}
         <ActionContext.Provider value={_onAction}>

@@ -7,6 +7,7 @@ import { SectionTitle } from "../components/SectionTitle";
 import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 
 const enum Error {
   NONE,
@@ -74,14 +75,13 @@ export const ExportAll = (): JSX.Element => {
 
   return (
     <>
-      <SectionTitle text="Export all accounts" />
+      <SectionTitle text={strings.export_all} />
       <div className="flex flex-col">
         <WarnMessage
-          text="You are exporting your accounts. Keep it safe and don't share it with anyone. 
-                Password must be at least 6 characters long."
+          text={strings.you_are_exporting}
         />
         <div className="flex flex-col items-start my-3">
-          <label>Password for encrypting all accounts</label>
+          <label>{strings.pass_for_encrypting_all_accs}</label>
           <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={password}
@@ -92,12 +92,12 @@ export const ExportAll = (): JSX.Element => {
             }}
           />
           {error === Error.PASSWORD_TOO_SHORT && (
-            <ErrorMessage text="Password is too short" />
+            <ErrorMessage text={strings.pass_too_short} />
           )}
         </div>
         {password.length >= 6 && (
           <div className="flex flex-col items-start">
-            <label>Repeat password</label>
+            <label>{strings.repeat_password}</label>
             <Uik.Input
               className="text-primary rounded-md p-2 w-full"
               value={passwordRepeat}
@@ -108,7 +108,7 @@ export const ExportAll = (): JSX.Element => {
               }}
             />
             {error === Error.PASSWORDS_DO_NOT_MATCH && (
-              <ErrorMessage text="Passwords do not match" />
+              <ErrorMessage text={strings.pass_dont_match} />
             )}
           </div>
         )}
@@ -123,7 +123,7 @@ export const ExportAll = (): JSX.Element => {
               : true
           }
         >
-          Export all my accounts
+          {strings.export_all}
         </button>
       </div>
     </>

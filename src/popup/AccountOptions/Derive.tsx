@@ -14,6 +14,7 @@ import AccountSelector from "../Accounts/AccountSelector";
 import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 
 interface Props {
   isLocked?: boolean;
@@ -177,7 +178,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
 
   return (
     <>
-      <SectionTitle text="Create new account" />
+      <SectionTitle text={strings.create_new_acc} />
       <div className="flex flex-col">
         {parentAccount && isLocked && <Account account={parentAccount} />}
         {parentAccount && !isLocked && (
@@ -190,7 +191,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">
-              <Uik.Label text="Password for the account to derive from" />
+              <Uik.Label text={strings.pass_for_derive_from} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={parentPassword}
@@ -198,7 +199,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                 onChange={(e) => onParentPasswordChange(e.target.value)}
               />
               {error === Error.PARENT_PASSWORD_INCORRECT && (
-                <ErrorMessage text="Wrong password" />
+                <ErrorMessage text={strings.wrong_pass} />
               )}
             </div>
             <div className="flex flex-col items-start my-3">
@@ -216,14 +217,14 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
               <Uik.Button onClick={() => deriveCheck()}
                 disabled={
                   error !== Error.NONE || !parentPassword || !derivationPath
-                } text={"Next Step"} icon={faArrowRight} />
+                } text={strings.next_step} icon={faArrowRight} />
             </div>
           </>
         )}
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <Uik.Label text="Name for the account" />
+              <Uik.Label text={strings.name_for_the_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -233,11 +234,11 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                 }}
               />
               {error === Error.NAME_TOO_SHORT && (
-                <ErrorMessage text="Account name is too short" />
+                <ErrorMessage text={strings.acc_name_too_short} />
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <Uik.Label text="Password for the account" />
+              <Uik.Label text={strings.pass_for_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -248,12 +249,12 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                 }}
               />
               {error === Error.PASSWORD_TOO_SHORT && (
-                <ErrorMessage text="Password is too short" />
+                <ErrorMessage text={strings.pass_too_short} />
               )}
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <Uik.Label text="Repeat password" />
+                <Uik.Label text={strings.repeat_password} />
                 <Uik.Input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}
@@ -264,7 +265,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                   }}
                 />
                 {error === Error.PASSWORDS_DO_NOT_MATCH && (
-                  <ErrorMessage text="Passwords do not match" />
+                  <ErrorMessage text={strings.pass_dont_match} />
                 )}
               </div>
             )}
@@ -273,7 +274,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                 className="flex justify-start items-center py-3 mr-3 hover:cursor-pointer"
                 onClick={() => setStep(Step.FIRST)}
                 icon={faArrowLeft}
-                text="Previous step"
+                text={strings.prev_step}
               />
 
               <Uik.Button
@@ -285,7 +286,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
                   error !== Error.NONE
                 }
                 icon={faArrowRight}
-                text="Add account"
+                text={strings.add_acc}
                 fill
               />
 

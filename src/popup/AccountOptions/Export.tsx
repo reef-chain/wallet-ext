@@ -10,6 +10,7 @@ import { SectionTitle } from "../components/SectionTitle";
 import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 
 export const Export = (): JSX.Element => {
   const onAction = useContext(ActionContext);
@@ -45,12 +46,12 @@ export const Export = (): JSX.Element => {
 
   return (
     <>
-      <SectionTitle text="Export account" />
+      <SectionTitle text={strings.export_acc} />
       <div className="flex flex-col">
         {account && <Account account={{ ...account }} showCopyAddress={true} />}
-        <WarnMessage text="You are exporting your account. Keep it safe and don't share it with anyone." />
+        <WarnMessage text={strings.you_are_exporting_account} />
         <div className="flex flex-col items-start my-3">
-          <label>Password for this account</label>
+          <label>{strings.password_for_this_acc}</label>
           <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={password}
@@ -60,9 +61,9 @@ export const Export = (): JSX.Element => {
               setError("");
             }}
           />
-          {error && <ErrorMessage text="Password is not correct" />}
+          {error && <ErrorMessage text={strings.pass_not_correct} />}
         </div>
-        <Uik.Button text="Export Account" onClick={() => exportOne()}
+        <Uik.Button text={strings.export_acc} onClick={() => exportOne()}
           disabled={!password || error !== ""} />
       </div>
     </>

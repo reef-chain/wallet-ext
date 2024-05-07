@@ -2,8 +2,8 @@ import React, { useContext } from "react";
 
 import Account from "./Account";
 import { AccountsContext, ActionContext, ProviderContext } from "../contexts";
-import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 
 const Accounts = (): JSX.Element => {
@@ -22,19 +22,22 @@ const Accounts = (): JSX.Element => {
       {/* No accounts */}
       {accounts?.length === 0 && (
         <>
-          <Uik.Text text="No accounts available." type="title" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
-          <Uik.Button onClick={() => onAction("account/menu")} text="Add account" />
+
+          <Uik.Text text={strings.no_accs_available} type="title" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
+          <Uik.Button onClick={() => onAction("account/menu")} text={strings.add_acc} />
         </>
       )}
       {/* Selected account */}
-      {selectedAccount && provider && (
-        <Account
-          account={selectedAccount}
-          isSelected={true}
-          showOptions={true}
-          showCopyAddress={true}
-        />
-      )}
+      {
+        selectedAccount && provider && (
+          <Account
+            account={selectedAccount}
+            isSelected={true}
+            showOptions={true}
+            showCopyAddress={true}
+          />
+        )
+      }
       {/* Other accounts */}
       <div className="max-h-[365px] overflow-y-scroll scrollbar-hidden rounded-xl">
         {accounts?.length > 1 &&

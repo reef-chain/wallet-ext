@@ -22,6 +22,7 @@ import { PASSWORD_EXPIRY_MIN } from "../../extension-base/defaults";
 import { ErrorMessage } from "../components/ErrorMessage";
 import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 
 interface Props {
@@ -110,7 +111,7 @@ export default function Request({
     if (isLocked) {
       if (!password) {
         setIsBusy(false);
-        setError("Password not provided");
+        setError(strings.pass_not_provided);
         return;
       }
     }
@@ -146,7 +147,8 @@ export default function Request({
         {isFirst && isLocked && (
           <div className="mt-2">
             <div className="flex flex-col items-start my-3">
-              <label className={isDarkMode ? "" : "text-black"}>Password for this account</label>
+              <label className={isDarkMode ? "" : "text-black"}>{strings.password_for_this_acc}</label>
+
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -161,18 +163,18 @@ export default function Request({
                 disabled={isBusy}
               />
               <span className="font-bold ml-2">
-                Remember for the next {PASSWORD_EXPIRY_MIN} minutes.
+                {strings.remember_for} {PASSWORD_EXPIRY_MIN} {strings.minutes}
               </span>
             </div>
             {error && <ErrorMessage text={error} />}
-            {isBusy && <Loading text="Processing..." />}
+            {isBusy && <Loading text={strings.processing} />}
           </div>
         )}
         <div className="flex">
           {isFirst && (
             <Uik.Button text={buttonText} onClick={_onSign} disabled={isBusy} fill />
           )}
-          <Uik.Button text="Cancel" onClick={_onCancel} disabled={isBusy} />
+          <Uik.Button text={strings.cancel} onClick={_onCancel} disabled={isBusy} />
         </div>
       </div>
     </>
