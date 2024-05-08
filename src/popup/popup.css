@@ -124,15 +124,6 @@ button:disabled {
   width: 100vw;
 }
 
-.uik-dropdown .uik-dropdown__dropdown.enter-active,
-.uik-dropdown .uik-dropdown__dropdown.enter-done,
-.uik-dropdown .uik-dropdown__dropdown.exit {
-  opacity: 1;
-  transform: none;
-  background: #38393f;
-  color: white !important;
-  width: 16rem;
-}
 
 .uik-dropdown .uik-dropdown__dropdown .uik-dropdown__item .uik-dropdown__item-text {
   color: white !important;
@@ -575,5 +566,5 @@ button:disabled {
 }
 
 .positioned-right {
-  right: -30rem;
+  /* right: -30rem; */
 }
