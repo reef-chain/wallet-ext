@@ -70,6 +70,9 @@ import ReefSigners from "./context/ReefSigners";
 import strings from "../i18n/locales";
 import { useTheme } from "./context/ThemeContext";
 import { faThemeco } from "@fortawesome/free-brands-svg-icons";
+import { useReefSigners } from "./hooks/useReefSigners";
+import Tokens from "./Tokens/Tokens";
+import VDA from "./VDA/VDA";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -155,9 +158,19 @@ const Popup = () => {
     initReefState()
   }, [accountCtx])
 
+  const [selectedSigner, setSelectedSigner] = useState(undefined);
 
-  const selectedSigner = hooks.useObservableState(reefState.selectedAccount$);
-  const signers = hooks.useObservableState(reefState.accounts$);
+  const selectedReefAccount = hooks.useObservableState(reefState.selectedAccount$);
+
+  const accounts = hooks.useObservableState(reefState.accounts$);
+
+  const signers = useReefSigners(accounts as extLib.AccountJson[], provider);
+
+  useEffect(() => {
+    signers?.forEach((sgnr) => {
+      if (sgnr.address == selectedReefAccount.address) setSelectedSigner(sgnr)
+    })
+  }, [selectedReefAccount])
 
   const location = useLocation();
   const queryParams = new URLSearchParams(window.location.search);
@@ -329,7 +342,7 @@ const Popup = () => {
             className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
             text={strings.nfts}
             icon={faPhotoFilm}
-            onClick={() => _onAction("/nfts")}
+            onClick={() => _onAction("/vda")}
           />
 
           <Uik.Button
@@ -462,8 +475,8 @@ const Popup = () => {
                       element={<Metadata requests={metaRequests} />}
                     />
                     <Route
-                      path="/nfts"
-                      element={<NFTs />}
+                      path="/vda"
+                      element={<VDA />}
                     />
                     <Route
                       path={PHISHING_PAGE_REDIRECT}

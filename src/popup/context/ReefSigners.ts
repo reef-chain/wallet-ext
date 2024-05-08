@@ -2,6 +2,7 @@ import { createContext } from 'react';
 import { ReefAccount, network as nw } from '@reef-chain/util-lib';
 import { Provider } from '@reef-chain/evm-provider';
 import { Observable } from 'rxjs';
+import { ReefSigner } from '../../extension-base/page/ReefSigner';
 
 interface setAddr {
     (val: string): void;
@@ -17,7 +18,7 @@ export interface ReefState {
 
 interface ReefSignersContext {
     accounts: ReefAccount[] | undefined;
-    selectedSigner: ReefAccount | undefined;
+    selectedSigner: ReefSigner | undefined;
     network: nw.Network;
     provider: Provider | undefined;
     reefState: any;
