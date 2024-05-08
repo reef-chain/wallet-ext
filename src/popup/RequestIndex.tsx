@@ -8,6 +8,7 @@ import {
   faArrowAltCircleRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTheme } from "./context/ThemeContext";
 
 interface Props {
   index: number;
@@ -33,13 +34,15 @@ function RequestIndex({
     nextClickActive && onNextClick();
   }, [nextClickActive, onNextClick]);
 
+  const { isDarkMode } = useTheme();
   return (
     <div>
       <div className="flex justify-center">
         <FontAwesomeIcon
-          className={`${
-            previousClickActive ? "hover:cursor-pointer" : "opacity-50"
-          }`}
+          className={`${previousClickActive ? "hover:cursor-pointer" : "opacity-50"
+            }
+           ${isDarkMode ? "text--dark-mode" : "text-black"}
+            `}
           icon={faArrowAltCircleLeft as IconProp}
           onClick={prevClick}
         />
@@ -48,9 +51,10 @@ function RequestIndex({
           <span>/{totalItems}</span>
         </div>
         <FontAwesomeIcon
-          className={`${
-            nextClickActive ? "hover:cursor-pointer" : "opacity-50"
-          }`}
+          className={`${nextClickActive ? "hover:cursor-pointer" : "opacity-50"
+            }
+          ${isDarkMode ? "text--dark-mode" : "text-black"}          
+          `}
           icon={faArrowAltCircleRight as IconProp}
           onClick={nextClick}
         />

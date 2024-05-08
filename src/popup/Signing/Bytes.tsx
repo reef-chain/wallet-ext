@@ -3,6 +3,7 @@
 
 import React, { useMemo } from "react";
 import { isAscii, u8aToString, u8aUnwrapBytes } from "@polkadot/util";
+import { useTheme } from "../context/ThemeContext";
 
 interface Props {
   bytes: string;
@@ -15,8 +16,10 @@ function Bytes({ bytes, url }: Props): React.ReactElement<Props> {
     [bytes]
   );
 
+  const { isDarkMode } = useTheme();
+
   return (
-    <table className="flex">
+    <table className={isDarkMode ? "flex" : "text-black flex"}>
       <tbody>
         <tr>
           <td className="label">From</td>

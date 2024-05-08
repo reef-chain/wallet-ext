@@ -1,6 +1,8 @@
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import Uik from '@reef-chain/ui-kit';
 import React, { useState } from 'react';
+import strings from '../../i18n/locales';
+import { useTheme } from '../context/ThemeContext';
 
 
 interface Props {
@@ -12,6 +14,7 @@ interface Props {
 
 function NftContainer({ iconUrl, balance, name, id }: Props) {
     const [dropdownStatus, setDropdownStatus] = useState<boolean>(false);
+    const { isDarkMode } = useTheme();
     return (
         <div>
             <div className={dropdownStatus ? "nft-icon__container-no-hover" : `nft-icon__container`} onClick={() => setDropdownStatus(!dropdownStatus)}>
@@ -22,10 +25,10 @@ function NftContainer({ iconUrl, balance, name, id }: Props) {
                 <div className='nft-icon__container_dropdown'>
                     <div>
                         <div className='text-white'>{name}</div>
-                        <Uik.Button className="dark-btn nft-container__dropdown-close" onClick={() => setDropdownStatus(false)} icon={faCircleXmark} />
+                        <Uik.Button className={`${isDarkMode ? 'dark-btn' : ""}  nft-container__dropdown-close`} onClick={() => setDropdownStatus(false)} icon={faCircleXmark} />
                     </div>
-                    <div className=' nft-icon__container_info'>Balance : {balance}</div>
-                    <div className='nft-icon__container_info'>NFT ID : {id}</div>
+                    <div className=' nft-icon__container_info'>{strings.balance} {balance}</div>
+                    <div className='nft-icon__container_info'>{strings.nftid}{id}</div>
                 </div>
             )}
         </div>

@@ -8,6 +8,8 @@ import { batchRestore, jsonRestore } from "../messaging";
 import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
+import { useTheme } from "../context/ThemeContext";
 
 const enum Error {
   NONE,
@@ -73,11 +75,12 @@ export const RestoreJson = (): JSX.Element => {
     }
   };
 
+  const { isDarkMode } = useTheme();
   return (
     <>
-      <SectionTitle text="Restore from JSON" />
+      <SectionTitle text={strings.restore_from_json} />
       <div className="text-left">
-        <label>Backup file</label>
+        <label className={isDarkMode ? "" : "text-black"}>{strings.backup_file}</label>
         <Uik.Input
           className="text-primary rounded-md w-full"
           type="file"
@@ -86,24 +89,25 @@ export const RestoreJson = (): JSX.Element => {
           }}
         />
         {error === Error.INVALID_JSON && (
-          <ErrorMessage text="Invalid JSON file" />
+          <ErrorMessage text={strings.invalid_json} />
         )}
         {json && (
           <div className="mt-1">
             <FontAwesomeIcon
               className="mr-2 text-green-500"
+
               icon={faCircleCheck as IconProp}
             />
             <span className="text-gray-300">
               {accountsNumber}
-              {accountsNumber > 1 ? " accounts " : " account "} to be restored
+              {accountsNumber > 1 ? " accounts " : " account "} {strings.to_be_restored}
             </span>
           </div>
         )}
       </div>
       {json && (
         <div className="flex flex-col items-start my-4">
-          <label>Password for this file</label>
+          <label>{strings.pass_for_file}</label>
           <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={password}
@@ -111,7 +115,7 @@ export const RestoreJson = (): JSX.Element => {
             onChange={(e) => setPassword(e.target.value)}
           />
           {error === Error.INVALID_PASSWORD && (
-            <ErrorMessage text="Unable to decode using the supplied password" />
+            <ErrorMessage text={strings.unable_to_decode} />
           )}
         </div>
       )}
@@ -120,7 +124,7 @@ export const RestoreJson = (): JSX.Element => {
         onClick={() => restore()}
         disabled={!password || !json}
       >
-        Restore
+        {strings.restore}
       </button>
     </>
   );

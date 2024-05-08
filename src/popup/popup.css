@@ -1,11 +1,9 @@
 .popup-container {
   height: 600px;
-  width: 580px;
+  width: 500px;
   margin: auto;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  display: flex;
-  flex-wrap: wrap;
 }
 
 body {
@@ -57,6 +55,7 @@ button:disabled {
   margin-top: 10px;
   margin-bottom: 10px;
   align-items: center;
+  box-shadow: inset 0 0 0 2px var(--primary), 0 5px 10px -5px #1a1b20;
   background-color: rgba(169, 49, 133, 0.1);
 }
 
@@ -132,6 +131,7 @@ button:disabled {
   transform: none;
   background: #38393f;
   color: white !important;
+  width: 16rem;
 }
 
 .uik-dropdown .uik-dropdown__dropdown .uik-dropdown__item .uik-dropdown__item-text {
@@ -520,4 +520,60 @@ button:disabled {
 button:hover,
 button:disabled {
   background-color: #44464f !important;
+}
+
+.select-language {
+  border: 2px solid white;
+  border-radius: 4px;
+  padding: 4px 12px;
+  color: black;
+}
+
+.uik-modal .uik-modal__container .uik-modal__popup .uik-modal__head {
+  width: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 25px;
+  position: relative;
+  background: #292a2f;
+}
+
+.uik-modal .uik-modal__container .uik-modal__popup .uik-modal__head+.uik-modal__body {
+  padding-top: 0;
+  background: #292a2f;
+}
+
+.uik-modal .uik-modal__container .uik-modal__popup .uik-modal__head .uik-modal__title {
+  font-size: 1.188rem;
+  line-height: 1.2;
+  color: white !important;
+  font-weight: 500;
+  width: 100%;
+  padding-right: 35px;
+  word-break: break-all;
+}
+
+.uik-modal .uik-modal__container .uik-modal__popup {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 3px 30px #00000012;
+  pointer-events: all;
+  max-width: 60%;
+  max-height: calc(100vh - 50px);
+  width: 650px;
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.modal-container {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.positioned-right {
+  right: -30rem;
 }

@@ -4,6 +4,7 @@
 import React from "react";
 import { useLocation } from "react-router";
 import { SectionTitle } from "./components/SectionTitle";
+import strings from "../i18n/locales";
 
 export const PhishingDetected = (): JSX.Element => {
   const location = useLocation();
@@ -16,20 +17,17 @@ export const PhishingDetected = (): JSX.Element => {
       <SectionTitle text="Phishing detected" />
       <div className="text-left">
         <p>
-          You have been redirected because Reef extension believes that this
-          website could compromise the security of your accounts and your
-          tokens.
+          {strings.redirected_due_to_phishing}
         </p>
         <p className="text-lg my-3 text-center">{decodedWebsite}</p>
         <p>
-          Note that this website was reported on a community-driven, curated
-          list. It might be incomplete or inaccurate. If you think that this
-          website was flagged incorrectly,{" "}
+          {strings.community_flagged_phishing}{" "}
           <a
             className="underline"
             href="https://github.com/polkadot-js/phishing/issues/new"
           >
-            please open an issue by clicking here
+            {strings.please_open_issue
+            }
           </a>
           .
         </p>

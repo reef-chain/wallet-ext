@@ -17,19 +17,19 @@ export const Switch = ({
 }: Props): JSX.Element => {
   return (
     <label
-      className={`relative inline-flex items-center cursor-pointer mr-2
+      className={`relative inline-flex items-center cursor-pointer mr-2 
       ${className || ""}`}
     >
       <Uik.Checkbox
         value={checked}
         onChange={onChange}
       />
-      <div
+      {/* <div
         className={`w-9 h-5 bg-gray-200 rounded-full peer dark:bg-gray-500 peer-checked:after:translate-x-full 
         rtl:peer-checked:after:-translate-x-full peer-checked:after:border-pink-500 after:content-[''] 
         after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border 
         after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-200 peer-checked:bg-primary`}
-      ></div>
+      ></div> */}
       {text && (
         <span className="ms-2 text-gray-300 w-16 text-left">{text}</span>
       )}

@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from "react-router";
 import { Provider, Signer } from "@reef-chain/evm-provider";
 import { extension as extLib, reefState } from "@reef-chain/util-lib";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { hooks } from "@reef-chain/react-lib";
 import {
   faCirclePlus,
@@ -12,8 +11,10 @@ import {
   faShuffle,
   faTasks,
   faGear,
-  faExternalLinkAlt,
   faPhotoFilm,
+  faLanguage,
+  faSun,
+  faMoon,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./popup.css";
@@ -24,7 +25,7 @@ import {
 } from "../extension-base/background/types";
 import SigningKey from "../extension-base/page/Signer";
 import { PHISHING_PAGE_REDIRECT } from "../extension-base/defaults";
-import { AvailableNetwork, ReefNetwork, reefNetworks } from "../config";
+import { AvailableNetwork, reefNetworks } from "../config";
 import {
   getDetachedWindowId,
   selectAccount,
@@ -66,6 +67,9 @@ import { REEF_NETWORK_KEY } from "../extension-base/background/handlers/Extensio
 import Uik from "@reef-chain/ui-kit";
 import NFTs from "./NFTs/NFTs";
 import ReefSigners from "./context/ReefSigners";
+import strings from "../i18n/locales";
+import { useTheme } from "./context/ThemeContext";
+import { faThemeco } from "@fortawesome/free-brands-svg-icons";
 import { useReefSigners } from "./hooks/useReefSigners";
 import Tokens from "./Tokens/Tokens";
 import VDA from "./VDA/VDA";
@@ -96,6 +100,7 @@ const accountToReefSigner = async (
 };
 
 const Popup = () => {
+  const { isDarkMode, toggleTheme } = useTheme();
   const [accountCtx, setAccountCtx] = useState<AccountsCtx>({
     accounts: [],
     selectedAccount: null,
@@ -115,6 +120,21 @@ const Popup = () => {
   const provider: Provider | undefined = hooks.useObservableState(reefState.selectedProvider$);
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
+  const [isLanguageChangeModalOpen, setIsLanguageChangeModalOpen] = useState<boolean>(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
+
+  //handles body color change if dark mode toggled
+  useEffect(() => {
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+
+    return () => {
+      document.body.classList.remove('dark-mode');
+    };
+  }, [isDarkMode]);
 
   useEffect(() => {
     const initReefState = async () => {
@@ -275,10 +295,24 @@ const Popup = () => {
     }
   };
 
+  //fetch stored language
+  useEffect(() => {
+    try {
+      const storedLang = localStorage.getItem("REEF_LANGUAGE_IDENT");
+      if (storedLang) {
+        console.log(storedLang)
+        setSelectedLanguage(JSON.parse(storedLang).lang);
+        strings.setLanguage(JSON.parse(storedLang).lang)
+      }
+    } catch (error) {
+      console.log("error in fetching stored language", error.message);
+    }
+  }, [])
+
   return (
     <div>
       {/* Header */}
-      <div className="flex justify-between mb-2 header-bg">
+      <div className={`flex justify-between mb-2 header-base header-bg${isDarkMode ? "--dark" : ""} `}>
         {selectedNetwork && (
           <div>
             <div className="flex hover:cursor-pointer logo-w">
@@ -288,45 +322,64 @@ const Popup = () => {
         )}
         <div className="flex justify-end absolute right-2 top-1">
           <Uik.Button
-            className="dark-btn"
-            text="Open App"
+            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
+            text={strings.open_app}
             icon={faArrowUpRightFromSquare}
+
             onClick={() => window.open("https://app.reef.io/", "_blank")}
           />
           {!location.pathname.startsWith("/account/") && (
             <Uik.Button
-              className="dark-btn"
-              text="Add Account"
+              className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base filled-btn`}
+              text={strings.add_acc}
               icon={faCirclePlus}
               onClick={() => _onAction("/account/menu")}
+              fill
             />
           )}
+
           <Uik.Button
-            className="dark-btn"
-            text="Assets"
+            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
+            text={strings.nfts}
             icon={faPhotoFilm}
             onClick={() => _onAction("/vda")}
           />
+
           <Uik.Button
-            className="dark-btn"
+            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
             icon={faGear}
             onClick={() => setIsSettingsOpen(true)}
           />
 
         </div>
-        <div className="relative top-8 right-4">
+        <div className="relative top-8 positioned-right">
           <Uik.Dropdown
             isOpen={isSettingsOpen}
             onClose={() => setIsSettingsOpen(false)}
             position="bottomLeft"
+            className="dark-mode-modal"
           >
+            <Uik.DropdownItem
+              icon={faLanguage as IconProp}
+              text={strings.change_language}
+              onClick={() =>
+                setIsLanguageChangeModalOpen(true)
+              }
+            />
             {selectedNetwork &&
               <>
                 <Uik.DropdownItem
                   icon={faShuffle as IconProp}
-                  text='Toggle Network'
+                  text={strings.toggle_network}
                   onClick={() =>
                     onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
+                  }
+                />
+                <Uik.DropdownItem
+                  icon={isDarkMode ? faSun : faMoon as IconProp}
+                  text={strings.toggle_theme}
+                  onClick={() =>
+                    toggleTheme()
                   }
                 />
                 <Uik.Divider />
@@ -335,29 +388,43 @@ const Popup = () => {
             {!location.pathname.startsWith("/auth-list") && (
               <Uik.DropdownItem
                 icon={faTasks as IconProp}
-                text='Manage Website Access'
+                text={strings.manage_website_access}
                 onClick={() => _onAction("/auth-list")}
               />
             )}
             {isDetached && (
               <Uik.DropdownItem
                 icon={faExpand as IconProp}
-                text='Open extension in new window'
+                text={strings.open_in_new_window}
                 onClick={() => openFullPage()}
               />
             )}
           </Uik.Dropdown>
+          <div className="modal-container">
+            <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title={strings.select_a_lang}>
+              <div>
+                <select value={selectedLanguage} onChange={(e) => {
+                  setSelectedLanguage(e.target.value)
+                  strings.setLanguage(e.target.value)
+                  localStorage.setItem("REEF_LANGUAGE_IDENT", JSON.stringify({ lang: e.target.value }));
+                }
+                } className="select-language">
+                  <option value="">{strings.select_a_lang}</option>
+                  <option value="en">{strings.en}</option>
+                  <option value="hi">{strings.hi}</option>
+                </select>
+              </div>
+            </Uik.Modal>
+          </div>
         </div>
 
       </div>
       <div className="popup text-left">
         {process.env.NODE_ENV === "development" && (
           <div className="absolute left-5 top-3 text-gray-400">
-            <span>DEV</span>
+            <span>{strings.dev}</span>
           </div>
         )}
-
-
 
         {/* Content */}
         <ActionContext.Provider value={_onAction}>

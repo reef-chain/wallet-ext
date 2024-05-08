@@ -7,6 +7,7 @@ import { approveAuthRequest, rejectAuthRequest } from "../messaging";
 import { RequestAuthorizeTab } from "../../extension-base/background/types";
 import { WarnMessage } from "../components/WarnMessage";
 import Uik from "@reef-chain/ui-kit";
+import strings from "../../i18n/locales";
 
 interface Props {
   authId: string;
@@ -34,17 +35,17 @@ function Request({
   return (
     <>
       <div className="text-left">
-        An application, self-identifying as <span className="">{origin}</span>{" "}
-        is requesting access from{" "}
+        {strings.an_app_self_identitifying}<span className="">{origin}</span>{" "}
+        {strings.is_req_acc_from}{" "}
         <a href={url} target="_blank" className="underline">
           <span className="">{url}</span>
         </a>
         .
       </div>
-      <WarnMessage text="Only approve this request if you trust the application. Approving gives the application access to the addresses of your accounts." />
+      <WarnMessage text={strings.only_approve_trusted} />
       <div className="flex">
-        <Uik.Button onClick={_onApprove} text="Yes, allow this application access" fill />
-        <Uik.Button onClick={_onReject} text="Reject" />
+        <Uik.Button onClick={_onApprove} text={strings.yes_allow} fill />
+        <Uik.Button onClick={_onReject} text={strings.reject} />
       </div>
     </>
   );
