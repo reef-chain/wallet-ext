@@ -124,15 +124,6 @@ button:disabled {
   width: 100vw;
 }
 
-.uik-dropdown .uik-dropdown__dropdown.enter-active,
-.uik-dropdown .uik-dropdown__dropdown.enter-done,
-.uik-dropdown .uik-dropdown__dropdown.exit {
-  opacity: 1;
-  transform: none;
-  background: #38393f;
-  color: white !important;
-  width: 16rem;
-}
 
 .uik-dropdown .uik-dropdown__dropdown .uik-dropdown__item .uik-dropdown__item-text {
   color: white !important;
@@ -479,7 +470,6 @@ button:disabled {
   border-radius: 15px;
   box-shadow: var(--shadow);
   padding: 30px;
-  background: #373840 !important;
 }
 
 .nft-view {
@@ -575,5 +565,12 @@ button:disabled {
 }
 
 .positioned-right {
-  right: -30rem;
+  position: absolute !important;
+  right: 7rem !important;
+}
+
+.cross-btn-tabs {
+  position: absolute !important;
+  right: 10px;
+  top: 3.4rem;
 }

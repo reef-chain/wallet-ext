@@ -352,12 +352,12 @@ const Popup = () => {
           />
 
         </div>
-        <div className="relative top-8 positioned-right">
+        <div className="relative top-8">
           <Uik.Dropdown
             isOpen={isSettingsOpen}
             onClose={() => setIsSettingsOpen(false)}
             position="bottomLeft"
-            className="dark-mode-modal"
+            className="dark-mode-modal positioned-right"
           >
             <Uik.DropdownItem
               icon={faLanguage as IconProp}

@@ -298,17 +298,31 @@
     position: absolute;
 }
 
+.uik-dropdown {
+    position: static;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 0;
+    height: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 .uik-dropdown .uik-dropdown__dropdown.enter-active,
 .uik-dropdown .uik-dropdown__dropdown.enter-done,
 .uik-dropdown .uik-dropdown__dropdown.exit {
     opacity: 1;
     transform: none;
     position: absolute;
-    left: 1rem;
-    width: 12rem;
+    /* right: 7rem; */
+    /* width: 12rem; */
     background: #38393f;
     color: white !important;
+    top: 1.2rem;
 }
+
 
 .uik-pool-actions .uik-pool-actions-token .uik-pool-actions-token__token {
     display: flex;
@@ -317,12 +331,120 @@
     align-items: center;
     padding: 15px 0 15px 15px;
     margin-left: 10px;
+    background-color: transparent !important;
+
 }
 
 .uik-pool-actions-token__symbol {
-    color: white !important;
+    color: #373840 !important;
 }
 
 .uik-pool-actions-token__amount {
-    color: white !important;
+    color: #373840 !important;
+}
+
+.token-activity .card.card-bg-light {
+    background-color: white;
+}
+
+.token-activity .card {
+    box-shadow: var(--shadow);
+    border-radius: 15px;
+    border: none;
+    width: 100%;
+    overflow: hidden;
+}
+
+.token-activity__title {
+    padding-left: 0;
+}
+
+.no-token-activity {
+    padding: 1.75rem 1rem;
+    text-align: center;
+    width: 100%;
+    color: var(--text-light);
+    background: #373840;
+}
+
+.token-activity-skeleton {
+    width: 100%;
+    height: 82px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 13px;
+}
+
+.token-activity-skeleton__icon {
+    border-radius: 10px;
+    width: 3.5em;
+    min-height: 3.5em;
+    min-width: 3.5em;
+    background-color: var(--border-color);
+}
+
+.token-activity-skeleton+.token-activity-skeleton {
+    border-top: solid 1px var(--border-color);
+}
+
+.token-activity-skeleton__info {
+    margin-left: 1em;
+    flex-grow: 1;
+}
+
+.token-activity-skeleton__title {
+    height: 1rem;
+    border-radius: 99px;
+    background-color: var(--border-color);
+    width: 30%;
+    min-width: 90px;
+}
+
+
+.token-activity-skeleton__subtitle {
+    margin-top: 8px;
+    height: 0.75rem;
+    border-radius: 99px;
+    background-color: var(--border-color);
+    width: 60%;
+    min-width: 110px;
+}
+
+.token-activity-skeleton__amount {
+    width: 60px;
+    height: 1.625rem;
+    border-radius: 99px;
+    background-color: var(--border-color);
+    margin-right: 5px;
+}
+
+.activity {
+    margin-top: 25px;
+}
+
+.activity__head {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 23px;
+}
+
+.activity__title {
+    padding-left: 2px;
+}
+
+.activity__open-explorer-btn {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--primary);
+    padding: 5px;
+    text-decoration: none;
 }

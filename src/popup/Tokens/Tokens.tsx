@@ -6,14 +6,19 @@ import ReefSigners from '../context/ReefSigners';
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
 import { useDexConfig } from '../hooks/useDexConfig';
+import Uik from '@reef-chain/ui-kit';
+import { useTheme } from '../context/ThemeContext';
 
 const { Skeleton, TokenCard } = Components;
 
 function Tokens() {
     const { selectedSigner, provider, network, accounts, reefState } = useContext(ReefSigners);
     const pools = hooks.useAllPools(axios);
-    const tokens = hooks.useObservableState<TokenWithAmount[] | null>(reefState.selectedTokenPrices$, []);
-    const isLoading = false;
+    const tokens = hooks.useObservableState<TokenWithAmount[] | null>(reefState.selectedTokenPrices$);
+    const { isDarkMode } = useTheme();
+
+    const isReefBalZero = (selectedSigner as any)?.balance._hex == "0x00";
+
     const tokenPrices = useMemo(
         () => (tokens ? tokens.reduce((prices: AddressToNumber<number>, tkn) => {
             prices[tkn.address] = tkn.price;// eslint-disable-line
@@ -60,17 +65,29 @@ function Tokens() {
                 price={tokenPrices[token.address] || 0}
                 token={token}
                 tokens={tokens}
-                isDarkMode={true}
+                isDarkMode={isDarkMode}
             />));
     return (
         <>
-            <SectionTitle text='Tokens' />
+            <Uik.Text text='Tokens' />
             {tokens == undefined ?
-                <div>
-                    <Skeleton isDarkMode={true} />
-                    <Skeleton isDarkMode={true} />
-                    <Skeleton isDarkMode={true} />
+                isReefBalZero && tokenPrices.length == 0 ? <div className="card-bg-light card token-card--no-balance">
+                    <div className="no-token-activity">
+                        No tokens found. &nbsp;
+                        {network.name === 'mainnet'
+                            ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>Get $REEF coins here.</a>
+                            : (
+                                <a className="text-btn" href={'https://discord.com/channels/1116016091014123521/1120371707019010128'} target="_blank" rel="noopener noreferrer">
+                                    Get Reef testnet tokens here.
+                                </a>
+                            )}
+                    </div>
                 </div> :
+                    <div>
+                        <Skeleton isDarkMode={true} />
+                        <Skeleton isDarkMode={true} />
+                        <Skeleton isDarkMode={true} />
+                    </div> :
                 <>{tokenCards}</>
             }
         </>

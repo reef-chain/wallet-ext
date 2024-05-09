@@ -200,15 +200,9 @@ const Account = ({
             />
 
             <div className="ellipsis-wrapper">
-
-              <FontAwesomeIcon
-                className={`three-dots hover:cursor-pointer p-2`}
-                onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-                icon={faEllipsisVertical as IconProp}
-                title={strings.acc_options}
-              />
               <Uik.Dropdown
                 isOpen={isOptionsOpen}
+                position="bottomLeft"
                 onClose={() => setIsOptionsOpen(false)}
                 className="relative right-20 bottom-2"
               >
