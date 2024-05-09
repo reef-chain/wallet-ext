@@ -7,7 +7,7 @@ import NFTs from '../NFTs/NFTs';
 function VDA() {
     const [tab, setTab] = useState("tokens")
     return (
-        <>
+        <div className='p-2'>
             <Uik.Tabs
                 value={tab}
                 onChange={value => setTab(value)}
@@ -18,7 +18,7 @@ function VDA() {
             />
             {tab == 'tokens' && <Tokens />}
             {tab == 'nfts' && <NFTs />}
-        </>
+        </div>
     )
 }
 

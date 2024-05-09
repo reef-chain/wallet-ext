@@ -569,3 +569,9 @@ button:disabled {
   position: absolute !important;
   right: 7rem !important;
 }
+
+.cross-btn-tabs {
+  position: absolute !important;
+  right: 10px;
+  top: 3.4rem;
+}

@@ -6,13 +6,19 @@ import ReefSigners from '../context/ReefSigners';
 import axios from 'axios';
 import BigNumber from 'bignumber.js';
 import { useDexConfig } from '../hooks/useDexConfig';
+import Uik from '@reef-chain/ui-kit';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { ActionContext } from '../contexts';
+import { useTheme } from '../context/ThemeContext';
 
 const { Skeleton, TokenCard } = Components;
 
 function Tokens() {
+    const onAction = useContext(ActionContext);
     const { selectedSigner, provider, network, accounts, reefState } = useContext(ReefSigners);
     const pools = hooks.useAllPools(axios);
     const tokens = hooks.useObservableState<TokenWithAmount[] | null>(reefState.selectedTokenPrices$);
+    const { isDarkMode } = useTheme();
 
     const isReefBalZero = (selectedSigner as any)?.balance._hex == "0x00";
 
@@ -62,11 +68,12 @@ function Tokens() {
                 price={tokenPrices[token.address] || 0}
                 token={token}
                 tokens={tokens}
-                isDarkMode={true}
+                isDarkMode={isDarkMode}
             />));
     return (
         <>
-            <SectionTitle text='Tokens' />
+            <Uik.Button icon={faCircleXmark} onClick={() => onAction("/")} className={`${isDarkMode ? 'dark-btn' : ""} cross-btn-tabs absolute right-10 `} />
+            <Uik.Text text='Tokens' />
             {tokens == undefined ?
                 isReefBalZero && tokenPrices.length == 0 ? <div className="card-bg-light card token-card--no-balance">
                     <div className="no-token-activity">
