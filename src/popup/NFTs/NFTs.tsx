@@ -1,8 +1,7 @@
 import { hooks, Components, NFT as NFTData } from '@reef-chain/react-lib';
 import Uik from '@reef-chain/ui-kit';
 import { reefState } from '@reef-chain/util-lib';
-import React, { useContext, useState } from 'react'
-import { SectionTitle } from '../components/SectionTitle';
+import React, { useContext, useState } from 'react';
 import ReefSigners from '../context/ReefSigners';
 import strings from '../../i18n/locales';
 import { useTheme } from '../context/ThemeContext';
@@ -15,7 +14,7 @@ function NFTs() {
     const { isDarkMode } = useTheme();
     return (
         <div>
-            <SectionTitle text={strings.nfts} />
+            <Uik.Text text={strings.nfts} />
             <div className={nfts == undefined ? 'nft_loader' : `nfts-container__list`}>
                 {nfts == undefined ? <Uik.Loading /> : nfts && nfts.length > 0 ? nfts.map((nft) => <div
                     className='nft__button'

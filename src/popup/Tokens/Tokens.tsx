@@ -7,14 +7,11 @@ import axios from 'axios';
 import BigNumber from 'bignumber.js';
 import { useDexConfig } from '../hooks/useDexConfig';
 import Uik from '@reef-chain/ui-kit';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { ActionContext } from '../contexts';
 import { useTheme } from '../context/ThemeContext';
 
 const { Skeleton, TokenCard } = Components;
 
 function Tokens() {
-    const onAction = useContext(ActionContext);
     const { selectedSigner, provider, network, accounts, reefState } = useContext(ReefSigners);
     const pools = hooks.useAllPools(axios);
     const tokens = hooks.useObservableState<TokenWithAmount[] | null>(reefState.selectedTokenPrices$);
@@ -72,7 +69,6 @@ function Tokens() {
             />));
     return (
         <>
-            <Uik.Button icon={faCircleXmark} onClick={() => onAction("/")} className={`${isDarkMode ? 'dark-btn' : ""} cross-btn-tabs absolute right-10 `} />
             <Uik.Text text='Tokens' />
             {tokens == undefined ?
                 isReefBalZero && tokenPrices.length == 0 ? <div className="card-bg-light card token-card--no-balance">
