@@ -331,14 +331,16 @@
     align-items: center;
     padding: 15px 0 15px 15px;
     margin-left: 10px;
+    background-color: transparent !important;
+
 }
 
 .uik-pool-actions-token__symbol {
-    color: white !important;
+    color: #373840 !important;
 }
 
 .uik-pool-actions-token__amount {
-    color: white !important;
+    color: #373840 !important;
 }
 
 .token-activity .card.card-bg-light {

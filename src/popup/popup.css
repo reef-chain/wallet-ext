@@ -470,7 +470,6 @@ button:disabled {
   border-radius: 15px;
   box-shadow: var(--shadow);
   padding: 30px;
-  background: #373840 !important;
 }
 
 .nft-view {
