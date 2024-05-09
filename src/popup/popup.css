@@ -566,5 +566,6 @@ button:disabled {
 }
 
 .positioned-right {
-  /* right: -30rem; */
+  position: absolute !important;
+  right: 7rem !important;
 }

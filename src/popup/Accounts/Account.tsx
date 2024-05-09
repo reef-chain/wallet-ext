@@ -202,6 +202,7 @@ const Account = ({
             <div className="ellipsis-wrapper">
               <Uik.Dropdown
                 isOpen={isOptionsOpen}
+                position="bottomLeft"
                 onClose={() => setIsOptionsOpen(false)}
                 className="relative right-20 bottom-2"
               >
