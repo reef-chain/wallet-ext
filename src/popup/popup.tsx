@@ -401,7 +401,7 @@ const Popup = () => {
             )}
           </Uik.Dropdown>
           <div className="modal-container">
-            <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title={strings.select_a_lang}>
+            <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title="Select a language...">
               <div>
                 <select value={selectedLanguage} onChange={(e) => {
                   setSelectedLanguage(e.target.value)
@@ -409,9 +409,9 @@ const Popup = () => {
                   localStorage.setItem("REEF_LANGUAGE_IDENT", JSON.stringify({ lang: e.target.value }));
                 }
                 } className="select-language">
-                  <option value="">{strings.select_a_lang}</option>
-                  <option value="en">{strings.en}</option>
-                  <option value="hi">{strings.hi}</option>
+                  <option value="">Select a language...</option>
+                  <option value="en">English</option>
+                  <option value="hi">Hindi</option>
                 </select>
               </div>
             </Uik.Modal>
