@@ -52,8 +52,8 @@ button.sm {
 
 .account {
   display: flex;
-  border-radius: 8px;
-  padding: 0px 8px;
+  border-radius: 1rem;
+  padding: 0px 1rem;
   max-width: 650px;
   margin-top: 10px;
   margin-bottom: 10px;
