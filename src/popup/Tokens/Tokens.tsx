@@ -78,7 +78,7 @@ function Tokens() {
         <>
             {isLoading ?
                 (selectedTknPrices && (typeof selectedTknPrices._status[0].code != 'number' && selectedTknPrices._status[0].code.length == 0)) ? <div className="card-bg-light card token-card--no-balance">
-                    <div className="no-token-activity">
+                    <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
                         No tokens found. &nbsp;
                         {network.name === 'mainnet'
                             ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>Get $REEF coins here.</a>

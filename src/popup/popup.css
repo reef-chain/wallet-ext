@@ -182,7 +182,7 @@ button.sm {
   box-shadow: 0 10px 15px -8px hsla(var(--secondary--h), var(--secondary--s), var(--secondary--l), .3);
 }
 
-.uik-text--light {
+.uik-text {
   color: var(--text-light) !important;
 }
 
