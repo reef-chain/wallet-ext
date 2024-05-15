@@ -18,8 +18,10 @@ function Tokens() {
 
     const { isDarkMode } = useTheme();
 
-    const tokens = selectedTknPrices ? selectedTknPrices.
-        data.map((val) => val.data) : [];
+    const tokens = useMemo(() => {
+        return selectedTknPrices ? selectedTknPrices.data.map((val) => val.data) : [];
+    }, [selectedTknPrices]);
+
     const isLoading = useMemo(() => {
         return selectedTknPrices ? !(selectedTknPrices._status[0].code == 6) : true;
     }, [selectedTknPrices]);
@@ -74,7 +76,6 @@ function Tokens() {
             />));
     return (
         <>
-            <Uik.Text text='Tokens' />
             {isLoading ?
                 (selectedTknPrices && (typeof selectedTknPrices._status[0].code != 'number' && selectedTknPrices._status[0].code.length == 0)) ? <div className="card-bg-light card token-card--no-balance">
                     <div className="no-token-activity">

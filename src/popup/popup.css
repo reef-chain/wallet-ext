@@ -368,6 +368,9 @@ button:disabled {
 .nfts-container__list {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .overlay-action__wrapper {

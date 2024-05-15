@@ -90,7 +90,7 @@ let strings = new LocalizedStrings({
         reject: "Reject",
         metadata: "Metadata",
         loading_metadata: "Loading metadata requests...",
-        no_nfts: "No NFTs",
+        no_nfts: "Your wallet doesn't hold any NFTs",
         balance: "Balance : ",
         nftid: "NFT ID : ",
         remember_for: "Remember for the next ",

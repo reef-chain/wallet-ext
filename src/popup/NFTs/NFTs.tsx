@@ -5,6 +5,7 @@ import React, { useContext, useMemo, useState } from 'react';
 import ReefSigners from '../context/ReefSigners';
 import strings from '../../i18n/locales';
 import { useTheme } from '../context/ThemeContext';
+import SqwidButton from './SqwidButton';
 const { NFTCard, OverlayNFT } = Components;
 
 function NFTs() {
@@ -18,7 +19,6 @@ function NFTs() {
     }, [nftsStatus]);
     return (
         <div>
-            <Uik.Text text={strings.nfts} />
             <div className={isLoading ? 'nft_loader' : `nfts-container__list`}>
                 {isLoading ? <Uik.Loading /> : nfts && nfts.length > 0 ? nfts.map((nft) => <div
                     className='nft__button'
@@ -32,7 +32,13 @@ function NFTs() {
                         mimetype={nft.mimetype}
                     />
 
-                </div>) : <Uik.Text text={strings.no_nfts} className={isDarkMode ? "text--dark-mode" : ""} />}
+                </div>) : <div className='flex justify-center align-middle flex-col'>
+
+                    <Uik.Text text={strings.no_nfts} className={isDarkMode ? "text--dark-mode" : ""} />
+
+                    <SqwidButton />
+                </div>
+                }
                 {
                     !!selectedNFT && (
 
