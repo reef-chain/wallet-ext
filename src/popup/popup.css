@@ -81,21 +81,15 @@ button.sm {
 }
 
 .avatar {
-  position: relative;
   margin-right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 55px;
-  width: 55px;
-  border-radius: 50%;
-  background-color: white;
 }
 
 .avatar .avatar-image {
   height: 100%;
   width: 100%;
   border-radius: 50%;
+  padding: 5px;
+  background-color: white;
   border: 1px solid white;
 }
 

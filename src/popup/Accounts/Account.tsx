@@ -89,7 +89,7 @@ const Account = ({
         } ${onClick ? "hover:cursor-pointer" : ""}`}
     >
       <div className="avatar">
-        <Identicon value={account.address} size={44} theme="substrate" />
+        <Identicon value={account.address} className="avatar-image" size={44} theme="substrate" />
       </div>
       <div className="content">
         <div className="font-bold">
