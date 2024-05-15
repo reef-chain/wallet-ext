@@ -50,11 +50,6 @@ button.sm {
   padding: 0 6px;
 }
 
-button:hover,
-button:disabled {
-  background-color: #a931859b;
-}
-
 .account {
   display: flex;
   border-radius: 8px;
@@ -545,11 +540,6 @@ button:disabled {
 /* hiding the send nft btn */
 .nft-box-send-btn {
   display: none;
-}
-
-button:hover,
-button:disabled {
-  background-color: #44464f !important;
 }
 
 .select-language {
