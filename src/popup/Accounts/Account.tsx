@@ -126,8 +126,7 @@ const Account = ({
                   className="hover:cursor-pointer flex items-center"
                 >
                   <div title={account.address}>
-                    <Uik.Text text={strings.native_addr} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
-                    {toAddressShortDisplay(account.address)}
+                    <Uik.Text text={strings.native_addr + toAddressShortDisplay(account.address)} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
                     <FontAwesomeIcon
                       className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
                       icon={faCopy as IconProp}
