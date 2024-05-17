@@ -111,10 +111,9 @@ const Account = ({
             </div>
           )}
         </div>
-        {account.address && provider && (
-          <div>
-            <img src="/icons/icon.png" className="reef-amount-logo"></img>
-            {balance !== undefined ? toReefAmount(balance) : strings.loading}
+        {account.address && provider && balance !== undefined && (
+          <div className="flex ml-5 mt-1 mb-1">
+            <Uik.ReefAmount value={toReefAmount(balance)} />
           </div>
         )}
         <div className="flex justify-start align-middle">
