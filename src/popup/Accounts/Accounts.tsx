@@ -30,16 +30,20 @@ const Accounts = (): JSX.Element => {
       {/* Selected account */}
       {
         selectedAccount && provider && (
-          <Account
-            account={selectedAccount}
-            isSelected={true}
-            showOptions={true}
-            showCopyAddress={true}
-          />
+          <>
+            <Uik.Text text={"Selected"} className={`${isDarkMode ? "text--dark-mode" : ""}`} />
+            <Account
+              account={selectedAccount}
+              isSelected={true}
+              showOptions={true}
+              showCopyAddress={true}
+            />
+          </>
         )
       }
       {/* Other accounts */}
       <div className="max-h-[365px] overflow-y-scroll scrollbar-hidden rounded-xl">
+        {accounts?.length > 1 && provider && <Uik.Text text={"Accounts"} className={`mt-2 ${isDarkMode ? "text--dark-mode" : ""}`} />}
         {accounts?.length > 1 &&
           provider &&
           accounts
@@ -51,7 +55,8 @@ const Accounts = (): JSX.Element => {
                 showOptions={true}
                 showCopyAddress={true}
               />
-            ))}
+            )
+            )}
       </div>
     </>
   );
