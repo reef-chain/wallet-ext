@@ -150,16 +150,6 @@ button.sm {
 }
 
 
-.uik-dropdown .uik-dropdown__dropdown .uik-dropdown__item .uik-dropdown__item-text {
-  color: white !important;
-}
-
-.uik-dropdown .uik-dropdown__dropdown .uik-dropdown__item:hover {
-  transition: none;
-  background-color: #38393e !important;
-  cursor: pointer;
-}
-
 .uik-text {
   font-size: 1rem;
   font-weight: 500;
