@@ -31,7 +31,7 @@ const Accounts = (): JSX.Element => {
       {
         selectedAccount && provider && (
           <>
-            <Uik.Text text={"Selected"} className={`${isDarkMode ? "text--dark-mode" : ""}`} />
+            <Uik.Text text={"Selected"} className={`${isDarkMode ? "text--dark-mode" : ""} mt-16`} />
             <Account
               account={selectedAccount}
               isSelected={true}
