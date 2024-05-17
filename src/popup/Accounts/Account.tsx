@@ -128,7 +128,7 @@ const Account = ({
                   <div title={account.address}>
                     <Uik.Text text={strings.native_addr + toAddressShortDisplay(account.address)} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
                     <FontAwesomeIcon
-                      className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
+                      className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} ml-2`}
                       icon={faCopy as IconProp}
                       size="sm"
                       title={strings.copy_reef_acc_addr}
@@ -156,7 +156,7 @@ const Account = ({
                           ? toAddressShortDisplay(evmAddress)
                           : strings.loading)} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
                         <FontAwesomeIcon
-                          className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
+                          className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} ml-2`}
                           icon={faCopy as IconProp}
                           size="sm"
                           title={strings.copy_evm_addr}

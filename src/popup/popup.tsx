@@ -315,7 +315,7 @@ const Popup = () => {
       <div className={`flex justify-between mb-2 header-base header-bg${isDarkMode ? "--dark" : ""} `}>
         {selectedNetwork && (
           <div>
-            <div className="flex hover:cursor-pointer logo-w">
+            <div className="flex hover:cursor-pointer logo-w" >
               {selectedNetwork.name == "mainnet" ? <Uik.ReefLogo /> : <Uik.ReefTestnetLogo />}
             </div>
           </div>
