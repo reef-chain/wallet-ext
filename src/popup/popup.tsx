@@ -328,6 +328,15 @@ const Popup = () => {
 
             onClick={() => window.open("https://app.reef.io/", "_blank")}
           />
+
+
+          <Uik.Button
+            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
+            text={strings.nfts}
+            icon={faPhotoFilm}
+            onClick={() => _onAction("/vda")}
+          />
+
           {!location.pathname.startsWith("/account/") && (
             <Uik.Button
               className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base filled-btn`}
@@ -337,13 +346,6 @@ const Popup = () => {
               fill
             />
           )}
-
-          <Uik.Button
-            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
-            text={strings.nfts}
-            icon={faPhotoFilm}
-            onClick={() => _onAction("/vda")}
-          />
 
           <Uik.Button
             className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}

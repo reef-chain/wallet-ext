@@ -152,10 +152,9 @@ const Account = ({
 
                     >
                       <div title={evmAddress || ""}>
-                        <Uik.Text text={strings.evm_addr} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
-                        {evmAddress
+                        <Uik.Text text={strings.evm_addr + (evmAddress
                           ? toAddressShortDisplay(evmAddress)
-                          : strings.loading}
+                          : strings.loading)} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
                         <FontAwesomeIcon
                           className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
                           icon={faCopy as IconProp}
