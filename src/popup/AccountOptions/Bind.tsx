@@ -176,7 +176,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                 >
                   <span title={bindFor.evmAddress}>
                     <FontAwesomeIcon
-                      className={isDarkMode ? "text--dark-mode ml-2" : "text-black ml-2"}
+                      className={isDarkMode ? "text--dark-mode ml-2" : "text-[#8f8f8f] ml-2"}
                       icon={faCopy as IconProp}
                       size="sm"
                       title={strings.copy_evm_addr}

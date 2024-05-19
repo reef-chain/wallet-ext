@@ -302,32 +302,6 @@
     position: absolute;
 }
 
-.uik-dropdown {
-    position: static;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    width: 0;
-    height: 0;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.uik-dropdown .uik-dropdown__dropdown.enter-active,
-.uik-dropdown .uik-dropdown__dropdown.enter-done,
-.uik-dropdown .uik-dropdown__dropdown.exit {
-    opacity: 1;
-    transform: none;
-    position: absolute;
-    /* right: 7rem; */
-    /* width: 12rem; */
-    background: #38393f;
-    color: white !important;
-    top: 1.2rem;
-}
-
-
 .uik-pool-actions .uik-pool-actions-token .uik-pool-actions-token__token {
     display: flex;
     flex-flow: row nowrap;
