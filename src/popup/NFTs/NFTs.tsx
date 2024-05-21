@@ -17,19 +17,23 @@ function NFTs() {
     return (
         <div>
             <div className={isLoading ? 'nft_loader' : `nfts-container__list`}>
-                {isLoading ? <Uik.Loading /> : nftsStatus && nftsStatus.data.length > 0 ? nftsStatus.data.map((nft) => <div
-                    className='nft__button'
-                    role="button"
-                    onClick={() => setSelectedNFT(nft.data)}
-                >
-                    <NFTCard
-                        balance={nft.data.balance}
-                        iconUrl={nft.data.iconUrl}
-                        name={nft.data.name}
-                        mimetype={nft.data.mimetype}
-                    />
+                {isLoading ? <Uik.Loading /> : nftsStatus && nftsStatus.data.length > 0 ? nftsStatus.data.map((nft) =>
+                    nft.hasStatus(reefState.FeedbackStatusCode.COMPLETE_DATA) ?
+                        <div
+                            className='nft__button'
+                            role="button"
+                            onClick={() => setSelectedNFT(nft.data)}
+                        >
+                            <NFTCard
+                                balance={nft.data.balance}
+                                iconUrl={nft.data.iconUrl}
+                                name={nft.data.name}
+                                mimetype={nft.data.mimetype}
+                            />
 
-                </div>) : <div className='flex justify-center align-middle flex-col'>
+                        </div> : <Uik.Loading />
+
+                ) : <div className='flex justify-center align-middle flex-col'>
 
                     <Uik.Text text={strings.no_nfts} className={isDarkMode ? "text--dark-mode" : ""} />
 
