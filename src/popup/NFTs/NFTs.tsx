@@ -13,23 +13,20 @@ function NFTs() {
     const [selectedNFT, setSelectedNFT] = useState<NFTData | undefined>(undefined)
     const { accounts, selectedSigner, provider } = useContext(ReefSigners);
     const { isDarkMode } = useTheme();
-    const nfts = nftsStatus?.data.map((val) => val.data);
-    const isLoading = useMemo(() => {
-        return nftsStatus ? !(nftsStatus.getStatus()[0].code == 6) : true;
-    }, [nftsStatus]);
+    const isLoading = !(nftsStatus?.hasStatus(reefState.FeedbackStatusCode.COMPLETE_DATA));
     return (
         <div>
             <div className={isLoading ? 'nft_loader' : `nfts-container__list`}>
-                {isLoading ? <Uik.Loading /> : nfts && nfts.length > 0 ? nfts.map((nft) => <div
+                {isLoading ? <Uik.Loading /> : nftsStatus && nftsStatus.data.length > 0 ? nftsStatus.data.map((nft) => <div
                     className='nft__button'
                     role="button"
-                    onClick={() => setSelectedNFT(nft)}
+                    onClick={() => setSelectedNFT(nft.data)}
                 >
                     <NFTCard
-                        balance={nft.balance}
-                        iconUrl={nft.iconUrl}
-                        name={nft.name}
-                        mimetype={nft.mimetype}
+                        balance={nft.data.balance}
+                        iconUrl={nft.data.iconUrl}
+                        name={nft.data.name}
+                        mimetype={nft.data.mimetype}
                     />
 
                 </div>) : <div className='flex justify-center align-middle flex-col'>

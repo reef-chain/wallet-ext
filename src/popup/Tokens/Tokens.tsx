@@ -22,9 +22,7 @@ function Tokens() {
         return selectedTknPrices ? selectedTknPrices.data.map((val) => val.data) : [];
     }, [selectedTknPrices]);
 
-    const isLoading = useMemo(() => {
-        return selectedTknPrices ? !(selectedTknPrices._status[0].code == 6) : true;
-    }, [selectedTknPrices]);
+    const isLoading = !(selectedTknPrices?.hasStatus(reefState.FeedbackStatusCode.COMPLETE_DATA));
 
     const tokenPrices = useMemo(
         () => (tokens ? tokens.reduce((prices: AddressToNumber<number>, tkn) => {
@@ -77,24 +75,23 @@ function Tokens() {
     return (
         <>
             {isLoading ?
-                (selectedTknPrices && (typeof selectedTknPrices._status[0].code != 'number' && selectedTknPrices._status[0].code.length == 0)) ? <div className="card-bg-light card token-card--no-balance">
-                    <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
-                        No tokens found. &nbsp;
-                        {network.name === 'mainnet'
-                            ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>Get $REEF coins here.</a>
-                            : (
-                                <a className="text-btn" href={'https://discord.com/channels/1116016091014123521/1120371707019010128'} target="_blank" rel="noopener noreferrer">
-                                    Get Reef testnet tokens here.
-                                </a>
-                            )}
+                <div>
+                    <Skeleton isDarkMode={true} />
+                    <Skeleton isDarkMode={true} />
+                    <Skeleton isDarkMode={true} />
+                </div> : selectedTknPrices.length ?
+                    <>{tokenCards}</> : <div className="card-bg-light card token-card--no-balance">
+                        <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
+                            No tokens found. &nbsp;
+                            {network.name === 'mainnet'
+                                ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>Get $REEF coins here.</a>
+                                : (
+                                    <a className="text-btn" href={'https://discord.com/channels/1116016091014123521/1120371707019010128'} target="_blank" rel="noopener noreferrer">
+                                        Get Reef testnet tokens here.
+                                    </a>
+                                )}
+                        </div>
                     </div>
-                </div> :
-                    <div>
-                        <Skeleton isDarkMode={true} />
-                        <Skeleton isDarkMode={true} />
-                        <Skeleton isDarkMode={true} />
-                    </div> :
-                <>{tokenCards}</>
             }
         </>
     )
