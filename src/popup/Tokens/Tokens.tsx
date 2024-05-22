@@ -22,7 +22,14 @@ function Tokens() {
         return selectedTknPrices ? selectedTknPrices.data.map((val) => val.data) : [];
     }, [selectedTknPrices]);
 
-    const isLoading = !(selectedTknPrices?.hasStatus(reefState.FeedbackStatusCode.COMPLETE_DATA));
+    const isLoading = (selectedTknPrices?.hasStatus(reefState.FeedbackStatusCode.LOADING));
+
+    console.log("x--", selectedTknPrices?.hasStatus(reefState.FeedbackStatusCode.PARTIAL_DATA_LOADING))
+    // FeedbackStatusCode.MISSING_INPUT_VALUES
+    // FeedbackStatusCode.ERROR
+    // FeedbackStatusCode.NOT_SET
+    // FeedbackStatusCode.LOADING
+    // FeedbackStatusCode.PARTIAL_DATA_LOADING
 
     const tokenPrices = useMemo(
         () => (tokens ? tokens.reduce((prices: AddressToNumber<number>, tkn) => {
@@ -36,6 +43,7 @@ function Tokens() {
         .div(new BigNumber(10).pow(token.decimals))
         .multipliedBy(price)
         .toNumber());
+
 
     const tokenCards = tokens?.filter(({ balance }) => {
         try {
@@ -55,23 +63,25 @@ function Tokens() {
             if (a.symbol !== 'REEF') return 1;
             return -1;
         })
-        .map((token) => (
-            <TokenCard
-                accounts={accounts as any}
-                hideBalance={false} //todo: if we want to use hiding eye
-                pools={pools}
-                tokenPrices={tokenPrices as any}
-                signer={selectedSigner as any}
-                nw={network}
-                selectedSigner={selectedSigner as any}
-                provider={provider}
-                useDexConfig={useDexConfig}
-                isReefswapUI={false} //todo: set to true if we want to show swap overlay
-                price={tokenPrices[token.address] || 0}
-                token={token}
-                tokens={tokens}
-                isDarkMode={isDarkMode}
-            />));
+        .map((token) => {
+            return (
+                <TokenCard
+                    accounts={accounts as any}
+                    hideBalance={false} //todo: if we want to use hiding eye
+                    pools={pools}
+                    tokenPrices={tokenPrices as any}
+                    signer={selectedSigner as any}
+                    nw={network}
+                    selectedSigner={selectedSigner as any}
+                    provider={provider}
+                    useDexConfig={useDexConfig}
+                    isReefswapUI={false} //todo: set to true if we want to show swap overlay
+                    price={tokenPrices[token.address] || 0}
+                    token={token}
+                    tokens={tokens}
+                    isDarkMode={isDarkMode}
+                />);
+        });
     return (
         <>
             {isLoading ?
@@ -79,7 +89,7 @@ function Tokens() {
                     <Skeleton isDarkMode={true} />
                     <Skeleton isDarkMode={true} />
                     <Skeleton isDarkMode={true} />
-                </div> : selectedTknPrices.length ?
+                </div> : Object.keys(tokenPrices).length ?
                     <>{tokenCards}</> : <div className="card-bg-light card token-card--no-balance">
                         <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
                             No tokens found. &nbsp;

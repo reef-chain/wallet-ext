@@ -13,7 +13,7 @@ function NFTs() {
     const [selectedNFT, setSelectedNFT] = useState<NFTData | undefined>(undefined)
     const { accounts, selectedSigner, provider } = useContext(ReefSigners);
     const { isDarkMode } = useTheme();
-    const isLoading = !(nftsStatus?.hasStatus(reefState.FeedbackStatusCode.COMPLETE_DATA));
+    const isLoading = nftsStatus?.hasStatus(reefState.FeedbackStatusCode.LOADING);
     return (
         <div>
             <div className={isLoading ? 'nft_loader' : `nfts-container__list`}>
