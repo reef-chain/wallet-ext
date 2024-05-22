@@ -20,7 +20,7 @@ function NFTs() {
 
         isError ? <div className="card-bg-light card token-card--no-balance">
             <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
-                Encountered an error
+                {strings.encountered_error}
             </div>
         </div> :
             <div>

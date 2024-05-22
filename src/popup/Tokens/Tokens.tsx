@@ -8,6 +8,7 @@ import BigNumber from 'bignumber.js';
 import { useDexConfig } from '../hooks/useDexConfig';
 import Uik from '@reef-chain/ui-kit';
 import { useTheme } from '../context/ThemeContext';
+import strings from '../../i18n/locales';
 
 const { Skeleton, TokenCard } = Components;
 
@@ -87,7 +88,7 @@ function Tokens() {
             {
                 isError ? <div className="card-bg-light card token-card--no-balance">
                     <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
-                        Encountered an error
+                        {strings.encountered_error}
                     </div>
                 </div> :
                     isLoading ?
@@ -99,12 +100,12 @@ function Tokens() {
                             <>{tokenCards}</> :
                             <div className="card-bg-light card token-card--no-balance">
                                 <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
-                                    No tokens found. &nbsp;
+                                    {strings.no_tokens_found} &nbsp;
                                     {network.name === 'mainnet'
-                                        ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>Get $REEF coins here.</a>
+                                        ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>{strings.get_reef_tokens}</a>
                                         : (
                                             <a className="text-btn" href={'https://discord.com/channels/1116016091014123521/1120371707019010128'} target="_blank" rel="noopener noreferrer">
-                                                Get Reef testnet tokens here.
+                                                {strings.get_reef_test_tokens}
                                             </a>
                                         )}
                                 </div>
