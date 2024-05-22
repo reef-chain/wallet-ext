@@ -24,12 +24,7 @@ function Tokens() {
 
     const isLoading = (selectedTknPrices?.hasStatus(reefState.FeedbackStatusCode.LOADING));
 
-    console.log("x--", selectedTknPrices?.hasStatus(reefState.FeedbackStatusCode.PARTIAL_DATA_LOADING))
-    // FeedbackStatusCode.MISSING_INPUT_VALUES
-    // FeedbackStatusCode.ERROR
-    // FeedbackStatusCode.NOT_SET
-    // FeedbackStatusCode.LOADING
-    // FeedbackStatusCode.PARTIAL_DATA_LOADING
+    const isError = selectedTknPrices?.hasStatus(reefState.FeedbackStatusCode.ERROR);
 
     const tokenPrices = useMemo(
         () => (tokens ? tokens.reduce((prices: AddressToNumber<number>, tkn) => {
@@ -63,45 +58,57 @@ function Tokens() {
             if (a.symbol !== 'REEF') return 1;
             return -1;
         })
-        .map((token) => {
+        .map((token, idx) => {
             return (
-                <TokenCard
-                    accounts={accounts as any}
-                    hideBalance={false} //todo: if we want to use hiding eye
-                    pools={pools}
-                    tokenPrices={tokenPrices as any}
-                    signer={selectedSigner as any}
-                    nw={network}
-                    selectedSigner={selectedSigner as any}
-                    provider={provider}
-                    useDexConfig={useDexConfig}
-                    isReefswapUI={false} //todo: set to true if we want to show swap overlay
-                    price={tokenPrices[token.address] || 0}
-                    token={token}
-                    tokens={tokens}
-                    isDarkMode={isDarkMode}
-                />);
+                selectedTknPrices.data[idx].hasStatus(reefState.FeedbackStatusCode.LOADING) ? <>
+                    <Uik.Loading />
+                </> :
+                    <TokenCard
+                        accounts={accounts as any}
+                        hideBalance={false} //todo: if we want to use hiding eye
+                        pools={pools}
+                        tokenPrices={tokenPrices as any}
+                        signer={selectedSigner as any}
+                        nw={network}
+                        selectedSigner={selectedSigner as any}
+                        provider={provider}
+                        useDexConfig={useDexConfig}
+                        isReefswapUI={false} //todo: set to true if we want to show swap overlay
+                        price={tokenPrices[token.address] || 0}
+                        token={token}
+                        tokens={tokens}
+                        isDarkMode={isDarkMode}
+                    />
+
+            );
         });
     return (
         <>
-            {isLoading ?
-                <div>
-                    <Skeleton isDarkMode={true} />
-                    <Skeleton isDarkMode={true} />
-                    <Skeleton isDarkMode={true} />
-                </div> : Object.keys(tokenPrices).length ?
-                    <>{tokenCards}</> : <div className="card-bg-light card token-card--no-balance">
-                        <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
-                            No tokens found. &nbsp;
-                            {network.name === 'mainnet'
-                                ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>Get $REEF coins here.</a>
-                                : (
-                                    <a className="text-btn" href={'https://discord.com/channels/1116016091014123521/1120371707019010128'} target="_blank" rel="noopener noreferrer">
-                                        Get Reef testnet tokens here.
-                                    </a>
-                                )}
-                        </div>
+            {
+                isError ? <div className="card-bg-light card token-card--no-balance">
+                    <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
+                        Encountered an error
                     </div>
+                </div> :
+                    isLoading ?
+                        <div>
+                            <Skeleton isDarkMode={true} />
+                            <Skeleton isDarkMode={true} />
+                            <Skeleton isDarkMode={true} />
+                        </div> : Object.keys(tokenPrices).length ?
+                            <>{tokenCards}</> :
+                            <div className="card-bg-light card token-card--no-balance">
+                                <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
+                                    No tokens found. &nbsp;
+                                    {network.name === 'mainnet'
+                                        ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>Get $REEF coins here.</a>
+                                        : (
+                                            <a className="text-btn" href={'https://discord.com/channels/1116016091014123521/1120371707019010128'} target="_blank" rel="noopener noreferrer">
+                                                Get Reef testnet tokens here.
+                                            </a>
+                                        )}
+                                </div>
+                            </div>
             }
         </>
     )
