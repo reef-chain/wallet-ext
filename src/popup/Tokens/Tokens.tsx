@@ -23,8 +23,6 @@ function Tokens() {
         return selectedTknPrices ? selectedTknPrices.data.map((val) => val.data) : [];
     }, [selectedTknPrices]);
 
-    const isLoading = (selectedTknPrices?.hasStatus(reefState.FeedbackStatusCode.LOADING));
-
     const isError = selectedTknPrices?.hasStatus(reefState.FeedbackStatusCode.ERROR);
 
     const tokenPrices = useMemo(
@@ -62,7 +60,7 @@ function Tokens() {
         .map((token, idx) => {
             return (
                 selectedTknPrices.data[idx].hasStatus(reefState.FeedbackStatusCode.LOADING) ? <>
-                    <Uik.Loading />
+                    <Skeleton isDarkMode={isDarkMode} />
                 </> :
                     <TokenCard
                         accounts={accounts as any}
@@ -91,11 +89,11 @@ function Tokens() {
                         {strings.encountered_error}
                     </div>
                 </div> :
-                    isLoading ?
+                    selectedTknPrices == undefined ?
                         <div>
-                            <Skeleton isDarkMode={true} />
-                            <Skeleton isDarkMode={true} />
-                            <Skeleton isDarkMode={true} />
+                            <Skeleton isDarkMode={isDarkMode} />
+                            <Skeleton isDarkMode={isDarkMode} />
+                            <Skeleton isDarkMode={isDarkMode} />
                         </div> : Object.keys(tokenPrices).length ?
                             <>{tokenCards}</> :
                             <div className="card-bg-light card token-card--no-balance">

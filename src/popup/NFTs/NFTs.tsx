@@ -13,8 +13,14 @@ function NFTs() {
     const [selectedNFT, setSelectedNFT] = useState<NFTData | undefined>(undefined)
     const { accounts, selectedSigner, provider } = useContext(ReefSigners);
     const { isDarkMode } = useTheme();
-    const isLoading = nftsStatus?.hasStatus(reefState.FeedbackStatusCode.LOADING);
     const isError = nftsStatus?.hasStatus(reefState.FeedbackStatusCode.ERROR);
+
+    const Skeleton = (): JSX.Element => (
+        <div className="nft-skeleton">
+            <div className={`nft-skeleton__image${isDarkMode ? '-dark' : ''}`} />
+            <div className={`nft-skeleton__name${isDarkMode ? '-dark' : ''}`} />
+        </div>
+    );
 
     return (
 
@@ -24,8 +30,8 @@ function NFTs() {
             </div>
         </div> :
             <div>
-                <div className={isLoading ? 'nft_loader' : `nfts-container__list`}>
-                    {isLoading ? <Uik.Loading /> : nftsStatus && nftsStatus.data.length > 0 ? nftsStatus.data.map((nft) =>
+                <div className={`nfts-container__list`}>
+                    {nftsStatus && nftsStatus.data.length > 0 ? nftsStatus.data.map((nft) =>
                         nft.hasStatus(reefState.FeedbackStatusCode.COMPLETE_DATA) ?
                             <div
                                 className='nft__button'
@@ -39,18 +45,14 @@ function NFTs() {
                                     mimetype={nft.data.mimetype}
                                 />
 
-                            </div> : <Uik.Loading />
-
+                            </div> : <Skeleton />
                     ) : <div className='flex justify-center align-middle flex-col'>
-
                         <Uik.Text text={strings.no_nfts} className={isDarkMode ? "text--dark-mode" : ""} />
-
                         <SqwidButton />
                     </div>
                     }
                     {
                         !!selectedNFT && (
-
                             <OverlayNFT
                                 isOpen={!!selectedNFT}
                                 onClose={() => setSelectedNFT(undefined)}
