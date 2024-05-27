@@ -85,7 +85,7 @@ const Account = ({
 
   return (
     <div
-      className={`account ${isDarkMode ? "account--dark" : "account--light"} w-full ${isSelected && showOptions ? "border-pink-600 border-2" : ""
+      className={`account ${isDarkMode ? "account--dark" : "account--light"} w-full ${isSelected && showOptions ? "border-pink-600 border-2 selected-account" : ""
         } ${onClick ? "hover:cursor-pointer" : ""}`}
     >
       <div className="avatar">

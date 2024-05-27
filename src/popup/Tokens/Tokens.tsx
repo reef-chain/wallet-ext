@@ -74,7 +74,8 @@ function Tokens() {
                     token={token}
                     tokens={tokens}
                     isDarkMode={isDarkMode}
-                    isLoading={selectedTknPrices.data[idx].hasStatus(reefState.FeedbackStatusCode.LOADING)}
+                // isLoading={selectedTknPrices.data[idx].hasStatus(reefState.FeedbackStatusCode.LOADING)} todo undo later
+
                 />
 
             );

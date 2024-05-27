@@ -58,11 +58,14 @@ button.sm {
   margin-top: 10px;
   margin-bottom: 10px;
   align-items: center;
-  background-color: rgba(169, 49, 133, 0.1);
   color: var(--bg-dark);
-  background-color: rgba(169, 49, 133, 0.1);
   justify-content: center;
   align-items: center;
+  background-color: #2c2d33;
+}
+
+.selected-account {
+  background-color: rgba(169, 49, 133, 0.1);
 }
 
 .account--light:hover {
@@ -626,7 +629,6 @@ button.sm {
 
 .account--dark {
   color: white;
-  background-color: rgba(169, 49, 133, 0.1);
 }
 
 .filled-btn {
