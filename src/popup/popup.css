@@ -91,6 +91,11 @@ button.sm {
   border: 1px solid white;
 }
 
+.dark-avatar {
+  background-color: #595a70 !important;
+  border: 1px solid #595a70 !important;
+}
+
 .react-tooltip {
   max-width: 300px;
   opacity: 1 !important;

@@ -88,8 +88,8 @@ const Account = ({
       className={`account ${isDarkMode ? "account--dark" : "account--light"} w-full ${isSelected && showOptions ? "border-pink-600 border-2 selected-account" : ""
         } ${onClick ? "hover:cursor-pointer" : ""}`}
     >
-      <div className="avatar">
-        <Identicon value={account.address} className="avatar-image" size={44} theme="substrate" />
+      <div className={`avatar`} >
+        <Identicon value={account.address} className={`avatar-image ${isDarkMode ? "dark-avatar" : ""}`} size={48} theme="substrate" />
       </div>
       <div className="content">
         <div className="font-bold">
