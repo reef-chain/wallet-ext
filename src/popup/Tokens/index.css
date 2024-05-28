@@ -495,15 +495,22 @@ input:checked+.slider:before {
     border-radius: 50%;
 }
 
-.settings-modal {
+.settings-modal-base {
     display: flex;
     align-items: start;
     flex-direction: column;
-    background-color: #373840;
     padding: 20px 16px;
     border-radius: 1rem;
     width: 54vw;
     box-shadow: rgba(0, 0, 0, 0.6) 0px 0px 10px;
+}
+
+.settings-modal--dark {
+    background-color: #373840;
+}
+
+.settings-modal {
+    background-color: #f3f1f9;
 }
 
 .settings-modal-item {
@@ -536,4 +543,33 @@ input:checked+.slider:before {
 
 select .dark-select {
     background: rgb(26, 27, 32);
+}
+
+
+.uik-button-dark {
+    margin-left: 8px !important;
+    background-color: #372838 !important;
+}
+
+.account-options {
+    padding: 8px 4px;
+    width: 40vw;
+    background-color: #373840;
+    position: absolute;
+    top: 4rem;
+    right: 1rem;
+    border-radius: 0.5rem;
+}
+
+.account-options-item {
+    padding: 4px 0px;
+    border-radius: 0.25rem;
+}
+
+.account-options-item:hover {
+    cursor: pointer;
+}
+
+.danger-item {
+    color: #e73644 !important;
 }

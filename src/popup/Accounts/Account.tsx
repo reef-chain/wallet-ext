@@ -194,7 +194,7 @@ const Account = ({
         </div>
       </div>
       <div className="flex ">
-        {!isSelected && <Uik.Button className="dark-theme mr-2" onClick={() => {
+        {!isSelected && <Uik.Button className={`${isDarkMode ? 'uik-button-dark' : ''} mr-2`} onClick={() => {
           if (!isSelected) {
             selectAccount(account.address)
             onClick && onClick(account)
@@ -216,45 +216,42 @@ const Account = ({
                 title={strings.acc_options}
               />
             </div>
-
-            <Uik.Dropdown
-              isOpen={isOptionsOpen}
-              position="bottomLeft"
-              onClose={() => setIsOptionsOpen(false)}
-              className="relative right-20 bottom-2"
-            >
-              <Uik.DropdownItem
-                className="mb-1 hover:cursor-pointer hover:text-primary"
-                text="Rename"
+            {isOptionsOpen && <div className="account-options">
+              <div
+                className="account-options-item"
                 onClick={() => {
                   setIsEditingName(true);
                   setIsOptionsOpen(false);
-                }}
-              />
-              <Uik.DropdownItem
-                text={strings.derive_new_acc}
-                className="mb-1 hover:cursor-pointer hover:text-primary"
+                }}>
+                <Uik.Text text="Rename" type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
+              </div>
+              <div
+                className="account-options-item"
                 onClick={() => {
                   onAction(`/account/derive/${account.address}/locked`);
-                }}
-              />
-              <Uik.DropdownItem
-                text={strings.export_acc}
-                className="mb-1 hover:cursor-pointer hover:text-primary"
+                }}>
+                <Uik.Text text={strings.derive_new_acc} type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
+              </div>
+              <hr className={`my-2 opacity-25`} style={isDarkMode ? {
+
+              } : {
+                border: "0.2px solid black"
+              }} />
+              <div
+                className="account-options-item"
                 onClick={() => {
                   onAction(`/account/export/${account.address}`);
-                }}
-              />
-              <Uik.DropdownItem
-                text={strings.forget_account}
-                className="hover:cursor-pointer hover:text-primary"
+                }}>
+                <Uik.Text text={strings.export_acc} type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}  danger-item`} />
+              </div>
+              <div
+                className="account-options-item"
                 onClick={() => {
                   onAction(`/account/forget/${account.address}`);
-                }}
-              />
-
-            </Uik.Dropdown>
-
+                }}>
+                <Uik.Text text={strings.forget_account} type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""} danger-item`} />
+              </div>
+            </div>}
           </div >
         )
       }

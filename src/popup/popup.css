@@ -572,6 +572,7 @@ button.sm {
 
 .select-menu {
   color: black;
+  border: 1px solid #3738405e;
 }
 
 .select-menu--dark {

@@ -375,7 +375,7 @@ const Popup = () => {
 
           </div>
           {isSettingsOpen &&
-            <div ref={settingsRef} className="absolute right-2 top-16 settings-modal">
+            <div ref={settingsRef} className={`absolute right-2 top-16 settings-modal-base settings-modal${isDarkMode ? '--dark' : ''}`}>
               {/* theme swith */}
               <Uik.Text type="light" className={`${isDarkMode ? "text--dark-mode" : ""}`} text={"Theme"} />
               <div className="theme-switch">
