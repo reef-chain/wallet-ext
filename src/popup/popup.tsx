@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState, useCallback } from "react";
+import React, { useMemo, useEffect, useState, useCallback, useRef } from "react";
 import { Route, Routes, useLocation } from "react-router";
 import { Provider, Signer } from "@reef-chain/evm-provider";
 import { extension as extLib, reefState } from "@reef-chain/util-lib";
@@ -163,6 +163,25 @@ const Popup = () => {
   const selectedReefAccount = hooks.useObservableState(reefState.selectedAccount$);
 
   const accounts = hooks.useObservableState(reefState.accounts$);
+
+  const settingsRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (settingsRef.current && !settingsRef.current.contains(event.target)) {
+        setIsSettingsOpen(false);
+      }
+    };
+
+    if (isSettingsOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSettingsOpen]);
 
   const signers = useReefSigners(accounts as extLib.AccountJson[], provider);
 
@@ -356,7 +375,7 @@ const Popup = () => {
 
           </div>
           {isSettingsOpen &&
-            <div className="absolute right-2 top-16 settings-modal">
+            <div ref={settingsRef} className="absolute right-2 top-16 settings-modal">
               {/* theme swith */}
               <Uik.Text type="light" className={`${isDarkMode ? "text--dark-mode" : ""}`} text={"Theme"} />
               <div className="theme-switch">
@@ -397,7 +416,10 @@ const Popup = () => {
                 </div></>}
               <Uik.Divider />
               {!location.pathname.startsWith("/auth-list") && (
-                <div onClick={() => _onAction("/auth-list")} className="settings-modal-item">
+                <div onClick={() => {
+                  _onAction("/auth-list");
+                  setIsSettingsOpen(false);
+                }} className="settings-modal-item">
                   <FontAwesomeIcon icon={faTasks as IconProp} />
                   <Uik.Text className={`ml-2 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.manage_website_access} />
                 </div>
