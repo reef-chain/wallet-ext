@@ -190,6 +190,7 @@
     padding-top: 7px;
     margin-bottom: -1px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 .token-card__amount--hidden div {
