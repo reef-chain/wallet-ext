@@ -554,12 +554,16 @@ select .dark-select {
 .account-options {
     padding: 8px 4px;
     width: 40vw;
-    background-color: #373840;
     position: absolute;
+    background-color: #f3f1f9;
     top: 4rem;
     right: 1rem;
     border-radius: 0.5rem;
     box-shadow: rgb(0 0 0 / 11%) 0px 0px 10px;
+}
+
+.account-options--dark {
+    background-color: #373840;
 }
 
 .account-options-item {

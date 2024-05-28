@@ -235,7 +235,7 @@ const Account = ({
                 title={strings.acc_options}
               />
             </div>
-            {isOptionsOpen && <div className="account-options" ref={optionsRef}>
+            {isOptionsOpen && <div className={`account-options ${isDarkMode ? 'account-options--dark' : ''}`} ref={optionsRef}>
               <div
                 className="account-options-item"
                 onClick={() => {

@@ -158,8 +158,9 @@ export const Bind = ({ provider }: Props): JSX.Element => {
           {!bindFor.isEvmClaimed && (
             <>
 
-              <Uik.Text type="light" className={`mb-2  ${isDarkMode ? "text--dark-mode" : ""}`} text="Start using Reef EVM smart contracts." />
+              <Uik.Text type="mini" className={`mb-2  ${isDarkMode ? "text--dark-mode" : ""}`} text="Start using Reef EVM smart contracts." />
               <Uik.Text type="light" text={strings.first_connect_evm_addr} className={`${isDarkMode ? "text--dark-mode" : ""}`} />
+
               <Account account={{ ...bindFor }} />
             </>
           )}
