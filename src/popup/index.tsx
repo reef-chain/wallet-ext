@@ -4,6 +4,7 @@ import { HashRouter } from "react-router-dom";
 import "../assets/tailwind.css";
 import Popup from "./popup";
 import { ThemeProvider } from "./context/ThemeContext";
+import { HideBalanceProvider } from "./context/HideBalance";
 
 function init() {
   const appContainer = document.createElement("div");
@@ -16,11 +17,13 @@ function init() {
   const root = createRoot(appContainer);
   console.log(appContainer);
   root.render(
-    <ThemeProvider>
-      <HashRouter>
-        <Popup />
-      </HashRouter>
-    </ThemeProvider>
+    <HideBalanceProvider>
+      <ThemeProvider>
+        <HashRouter>
+          <Popup />
+        </HashRouter>
+      </ThemeProvider>
+    </HideBalanceProvider>
   );
 }
 

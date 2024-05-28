@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { faCopy, faEllipsisVertical } from "@fortawesome/free-solid-svg-icons";
+import { faCopy, faEllipsisVertical, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { getAddress } from "@ethersproject/address";
 import { Provider } from "@reef-chain/evm-provider";
 import { extension as extLib } from "@reef-chain/util-lib";
@@ -18,6 +18,7 @@ import { ActionContext, ProviderContext } from "../contexts";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
+import { useHideBalance } from "../context/HideBalance";
 
 interface Props {
   account: extLib.AccountJson;
@@ -43,6 +44,7 @@ const Account = ({
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const { isDarkMode } = useTheme();
+  const { isHidden, toggle } = useHideBalance();
   useEffect(() => {
     unsubBalance();
     if (account.address && provider) {
@@ -113,21 +115,39 @@ const Account = ({
         </div>
         {account.address && provider && balance !== undefined && (
           <div className="flex ml-5 mt-1 mb-1">
-            <Uik.ReefAmount value={toReefAmount(balance)} />
+            <FontAwesomeIcon
+              className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} mr-2`}
+              icon={isHidden ? faEyeSlash : faEye as IconProp}
+              size="sm"
+              title={strings.copy_reef_acc_addr}
+              onClick={toggle}
+            />
+            {isHidden ?
+              <>
+                <img src="/icons/icon.png" alt="" className="reef-balance-icon" />
+                <div className="dot-container">
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                  <div className="dot"></div>
+                </div>
+              </>
+              : <Uik.ReefAmount value={toReefAmount(balance)} />
+            }
+
           </div>
         )}
         <div className="flex justify-start align-middle">
-          <div>
+          <div className="text-hover">
             <div onClick={() => Uik.notify.success(`Copied ${account.address} successfully!`)}>
               {showCopyAddress ? (
                 <CopyToClipboard
                   text={account.address}
-                  className="hover:cursor-pointer flex items-center"
+                  className="hover:cursor-pointer flex items-center text-hover"
                 >
-                  <div title={account.address}>
-                    <Uik.Text text={strings.native_addr + toAddressShortDisplay(account.address)} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
+                  <div title={account.address} className="text-hover">
+                    <Uik.Text text={strings.native_addr + toAddressShortDisplay(account.address)} type="mini" className={`ml-5 mr-3 text-hover ${isDarkMode ? "text--dark-mode" : ""}`} />
                     <FontAwesomeIcon
-                      className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} ml-2`}
+                      className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} hover:text-pink-600`}
                       icon={faCopy as IconProp}
                       size="sm"
                       title={strings.copy_reef_acc_addr}
@@ -143,19 +163,18 @@ const Account = ({
             </div>
             <div onClick={() => Uik.notify.success(`Copied ${evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""} successfully!`)}>
               {isEvmClaimed && (
-                <div>
+                <div className="text-hover">
                   {showCopyAddress ? (
                     <CopyToClipboard
                       text={evmAddress ? evmAddress + strings.only_for_reef : ""}
                       className="hover:cursor-pointer flex items-center"
-
                     >
                       <div title={evmAddress || ""}>
                         <Uik.Text text={strings.evm_addr + (evmAddress
                           ? toAddressShortDisplay(evmAddress)
-                          : strings.loading)} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
+                          : strings.loading)} type="mini" className={`ml-5 mr-3 text-hover ${isDarkMode ? "text--dark-mode" : ""}`} />
                         <FontAwesomeIcon
-                          className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} ml-2`}
+                          className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"}`}
                           icon={faCopy as IconProp}
                           size="sm"
                           title={strings.copy_evm_addr}
