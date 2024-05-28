@@ -565,11 +565,18 @@ button.sm {
   display: none;
 }
 
-.select-language {
-  border: 2px solid white;
+.select-menu-base {
   border-radius: 4px;
-  padding: 4px 12px;
+  padding: 6px 12px;
+}
+
+.select-menu {
   color: black;
+}
+
+.select-menu--dark {
+  background: rgb(26, 27, 32);
+  color: white;
 }
 
 .uik-modal .uik-modal__container .uik-modal__popup .uik-modal__head {

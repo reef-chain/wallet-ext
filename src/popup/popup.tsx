@@ -394,7 +394,7 @@ const Popup = () => {
                   strings.setLanguage(e.target.value)
                   localStorage.setItem("REEF_LANGUAGE_IDENT", JSON.stringify({ lang: e.target.value }));
                 }
-                } className="select-language w-full">
+                } className={`select-menu-base select-menu${isDarkMode ? '--dark' : ''} w-full`}>
                   <option value="">{strings.select_a_lang}</option>
                   <option value="en">{strings.en}</option>
                   <option value="hi">{strings.hi}</option>
@@ -408,7 +408,7 @@ const Popup = () => {
                   <select value={selectedNetwork.name} onChange={(e) => {
                     onNetworkChange(e.target.value as any)
                   }
-                  } className="select-language w-full">
+                  } className={`select-menu-base select-menu${isDarkMode ? '--dark' : ''} w-full`}>
                     <option value="">{strings.select_a_lang}</option>
                     <option value="mainnet">Mainnet</option>
                     <option value="testnet">Testnet</option>
