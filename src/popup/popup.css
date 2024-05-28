@@ -65,7 +65,7 @@ button.sm {
 }
 
 .selected-account {
-  background-color: rgba(169, 49, 133, 0.1);
+  background-color: rgba(169, 49, 133, 0.1) !important;
 }
 
 .account--light:hover {
