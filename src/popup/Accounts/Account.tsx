@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
@@ -84,6 +84,25 @@ const Account = ({
       }
     );
   };
+
+  const optionsRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (optionsRef.current && !optionsRef.current.contains(event.target)) {
+        setIsOptionsOpen(false);
+      }
+    };
+
+    if (isOptionsOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOptionsOpen]);
 
   return (
     <div
@@ -216,7 +235,7 @@ const Account = ({
                 title={strings.acc_options}
               />
             </div>
-            {isOptionsOpen && <div className="account-options">
+            {isOptionsOpen && <div className="account-options" ref={optionsRef}>
               <div
                 className="account-options-item"
                 onClick={() => {
@@ -233,7 +252,6 @@ const Account = ({
                 <Uik.Text text={strings.derive_new_acc} type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
               </div>
               <hr className={`my-2 opacity-25`} style={isDarkMode ? {
-
               } : {
                 border: "0.2px solid black"
               }} />
