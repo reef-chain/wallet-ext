@@ -89,7 +89,7 @@ const Account = ({
         } ${onClick ? "hover:cursor-pointer" : ""}`}
     >
       <div className="avatar">
-        <Identicon value={account.address} size={44} theme="substrate" />
+        <Identicon value={account.address} className="avatar-image" size={44} theme="substrate" />
       </div>
       <div className="content">
         <div className="font-bold">
@@ -111,10 +111,9 @@ const Account = ({
             </div>
           )}
         </div>
-        {account.address && provider && (
-          <div>
-            <img src="/icons/icon.png" className="reef-amount-logo"></img>
-            {balance !== undefined ? toReefAmount(balance) : strings.loading}
+        {account.address && provider && balance !== undefined && (
+          <div className="flex ml-5 mt-1 mb-1">
+            <Uik.ReefAmount value={toReefAmount(balance)} />
           </div>
         )}
         <div className="flex justify-start align-middle">
@@ -126,10 +125,9 @@ const Account = ({
                   className="hover:cursor-pointer flex items-center"
                 >
                   <div title={account.address}>
-                    <Uik.Text text={strings.native_addr} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
-                    {toAddressShortDisplay(account.address)}
+                    <Uik.Text text={strings.native_addr + toAddressShortDisplay(account.address)} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
                     <FontAwesomeIcon
-                      className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
+                      className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} ml-2`}
                       icon={faCopy as IconProp}
                       size="sm"
                       title={strings.copy_reef_acc_addr}
@@ -153,12 +151,11 @@ const Account = ({
 
                     >
                       <div title={evmAddress || ""}>
-                        <Uik.Text text={strings.evm_addr} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
-                        {evmAddress
+                        <Uik.Text text={strings.evm_addr + (evmAddress
                           ? toAddressShortDisplay(evmAddress)
-                          : strings.loading}
+                          : strings.loading)} type="mini" className={`ml-5 mr-3 ${isDarkMode ? "text--dark-mode" : ""}`} />
                         <FontAwesomeIcon
-                          className={`${isDarkMode ? "text--dark-mode" : "text-black"} ml-2`}
+                          className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} ml-2`}
                           icon={faCopy as IconProp}
                           size="sm"
                           title={strings.copy_evm_addr}
@@ -192,52 +189,53 @@ const Account = ({
       {
         showOptions && (
           <div className="relative">
-            <FontAwesomeIcon
-              className="hover:cursor-pointer p-2"
-              onClick={() => setIsOptionsOpen(!isOptionsOpen)}
-              icon={faEllipsisVertical as IconProp}
-              title={strings.acc_options}
-            />
-
             <div className="ellipsis-wrapper">
-              <Uik.Dropdown
-                isOpen={isOptionsOpen}
-                position="bottomLeft"
-                onClose={() => setIsOptionsOpen(false)}
-                className="relative right-20 bottom-2"
-              >
-                <Uik.DropdownItem
-                  className="mb-1 hover:cursor-pointer hover:text-primary"
-                  text="Rename"
-                  onClick={() => {
-                    setIsEditingName(true);
-                    setIsOptionsOpen(false);
-                  }}
-                />
-                <Uik.DropdownItem
-                  text={strings.derive_new_acc}
-                  className="mb-1 hover:cursor-pointer hover:text-primary"
-                  onClick={() => {
-                    onAction(`/account/derive/${account.address}/locked`);
-                  }}
-                />
-                <Uik.DropdownItem
-                  text={strings.export_acc}
-                  className="mb-1 hover:cursor-pointer hover:text-primary"
-                  onClick={() => {
-                    onAction(`/account/export/${account.address}`);
-                  }}
-                />
-                <Uik.DropdownItem
-                  text={strings.forget_account}
-                  className="hover:cursor-pointer hover:text-primary"
-                  onClick={() => {
-                    onAction(`/account/forget/${account.address}`);
-                  }}
-                />
-
-              </Uik.Dropdown>
+              <FontAwesomeIcon
+                className="hover:cursor-pointer p-2 text-xl"
+                onClick={() => setIsOptionsOpen(!isOptionsOpen)}
+                icon={faEllipsisVertical as IconProp}
+                title={strings.acc_options}
+              />
             </div>
+
+            <Uik.Dropdown
+              isOpen={isOptionsOpen}
+              position="bottomLeft"
+              onClose={() => setIsOptionsOpen(false)}
+              className="relative right-20 bottom-2"
+            >
+              <Uik.DropdownItem
+                className="mb-1 hover:cursor-pointer hover:text-primary"
+                text="Rename"
+                onClick={() => {
+                  setIsEditingName(true);
+                  setIsOptionsOpen(false);
+                }}
+              />
+              <Uik.DropdownItem
+                text={strings.derive_new_acc}
+                className="mb-1 hover:cursor-pointer hover:text-primary"
+                onClick={() => {
+                  onAction(`/account/derive/${account.address}/locked`);
+                }}
+              />
+              <Uik.DropdownItem
+                text={strings.export_acc}
+                className="mb-1 hover:cursor-pointer hover:text-primary"
+                onClick={() => {
+                  onAction(`/account/export/${account.address}`);
+                }}
+              />
+              <Uik.DropdownItem
+                text={strings.forget_account}
+                className="hover:cursor-pointer hover:text-primary"
+                onClick={() => {
+                  onAction(`/account/forget/${account.address}`);
+                }}
+              />
+
+            </Uik.Dropdown>
+
           </div >
         )
       }

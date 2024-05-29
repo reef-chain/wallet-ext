@@ -1,56 +1,78 @@
 import { hooks, Components, NFT as NFTData } from '@reef-chain/react-lib';
 import Uik from '@reef-chain/ui-kit';
 import { reefState } from '@reef-chain/util-lib';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import ReefSigners from '../context/ReefSigners';
 import strings from '../../i18n/locales';
 import { useTheme } from '../context/ThemeContext';
+import SqwidButton from './SqwidButton';
 const { NFTCard, OverlayNFT } = Components;
 
 function NFTs() {
-    const nfts = hooks.useObservableState(reefState.selectedNFTs$);
+    const nftsStatus = hooks.useObservableState(reefState.selectedNFTs_status$);
     const [selectedNFT, setSelectedNFT] = useState<NFTData | undefined>(undefined)
     const { accounts, selectedSigner, provider } = useContext(ReefSigners);
     const { isDarkMode } = useTheme();
+    const isError = nftsStatus?.hasStatus(reefState.FeedbackStatusCode.ERROR);
+
+    const Skeleton = (): JSX.Element => (
+        <div className="nft-skeleton">
+            <div className={`nft-skeleton__image${isDarkMode ? '-dark' : ''}`} />
+            <div className={`nft-skeleton__name${isDarkMode ? '-dark' : ''}`} />
+        </div>
+    );
+
     return (
-        <div>
-            <Uik.Text text={strings.nfts} />
-            <div className={nfts == undefined ? 'nft_loader' : `nfts-container__list`}>
-                {nfts == undefined ? <Uik.Loading /> : nfts && nfts.length > 0 ? nfts.map((nft) => <div
-                    className='nft__button'
-                    role="button"
-                    onClick={() => setSelectedNFT(nft)}
-                >
-                    <NFTCard
-                        balance={nft.balance}
-                        iconUrl={nft.iconUrl}
-                        name={nft.name}
-                        mimetype={nft.mimetype}
-                    />
 
-                </div>) : <Uik.Text text={strings.no_nfts} className={isDarkMode ? "text--dark-mode" : ""} />}
-                {
-                    !!selectedNFT && (
+        isError ? <div className="card-bg-light card token-card--no-balance">
+            <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
+                {strings.encountered_error}
+            </div>
+        </div> :
+            <div>
+                <div className={`nfts-container__list`}>
+                    {nftsStatus && nftsStatus.data.length > 0 ? nftsStatus.data.map((nft) =>
+                        nft.hasStatus(reefState.FeedbackStatusCode.COMPLETE_DATA) ?
+                            <div
+                                className='nft__button'
+                                role="button"
+                                onClick={() => setSelectedNFT(nft.data)}
+                            >
+                                <NFTCard
+                                    balance={nft.data.balance}
+                                    iconUrl={nft.data.iconUrl}
+                                    name={nft.data.name}
+                                    mimetype={nft.data.mimetype}
+                                />
 
-                        <OverlayNFT
-                            isOpen={!!selectedNFT}
-                            onClose={() => setSelectedNFT(undefined)}
-                            nftName={selectedNFT.name}
-                            isVideoNFT={selectedNFT.mimetype !== undefined && selectedNFT.mimetype?.includes('mp4')}
-                            iconUrl={selectedNFT.iconUrl}
-                            balance={selectedNFT.balance.toString()}
-                            address={selectedNFT.address}
-                            contractType={selectedNFT.contractType}
-                            nftId={selectedNFT.nftId}
-                            accounts={accounts}
-                            selectedSigner={selectedSigner}
-                            provider={provider}
-                        />
+                            </div> : <Skeleton />
+                    ) : <div className='flex justify-center align-middle flex-col'>
+                        <Uik.Text text={strings.no_nfts} className={isDarkMode ? "text--dark-mode" : ""} />
+                        <SqwidButton />
+                    </div>
+                    }
+                    {
+                        !!selectedNFT && (
+                            <OverlayNFT
+                                isOpen={!!selectedNFT}
+                                onClose={() => setSelectedNFT(undefined)}
+                                nftName={selectedNFT.name}
+                                isVideoNFT={selectedNFT.mimetype !== undefined && selectedNFT.mimetype?.includes('mp4')}
+                                iconUrl={selectedNFT.iconUrl}
+                                balance={selectedNFT.balance.toString()}
+                                address={selectedNFT.address}
+                                contractType={selectedNFT.contractType}
+                                nftId={selectedNFT.nftId}
+                                accounts={accounts}
+                                selectedSigner={selectedSigner}
+                                provider={provider}
+                            />
 
-                    )
-                }
+                        )
+                    }
+                </div >
             </div >
-        </div >
+
     )
 }
 

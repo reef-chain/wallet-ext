@@ -312,113 +312,118 @@ const Popup = () => {
   return (
     <div>
       {/* Header */}
-      <div className={`flex justify-between mb-2 header-base header-bg${isDarkMode ? "--dark" : ""} `}>
-        {selectedNetwork && (
-          <div>
-            <div className="flex hover:cursor-pointer logo-w">
-              {selectedNetwork.name == "mainnet" ? <Uik.ReefLogo /> : <Uik.ReefTestnetLogo />}
+      <div className="fixed top-0 w-full z-50">
+        <div className={`flex justify-between mb-2 header-base header-bg${isDarkMode ? "--dark" : ""} `}>
+          {selectedNetwork && (
+            <div>
+              <div className="flex hover:cursor-pointer logo-w" onClick={() => _onAction("/")}>
+                {selectedNetwork.name == "mainnet" ? <Uik.ReefLogo /> : <Uik.ReefTestnetLogo />}
+              </div>
+            </div>
+          )}
+          <div className="flex justify-end absolute right-2 top-1">
+            <Uik.Button
+              className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
+              text={strings.open_app}
+              icon={faArrowUpRightFromSquare}
+
+              onClick={() => window.open("https://app.reef.io/", "_blank")}
+            />
+
+
+            <Uik.Button
+              className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
+              text={strings.nfts}
+              icon={faPhotoFilm}
+              onClick={() => _onAction("/vda")}
+            />
+
+            {!location.pathname.startsWith("/account/") && (
+              <Uik.Button
+                className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base filled-btn`}
+                text={strings.add_acc}
+                icon={faCirclePlus}
+                onClick={() => _onAction("/account/menu")}
+                fill
+              />
+            )}
+
+            <Uik.Button
+              className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
+              icon={faGear}
+              onClick={() => setIsSettingsOpen(true)}
+            />
+
+          </div>
+          <div className="relative top-8">
+            <Uik.Dropdown
+              isOpen={isSettingsOpen}
+              onClose={() => setIsSettingsOpen(false)}
+              position="bottomLeft"
+              className="dark-mode-modal positioned-right"
+            >
+              <Uik.DropdownItem
+                icon={faLanguage as IconProp}
+                text={strings.change_language}
+                onClick={() =>
+                  setIsLanguageChangeModalOpen(true)
+                }
+              />
+              {selectedNetwork &&
+                <>
+                  <Uik.DropdownItem
+                    icon={faShuffle as IconProp}
+                    text={strings.toggle_network}
+                    onClick={() =>
+                      onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
+                    }
+                  />
+                  <Uik.DropdownItem
+                    icon={isDarkMode ? faSun : faMoon as IconProp}
+                    text={strings.toggle_theme}
+                    onClick={() =>
+                      toggleTheme()
+                    }
+                  />
+                  <Uik.Divider />
+                </>
+              }
+              {!location.pathname.startsWith("/auth-list") && (
+                <Uik.DropdownItem
+                  icon={faTasks as IconProp}
+                  text={strings.manage_website_access}
+                  onClick={() => _onAction("/auth-list")}
+                />
+              )}
+              {isDetached && (
+                <Uik.DropdownItem
+                  icon={faExpand as IconProp}
+                  text={strings.open_in_new_window}
+                  onClick={() => openFullPage()}
+                />
+              )}
+            </Uik.Dropdown>
+            <div className="modal-container">
+              <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title={strings.select_a_lang}>
+                <div>
+                  <select value={selectedLanguage} onChange={(e) => {
+                    setSelectedLanguage(e.target.value)
+                    strings.setLanguage(e.target.value)
+                    localStorage.setItem("REEF_LANGUAGE_IDENT", JSON.stringify({ lang: e.target.value }));
+                  }
+                  } className="select-language">
+                    <option value="">{strings.select_a_lang}</option>
+                    <option value="en">{strings.en}</option>
+                    <option value="hi">{strings.hi}</option>
+                  </select>
+                </div>
+              </Uik.Modal>
             </div>
           </div>
-        )}
-        <div className="flex justify-end absolute right-2 top-1">
-          <Uik.Button
-            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
-            text={strings.open_app}
-            icon={faArrowUpRightFromSquare}
-
-            onClick={() => window.open("https://app.reef.io/", "_blank")}
-          />
-          {!location.pathname.startsWith("/account/") && (
-            <Uik.Button
-              className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base filled-btn`}
-              text={strings.add_acc}
-              icon={faCirclePlus}
-              onClick={() => _onAction("/account/menu")}
-              fill
-            />
-          )}
-
-          <Uik.Button
-            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
-            text={strings.nfts}
-            icon={faPhotoFilm}
-            onClick={() => _onAction("/vda")}
-          />
-
-          <Uik.Button
-            className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
-            icon={faGear}
-            onClick={() => setIsSettingsOpen(true)}
-          />
 
         </div>
-        <div className="relative top-8">
-          <Uik.Dropdown
-            isOpen={isSettingsOpen}
-            onClose={() => setIsSettingsOpen(false)}
-            position="bottomLeft"
-            className="dark-mode-modal positioned-right"
-          >
-            <Uik.DropdownItem
-              icon={faLanguage as IconProp}
-              text={strings.change_language}
-              onClick={() =>
-                setIsLanguageChangeModalOpen(true)
-              }
-            />
-            {selectedNetwork &&
-              <>
-                <Uik.DropdownItem
-                  icon={faShuffle as IconProp}
-                  text={strings.toggle_network}
-                  onClick={() =>
-                    onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
-                  }
-                />
-                <Uik.DropdownItem
-                  icon={isDarkMode ? faSun : faMoon as IconProp}
-                  text={strings.toggle_theme}
-                  onClick={() =>
-                    toggleTheme()
-                  }
-                />
-                <Uik.Divider />
-              </>
-            }
-            {!location.pathname.startsWith("/auth-list") && (
-              <Uik.DropdownItem
-                icon={faTasks as IconProp}
-                text={strings.manage_website_access}
-                onClick={() => _onAction("/auth-list")}
-              />
-            )}
-            {isDetached && (
-              <Uik.DropdownItem
-                icon={faExpand as IconProp}
-                text={strings.open_in_new_window}
-                onClick={() => openFullPage()}
-              />
-            )}
-          </Uik.Dropdown>
-          <div className="modal-container">
-            <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title="Select a language...">
-              <div>
-                <select value={selectedLanguage} onChange={(e) => {
-                  setSelectedLanguage(e.target.value)
-                  strings.setLanguage(e.target.value)
-                  localStorage.setItem("REEF_LANGUAGE_IDENT", JSON.stringify({ lang: e.target.value }));
-                }
-                } className="select-language">
-                  <option value="">Select a language...</option>
-                  <option value="en">English</option>
-                  <option value="hi">Hindi</option>
-                </select>
-              </div>
-            </Uik.Modal>
-          </div>
-        </div>
-
       </div>
+      <div className="mt-16"></div>
       <div className="popup text-left">
         {process.env.NODE_ENV === "development" && (
           <div className="absolute left-5 top-3 text-gray-400">

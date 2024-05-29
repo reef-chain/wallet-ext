@@ -142,7 +142,7 @@ export const CreateAccount = (): JSX.Element => {
               >
                 <div title={account.suri}>
                   <FontAwesomeIcon
-                    className={`${isDarkMode ? "text--dark-mode" : "text-black"} mr-2`}
+                    className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} mr-2`}
                     icon={faCopy as IconProp}
                     size="sm"
                   />

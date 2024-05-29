@@ -90,7 +90,7 @@ let strings = new LocalizedStrings({
         reject: "Reject",
         metadata: "Metadata",
         loading_metadata: "Loading metadata requests...",
-        no_nfts: "No NFTs",
+        no_nfts: "Your wallet doesn't hold any NFTs",
         balance: "Balance : ",
         nftid: "NFT ID : ",
         remember_for: "Remember for the next ",
@@ -104,7 +104,11 @@ let strings = new LocalizedStrings({
         open_app: "Open App",
         generating_new_acc: "Generating new account...",
         bind: "Bind",
-        toggle_theme: 'Toggle Theme'
+        toggle_theme: 'Toggle Theme',
+        encountered_error: "Encountered an error",
+        no_tokens_found: "No tokens found.",
+        get_reef_tokens: "Get $REEF coins here.",
+        get_reef_test_tokens: "Get Reef testnet tokens here."
     },
     hi: {
         dev: "डेव",
@@ -209,7 +213,11 @@ let strings = new LocalizedStrings({
         open_app: "ऐप खोलें",
         generating_new_acc: "नया खाता जनरेट किया जा रहा है...",
         bind: "जोड़ें",
-        toggle_theme: 'थीम बदलें'
+        toggle_theme: 'थीम बदलें',
+        encountered_error: "त्रुटि हुई",
+        no_tokens_found: "कोई टोकन नहीं मिला.",
+        get_reef_tokens: "यहां $REEF टोकन प्राप्त करें।",
+        get_reef_test_tokens: "$REEF टेस्टनेट टोकन यहां प्राप्त करें।"
     }
 });
 
