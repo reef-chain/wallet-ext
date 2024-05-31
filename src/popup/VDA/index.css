@@ -28,10 +28,13 @@
     bottom: 0;
     left: 0;
     box-shadow: 0 5px 10px -5px #0003;
-    background-color: #373840;
     border-radius: inherit;
     z-index: 1;
     animation: uik-tab-selected .15s;
+}
+
+.uik-tabs__tab--selected--dark {
+    background-color: #373840 !important;
 }
 
 .uik-tabs .uik-tabs__tab--selected span {

@@ -16,7 +16,7 @@ function VDA() {
         <div className='p-2'>
             <Uik.Button icon={faCircleXmark} onClick={() => onAction("/")} className={`${isDarkMode ? 'dark-btn' : ""} cross-btn-tabs absolute right-10 `} />
             <Uik.Tabs
-                className={`${isDarkMode ? 'uik-tabs--dark uik-tabs__tab--selected--dark' : ''} `}
+                className={`${isDarkMode ? 'uik-tabs--dark' : ''} `}
                 value={tab}
                 onChange={value => setTab(value)}
                 options={[

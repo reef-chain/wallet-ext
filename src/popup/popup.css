@@ -708,3 +708,7 @@ button.sm {
   height: 1.1rem;
   margin-right: 4px;
 }
+
+.uik-tabs .uik-tabs__tab:hover {
+  color: #9b9c9f !important;
+}
