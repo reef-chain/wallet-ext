@@ -12,7 +12,7 @@
 
 .popup-container {
   height: 600px;
-  width: 550px;
+  width: 580px;
   margin: auto;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -715,4 +715,43 @@ button.sm {
 
 .account-box-padding {
   padding: 1rem !important;
+}
+
+.no-accounts {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+}
+
+.custom-checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.4rem;
+}
+
+.custom-checkbox {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-color: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.custom-checkbox:after {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+}
+
+.custom-checkbox:checked {
+  accent-color: #ae27a5 !important;
 }

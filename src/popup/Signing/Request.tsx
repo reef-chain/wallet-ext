@@ -24,6 +24,7 @@ import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
+import Checkbox from "../../common/Checkbox";
 
 interface Props {
   account: extLib.AccountJson;
@@ -157,9 +158,10 @@ export default function Request({
               />
             </div>
             <div className="flex align-middle items-center">
-              <Uik.Checkbox
+              <Checkbox
                 value={savePass}
-                onChange={(_) => setSavePass(!savePass)}
+                onChange={() => setSavePass(!savePass)}
+                isDarkMode={isDarkMode}
                 disabled={isBusy}
               />
               <span className="font-bold ml-2">

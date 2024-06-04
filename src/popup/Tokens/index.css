@@ -166,6 +166,7 @@
     color: var(--text);
     border: none;
     background-color: transparent;
+    margin-top: 2rem;
 }
 
 .token-card__amount-dark {

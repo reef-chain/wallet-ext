@@ -19,6 +19,7 @@ import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
+import Checkbox from "../../common/Checkbox";
 
 const enum Step {
   FIRST,
@@ -154,10 +155,10 @@ export const CreateAccount = (): JSX.Element => {
               text={strings.please_write_down}
             />
             <div className="flex align-middle items-center">
-              <Uik.Checkbox
-                className="mr-2"
+              <Checkbox
                 value={confirmed}
                 onChange={() => setConfirmed(!confirmed)}
+                isDarkMode={isDarkMode}
               />
               <Uik.Text text={strings.i_have_saved_mnemonic} type="mini" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
 
