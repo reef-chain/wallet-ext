@@ -126,7 +126,7 @@ export const ImportLedger = (): JSX.Element => {
     <>
       <SectionTitle text="Import Ledger account" />
       <div className="flex flex-col">
-        <Account account={{ address: address || "", name: name }} />
+        <Account account={{ address: address || "", name: name }} className="account-box-padding" />
         <div className="flex flex-col items-start">
           <Uik.Label text={strings.name_for_the_acc} />
           <Uik.Input

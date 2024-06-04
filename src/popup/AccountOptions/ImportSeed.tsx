@@ -119,7 +119,7 @@ export const ImportSeed = (): JSX.Element => {
     <>
       <SectionTitle text={strings.import_acc} />
       <div className="flex flex-col">
-        {account && <Account account={account} showCopyAddress={true} />}
+        {account && <Account account={account} showCopyAddress={true} className="account-box-padding" />}
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start my-3">

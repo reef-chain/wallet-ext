@@ -9,6 +9,7 @@ import { useDexConfig } from '../hooks/useDexConfig';
 import Uik from '@reef-chain/ui-kit';
 import { useTheme } from '../context/ThemeContext';
 import strings from '../../i18n/locales';
+import { useHideBalance } from '../context/HideBalance';
 
 const { Skeleton, TokenCard } = Components;
 
@@ -16,6 +17,7 @@ function Tokens() {
     const { selectedSigner, provider, network, accounts, reefState } = useContext(ReefSigners);
     const pools = hooks.useAllPools(axios);
     const selectedTknPrices = hooks.useObservableState<any>(reefState.selectedTokenPrices_status$);
+    const hideBalance = useHideBalance();
 
     const { isDarkMode } = useTheme();
 
@@ -61,7 +63,7 @@ function Tokens() {
             return (
                 <TokenCard
                     accounts={accounts as any}
-                    hideBalance={false} //todo: if we want to use hiding eye
+                    hideBalance={hideBalance}
                     pools={pools}
                     tokenPrices={tokenPrices as any}
                     signer={selectedSigner as any}
@@ -74,7 +76,8 @@ function Tokens() {
                     token={token}
                     tokens={tokens}
                     isDarkMode={isDarkMode}
-                    isLoading={selectedTknPrices.data[idx].hasStatus(reefState.FeedbackStatusCode.LOADING)}
+                // isLoading={selectedTknPrices.data[idx].hasStatus(reefState.FeedbackStatusCode.LOADING)} todo undo later
+
                 />
 
             );

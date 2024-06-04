@@ -48,7 +48,7 @@ export const Export = (): JSX.Element => {
     <>
       <SectionTitle text={strings.export_acc} />
       <div className="flex flex-col">
-        {account && <Account account={{ ...account }} showCopyAddress={true} />}
+        {account && <Account account={{ ...account }} showCopyAddress={true} className="account-box-padding" />}
         <WarnMessage text={strings.you_are_exporting_account} />
         <div className="flex flex-col items-start my-3">
           <label>{strings.password_for_this_acc}</label>

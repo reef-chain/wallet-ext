@@ -26,6 +26,7 @@ function NftContainer({ iconUrl, balance, name, id }: Props) {
                     <div>
                         <div className='text-white'>{name}</div>
                         <Uik.Button className={`${isDarkMode ? 'dark-btn' : ""}  nft-container__dropdown-close`} onClick={() => setDropdownStatus(false)} icon={faCircleXmark} />
+
                     </div>
                     <div className=' nft-icon__container_info'>{strings.balance} {balance}</div>
                     <div className='nft-icon__container_info'>{strings.nftid}{id}</div>

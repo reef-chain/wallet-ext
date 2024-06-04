@@ -8,6 +8,7 @@ import { RequestAuthorizeTab } from "../../extension-base/background/types";
 import { WarnMessage } from "../components/WarnMessage";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
+import LightText from "../../common/LightText";
 
 interface Props {
   authId: string;
@@ -35,10 +36,10 @@ function Request({
   return (
     <>
       <div className="text-left">
-        {strings.an_app_self_identitifying}<span className="">{origin}</span>{" "}
-        {strings.is_req_acc_from}{" "}
+        <LightText text={`${strings.an_app_self_identitifying} ${origin} ${strings.is_req_acc_from}`} />
+
         <a href={url} target="_blank" className="underline">
-          <span className="">{url}</span>
+          <LightText text={url} />
         </a>
         .
       </div>

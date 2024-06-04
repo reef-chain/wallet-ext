@@ -19,6 +19,7 @@ import { Loading } from "../components/Loading";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
+import Checkbox from "../../common/Checkbox";
 
 const enum Step {
   FIRST,
@@ -125,41 +126,39 @@ export const CreateAccount = (): JSX.Element => {
     <>
       <SectionTitle text="Create an account" />
       <div className="flex flex-col">
-        <Account account={account} showCopyAddress={true} />
+        <Account account={account} showCopyAddress={true} className="account-box-padding" />
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start py-2">
-              <Uik.Label text={strings.generated_12_words} />
+              <Uik.Text type="light" className={`${isDarkMode ? "text--dark-mode" : ""} mb-4`} text={strings.generated_12_words} />
               <textarea
-                className="w-full p-5 rounded-lg bg-zinc-950 border-gray-600 text-primary"
+                className={`w-full p-5 rounded-lg ${isDarkMode ? 'bg-zinc-950' : 'bg-white'} border-gray-600 text-primary`}
                 readOnly
               >
                 {account.suri}
               </textarea>
               <CopyToClipboard
                 text={account.suri}
-                className="hover:cursor-pointer ml-1 py-2"
+                className="hover:cursor-pointer ml-1 py-2 flex"
               >
-                <div title={account.suri}>
+                <div title={account.suri} >
                   <FontAwesomeIcon
                     className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} mr-2`}
                     icon={faCopy as IconProp}
                     size="sm"
                   />
-                  <label className="hover:cursor-pointer">
-                    {strings.copy_to_clipboard}
-                  </label>
+                  <Uik.Text text={strings.copy_to_clipboard} type="mini" className={`${isDarkMode ? "text--dark-mode" : ""}  hover:cursor-pointer`} />
                 </div>
               </CopyToClipboard>
             </div>
-            <WarnMessage className="py-1"
+            <WarnMessage className="py-1" isDarkMode={isDarkMode}
               text={strings.please_write_down}
             />
             <div className="flex align-middle items-center">
-              <Uik.Checkbox
-                className="mr-2"
+              <Checkbox
                 value={confirmed}
                 onChange={() => setConfirmed(!confirmed)}
+                isDarkMode={isDarkMode}
               />
               <Uik.Text text={strings.i_have_saved_mnemonic} type="mini" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
 
@@ -172,7 +171,7 @@ export const CreateAccount = (): JSX.Element => {
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <Uik.Label text={strings.name_for_the_acc} />
+              <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.name_for_the_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -186,7 +185,7 @@ export const CreateAccount = (): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <Uik.Label text={strings.pass_for_acc} />
+              <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.pass_for_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -202,7 +201,7 @@ export const CreateAccount = (): JSX.Element => {
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <Uik.Label text={strings.repeat_password} />
+                <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.repeat_password} />
                 <Uik.Input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}

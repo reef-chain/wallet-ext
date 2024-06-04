@@ -90,7 +90,8 @@ export const AccountMenu = (): JSX.Element => {
         >
 
           <FontAwesomeIcon icon={faFileArrowUp as IconProp} className={isDarkMode ? "text--dark-mode" : "text-black"} />
-          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "dark-mode" : ""}`} text={strings.restore_account_json} />
+          <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.restore_account_json} />
+
 
         </div>
         <hr className="my-2 opacity-25" style={isDarkMode ? {

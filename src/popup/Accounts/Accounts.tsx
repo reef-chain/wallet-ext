@@ -21,11 +21,10 @@ const Accounts = (): JSX.Element => {
       )}
       {/* No accounts */}
       {accounts?.length === 0 && (
-        <>
-
+        <div className="no-accounts">
           <Uik.Text text={strings.no_accs_available} type="title" className={`${isDarkMode ? "text--dark-mode" : ""}`} />
           <Uik.Button onClick={() => onAction("account/menu")} text={strings.add_acc} />
-        </>
+        </div>
       )}
       {/* Selected account */}
       {
@@ -54,6 +53,7 @@ const Accounts = (): JSX.Element => {
                 account={account}
                 showOptions={true}
                 showCopyAddress={true}
+                showSelect={true}
               />
             )
             )}

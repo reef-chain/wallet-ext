@@ -12,7 +12,7 @@
 
 .popup-container {
   height: 600px;
-  width: 550px;
+  width: 580px;
   margin: auto;
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -20,9 +20,8 @@
 
 .popup {
   border-radius: 20px;
-
   height: 100%;
-  width: 100%;
+  width: 100vw;
   padding: 20px;
 }
 
@@ -58,11 +57,14 @@ button.sm {
   margin-top: 10px;
   margin-bottom: 10px;
   align-items: center;
-  background-color: rgba(169, 49, 133, 0.1);
   color: var(--bg-dark);
-  background-color: rgba(169, 49, 133, 0.1);
   justify-content: center;
   align-items: center;
+  box-shadow: 10px 10px 20px -5px hsl(256.3636363636deg, 37.9310344828%, calc(94.3137254902% - 10%)), -10px -10px 15px -10px hsl(256.3636363636deg, 37.9310344828%, calc(94.3137254902% + 10%));
+}
+
+.selected-account {
+  background-color: rgba(169, 49, 133, 0.1) !important;
 }
 
 .account--light:hover {
@@ -79,10 +81,6 @@ button.sm {
   margin-right: 5px;
 }
 
-.avatar {
-  margin-right: 16px;
-}
-
 .avatar .avatar-image {
   height: 100%;
   width: 100%;
@@ -90,6 +88,11 @@ button.sm {
   padding: 5px;
   background-color: white;
   border: 1px solid white;
+}
+
+.dark-avatar {
+  background-color: #595a70 !important;
+  border: 1px solid #595a70 !important;
 }
 
 .react-tooltip {
@@ -119,7 +122,7 @@ button.sm {
 .dark-btn {
   color: rgba(255, 255, 255, .5) !important;
   box-shadow: none !important;
-  background-color: var(--btn-dark);
+  background-color: var(--btn-dark) !important;
 }
 
 .dark-btn:hover {
@@ -158,15 +161,18 @@ button.sm {
 }
 
 .uik-input .uik-input__wrapper .uik-input__input-wrapper .uik-input__input:focus {
-  background-color: transparent;
+  background-color: white !important;
   outline: none;
-  color: white !important;
   border-color: var(--primary);
   box-shadow: 0 10px 15px -8px hsla(var(--secondary--h), var(--secondary--s), var(--secondary--l), .3);
 }
 
+
+
+
+
 .uik-text {
-  color: var(--text-light) !important;
+  color: black !important;
 }
 
 .nfts {
@@ -561,11 +567,19 @@ button.sm {
   display: none;
 }
 
-.select-language {
-  border: 2px solid white;
+.select-menu-base {
   border-radius: 4px;
-  padding: 4px 12px;
+  padding: 6px 12px;
+}
+
+.select-menu {
   color: black;
+  border: 1px solid #3738405e;
+}
+
+.select-menu--dark {
+  background: rgb(26, 27, 32);
+  color: white;
 }
 
 .uik-modal .uik-modal__container .uik-modal__popup .uik-modal__head {
@@ -624,9 +638,11 @@ button.sm {
   top: 3.4rem;
 }
 
+
 .account--dark {
   color: white;
-  background-color: rgba(169, 49, 133, 0.1);
+  background-color: #2c2d33;
+  box-shadow: none;
 }
 
 .filled-btn {
@@ -637,7 +653,7 @@ button.sm {
 .text--dark-mode {
   font-size: 1rem;
   font-weight: 500;
-  color: white !important;
+  color: rgba(255, 255, 255, 0.8) !important;
   line-height: 1.3;
 }
 
@@ -668,4 +684,76 @@ button.sm {
 
 .uik-text--mini {
   font-size: .7rem !important;
+  font-weight: lighter !important;
+}
+
+.text-hover:hover {
+  color: #a32f80 !important;
+}
+
+.dot-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  background-color: #a528a7;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+
+.reef-balance-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 4px;
+}
+
+.uik-tabs .uik-tabs__tab:hover {
+  color: #9b9c9f !important;
+}
+
+.account-box-padding {
+  padding: 1rem !important;
+}
+
+.no-accounts {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: column !important;
+}
+
+.custom-checkbox-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.4rem;
+}
+
+.custom-checkbox {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-color: #ccc;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.custom-checkbox:after {
+  content: "";
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #fff;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+}
+
+.custom-checkbox:checked {
+  accent-color: #ae27a5 !important;
 }

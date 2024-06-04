@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState, useCallback } from "react";
+import React, { useMemo, useEffect, useState, useCallback, useRef } from "react";
 import { Route, Routes, useLocation } from "react-router";
 import { Provider, Signer } from "@reef-chain/evm-provider";
 import { extension as extLib, reefState } from "@reef-chain/util-lib";
@@ -73,6 +73,7 @@ import { faThemeco } from "@fortawesome/free-brands-svg-icons";
 import { useReefSigners } from "./hooks/useReefSigners";
 import Tokens from "./Tokens/Tokens";
 import VDA from "./VDA/VDA";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
@@ -120,7 +121,6 @@ const Popup = () => {
   const provider: Provider | undefined = hooks.useObservableState(reefState.selectedProvider$);
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
-  const [isLanguageChangeModalOpen, setIsLanguageChangeModalOpen] = useState<boolean>(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
 
   //handles body color change if dark mode toggled
@@ -163,6 +163,25 @@ const Popup = () => {
   const selectedReefAccount = hooks.useObservableState(reefState.selectedAccount$);
 
   const accounts = hooks.useObservableState(reefState.accounts$);
+
+  const settingsRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (settingsRef.current && !settingsRef.current.contains(event.target)) {
+        setIsSettingsOpen(false);
+      }
+    };
+
+    if (isSettingsOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isSettingsOpen]);
 
   const signers = useReefSigners(accounts as extLib.AccountJson[], provider);
 
@@ -330,13 +349,13 @@ const Popup = () => {
               onClick={() => window.open("https://app.reef.io/", "_blank")}
             />
 
-
-            <Uik.Button
+            {selectedNetwork && <Uik.Button
               className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
               text={strings.nfts}
               icon={faPhotoFilm}
               onClick={() => _onAction("/vda")}
-            />
+            />}
+
 
             {!location.pathname.startsWith("/account/") && (
               <Uik.Button
@@ -351,75 +370,73 @@ const Popup = () => {
             <Uik.Button
               className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
               icon={faGear}
-              onClick={() => setIsSettingsOpen(true)}
+              onClick={() => setIsSettingsOpen(!isSettingsOpen)}
             />
 
           </div>
-          <div className="relative top-8">
-            <Uik.Dropdown
-              isOpen={isSettingsOpen}
-              onClose={() => setIsSettingsOpen(false)}
-              position="bottomLeft"
-              className="dark-mode-modal positioned-right"
-            >
-              <Uik.DropdownItem
-                icon={faLanguage as IconProp}
-                text={strings.change_language}
-                onClick={() =>
-                  setIsLanguageChangeModalOpen(true)
+          {isSettingsOpen &&
+            <div ref={settingsRef} className={`absolute right-2 top-16 settings-modal-base settings-modal${isDarkMode ? '--dark' : ''}`}>
+              {/* theme swith */}
+              <Uik.Text type="light" className={`${isDarkMode ? "text--dark-mode" : ""}`} text={"Theme"} />
+              <div className="theme-switch">
+                <Uik.Text className={`mr-2 ${isDarkMode ? "text--dark-mode" : ""} font-thin`} text={"Light"} />
+                <label className="switch">
+                  <input type="checkbox" checked={isDarkMode} onChange={toggleTheme} />
+                  <span className="slider round"></span>
+                </label>
+                <Uik.Text className={`ml-2 ${isDarkMode ? "text--dark-mode" : ""} font-thin`} text={"Dark"} />
+              </div>
+              {/* language switch */}
+              <Uik.Text type="light" className={`${isDarkMode ? "text--dark-mode" : ""} my-2 `} text={"Language"} />
+              <div className="full-width">
+                <select value={selectedLanguage} onChange={(e) => {
+                  setSelectedLanguage(e.target.value)
+                  strings.setLanguage(e.target.value)
+                  localStorage.setItem("REEF_LANGUAGE_IDENT", JSON.stringify({ lang: e.target.value }));
                 }
-              />
-              {selectedNetwork &&
-                <>
-                  <Uik.DropdownItem
-                    icon={faShuffle as IconProp}
-                    text={strings.toggle_network}
-                    onClick={() =>
-                      onNetworkChange(selectedNetwork.name === "mainnet" ? "testnet" : "mainnet")
-                    }
-                  />
-                  <Uik.DropdownItem
-                    icon={isDarkMode ? faSun : faMoon as IconProp}
-                    text={strings.toggle_theme}
-                    onClick={() =>
-                      toggleTheme()
-                    }
-                  />
-                  <Uik.Divider />
-                </>
-              }
-              {!location.pathname.startsWith("/auth-list") && (
-                <Uik.DropdownItem
-                  icon={faTasks as IconProp}
-                  text={strings.manage_website_access}
-                  onClick={() => _onAction("/auth-list")}
-                />
-              )}
-              {isDetached && (
-                <Uik.DropdownItem
-                  icon={faExpand as IconProp}
-                  text={strings.open_in_new_window}
-                  onClick={() => openFullPage()}
-                />
-              )}
-            </Uik.Dropdown>
-            <div className="modal-container">
-              <Uik.Modal isOpen={isLanguageChangeModalOpen} onClose={() => setIsLanguageChangeModalOpen(false)} title={strings.select_a_lang}>
-                <div>
-                  <select value={selectedLanguage} onChange={(e) => {
-                    setSelectedLanguage(e.target.value)
-                    strings.setLanguage(e.target.value)
-                    localStorage.setItem("REEF_LANGUAGE_IDENT", JSON.stringify({ lang: e.target.value }));
+                } className={`select-menu-base select-menu${isDarkMode ? '--dark' : ''} w-full`}>
+                  <option value="">{strings.select_a_lang}</option>
+                  <option value="en">{strings.en}</option>
+                  <option value="hi">{strings.hi}</option>
+                </select>
+              </div>
+
+              {selectedNetwork && <>
+
+                <Uik.Text type="light" className={`${isDarkMode ? "text--dark-mode" : ""} my-2 `} text={"Network"} />
+                <div className="full-width">
+                  <select value={selectedNetwork.name} onChange={(e) => {
+                    onNetworkChange(e.target.value as any)
                   }
-                  } className="select-language">
+                  } className={`select-menu-base select-menu${isDarkMode ? '--dark' : ''} w-full`}>
                     <option value="">{strings.select_a_lang}</option>
-                    <option value="en">{strings.en}</option>
-                    <option value="hi">{strings.hi}</option>
+                    <option value="mainnet">Mainnet</option>
+                    <option value="testnet">Testnet</option>
                   </select>
+                </div></>}
+              <Uik.Divider />
+              {!location.pathname.startsWith("/auth-list") && (
+                <div onClick={() => {
+                  _onAction("/auth-list");
+                  setIsSettingsOpen(false);
+                }} className="settings-modal-item">
+                  <FontAwesomeIcon icon={faTasks as IconProp} />
+                  <Uik.Text className={`ml-2 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.manage_website_access} />
                 </div>
-              </Uik.Modal>
+              )}
+
+              {!isDetached && (
+                <div onClick={() => openFullPage()} className="settings-modal-item ">
+                  <FontAwesomeIcon icon={faExpand as IconProp} />
+                  <Uik.Text
+                    className={`ml-2 ${isDarkMode ? "text--dark-mode" : ""}`}
+                    text={strings.open_in_new_window}
+                  />
+                </div>
+              )}
+
             </div>
-          </div>
+          }
 
         </div>
       </div>
