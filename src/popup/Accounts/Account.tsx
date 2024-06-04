@@ -27,6 +27,7 @@ interface Props {
   showCopyAddress?: boolean;
   onClick?: (account: extLib.AccountJson) => void;
   className?: string;
+  showSelect?: boolean;
 }
 
 const Account = ({
@@ -36,6 +37,7 @@ const Account = ({
   showCopyAddress,
   onClick,
   className,
+  showSelect,
 }: Props): JSX.Element => {
   const onAction = useContext(ActionContext);
   const provider = useContext(ProviderContext);
@@ -209,7 +211,7 @@ const Account = ({
         </div>
       </div>
       <div className="flex ">
-        {!isSelected && <Uik.Button className={`${isDarkMode ? 'uik-button-dark' : ''} mr-2`} onClick={() => {
+        {!isSelected && showSelect && <Uik.Button className={`${isDarkMode ? 'uik-button-dark' : ''} mr-2`} onClick={() => {
           if (!isSelected) {
             selectAccount(account.address)
             onClick && onClick(account)

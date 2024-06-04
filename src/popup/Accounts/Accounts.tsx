@@ -54,6 +54,7 @@ const Accounts = (): JSX.Element => {
                 account={account}
                 showOptions={true}
                 showCopyAddress={true}
+                showSelect={true}
               />
             )
             )}
