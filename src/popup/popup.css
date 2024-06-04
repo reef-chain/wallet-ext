@@ -20,9 +20,8 @@
 
 .popup {
   border-radius: 20px;
-
   height: 100%;
-  width: 100%;
+  width: 100vw;
   padding: 20px;
 }
 

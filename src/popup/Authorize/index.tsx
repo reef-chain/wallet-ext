@@ -8,6 +8,7 @@ import Request from "./Request";
 import { AuthorizeRequest } from "../../extension-base/background/types";
 import { Loading } from "../components/Loading";
 import strings from "../../i18n/locales";
+import LightText from "../../common/LightText";
 
 interface Props {
   requests: AuthorizeRequest[];
@@ -35,7 +36,7 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
   return requests.length && requests[requestIndex] ? (
     <>
       <div className="mb-2 text-center text-lg font-bold">
-        <span>{strings.authorize}</span>
+        <LightText text={strings.authorize} />
         {requests.length > 1 && (
           <RequestIndex
             index={requestIndex}
