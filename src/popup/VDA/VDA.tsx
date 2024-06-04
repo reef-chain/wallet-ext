@@ -6,6 +6,8 @@ import NFTs from '../NFTs/NFTs';
 import { ActionContext } from '../contexts';
 import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { useTheme } from '../context/ThemeContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 function VDA() {
     const [tab, setTab] = useState("tokens")
@@ -14,7 +16,12 @@ function VDA() {
 
     return (
         <div className='p-2'>
-            <Uik.Button icon={faCircleXmark} onClick={() => onAction("/")} className={`${isDarkMode ? 'dark-btn' : ""} cross-btn-tabs absolute right-10 `} />
+            <FontAwesomeIcon
+                className=" text-gray-500 absolute right-8 hover:text-gray-300 cursor-pointer"
+                onClick={() => onAction("/")}
+                icon={faCircleXmark as IconProp}
+                size="lg"
+            />
             <Uik.Tabs
                 className={`${isDarkMode ? 'uik-tabs--dark' : ''} `}
                 value={tab}
