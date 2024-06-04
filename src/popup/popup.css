@@ -712,3 +712,7 @@ button.sm {
 .uik-tabs .uik-tabs__tab:hover {
   color: #9b9c9f !important;
 }
+
+.account-box-padding {
+  padding: 1rem !important;
+}

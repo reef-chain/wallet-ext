@@ -180,7 +180,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
     <>
       <SectionTitle text={strings.create_new_acc} />
       <div className="flex flex-col">
-        {parentAccount && isLocked && <Account account={parentAccount} />}
+        {parentAccount && isLocked && <Account account={parentAccount} className="account-box-padding" />}
         {parentAccount && !isLocked && (
           <AccountSelector
             accounts={availableAccounts}

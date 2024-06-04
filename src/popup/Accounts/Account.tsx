@@ -26,6 +26,7 @@ interface Props {
   showOptions?: boolean;
   showCopyAddress?: boolean;
   onClick?: (account: extLib.AccountJson) => void;
+  className?: string;
 }
 
 const Account = ({
@@ -34,6 +35,7 @@ const Account = ({
   showOptions,
   showCopyAddress,
   onClick,
+  className,
 }: Props): JSX.Element => {
   const onAction = useContext(ActionContext);
   const provider = useContext(ProviderContext);
@@ -107,7 +109,7 @@ const Account = ({
   return (
     <div
       className={`account ${isDarkMode ? "account--dark" : "account--light"} w-full ${isSelected && showOptions ? "border-pink-600 border-2 selected-account" : ""
-        } ${onClick ? "hover:cursor-pointer" : ""}`}
+        } ${onClick ? "hover:cursor-pointer" : ""} ${className ? className : ''}`}
     >
       <div className={`avatar`} >
         <Identicon value={account.address} className={`avatar-image ${isDarkMode ? "dark-avatar" : ""}`} size={48} theme="substrate" />
@@ -174,10 +176,7 @@ const Account = ({
                   </div>
                 </CopyToClipboard>
               ) : (
-                <div title={account.address}>
-                  <label>{strings.native_addr}</label>
-                  {toAddressShortDisplay(account.address)}
-                </div>
+                <></>
               )}
             </div>
             <div onClick={() => Uik.notify.success(`Copied ${evmAddress ? evmAddress + " (ONLY for Reef chain!)" : ""} successfully!`)}>
@@ -201,10 +200,7 @@ const Account = ({
                       </div>
                     </CopyToClipboard>
                   ) : (
-                    <div title={evmAddress || ""}>
-                      <label>{strings.evm_addr}</label>
-                      {evmAddress ? toAddressShortDisplay(evmAddress) : "loading..."}
-                    </div>
+                    <></>
                   )}
                 </div>
               )}

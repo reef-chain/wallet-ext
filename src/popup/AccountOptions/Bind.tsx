@@ -160,13 +160,12 @@ export const Bind = ({ provider }: Props): JSX.Element => {
 
               <Uik.Text type="mini" className={`mb-2  ${isDarkMode ? "text--dark-mode" : ""}`} text="Start using Reef EVM smart contracts." />
               <Uik.Text type="light" text={strings.first_connect_evm_addr} className={`${isDarkMode ? "text--dark-mode" : ""}`} />
-
-              <Account account={{ ...bindFor }} />
+              <Account account={{ ...bindFor }} className="account-box-padding" showCopyAddress={true} />
             </>
           )}
           {bindFor.isEvmClaimed && (
             <>
-              <Account account={{ ...bindFor }} />
+              <Account account={{ ...bindFor }} className="account-box-padding" showCopyAddress={true} />
               <span className="mb-2">
                 {strings.successfully_connected_evm}
                 <br />

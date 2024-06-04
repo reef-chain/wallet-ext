@@ -125,7 +125,7 @@ export const CreateAccount = (): JSX.Element => {
     <>
       <SectionTitle text="Create an account" />
       <div className="flex flex-col">
-        <Account account={account} showCopyAddress={true} />
+        <Account account={account} showCopyAddress={true} className="account-box-padding" />
         {step === Step.FIRST && (
           <>
             <div className="flex flex-col items-start py-2">

@@ -29,7 +29,7 @@ export const Forget = (): JSX.Element => {
     <>
       <SectionTitle text={strings.forget_account} />
       <div className="flex flex-col">
-        <Account account={{ address, name }} showCopyAddress={true} />
+        <Account account={{ address, name }} showCopyAddress={true} className="account-box-padding" />
         <WarnMessage
           text={strings.remove_the_account}
         />

@@ -57,6 +57,7 @@ export const Signing = ({ requests }: Props): JSX.Element => {
       <Account
         account={requests[requestIndex].account}
         showCopyAddress={true}
+        className="account-box-padding"
       />
       <Request
         account={requests[requestIndex].account}

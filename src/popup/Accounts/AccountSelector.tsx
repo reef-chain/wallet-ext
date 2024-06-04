@@ -37,6 +37,8 @@ const AccountSelector = ({
         key={selectedAccount.address}
         account={selectedAccount}
         onClick={accounts.length > 1 ? toggleAvailableAccounts : undefined}
+        showCopyAddress={true}
+        className="account-box-padding"
       />
       {showAvailableAccounts && (
         <div className="relative">
@@ -51,6 +53,7 @@ const AccountSelector = ({
                   key={account.address}
                   account={account}
                   onClick={accountSelected}
+                  className="account-box-padding"
                 />
               ))}
           </div>
