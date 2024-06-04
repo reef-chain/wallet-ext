@@ -184,7 +184,9 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                   </span>
                 </CopyToClipboard>
               </span>
-              <Uik.Button onClick={() => onAction("/")} text={strings.continue} />
+              <div className="absolute right-4 bottom-10">
+                <Uik.Button onClick={() => onAction("/")} text={strings.continue} />
+              </div>
             </>
           )}
           {!bindFor.isEvmClaimed && (
@@ -230,11 +232,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                   {!txStatus && !!transferBalanceFrom && (
                     <>
                       <div>
-                        <span className="font-bold">
-                          ~{toReefAmount(MIN_BALANCE)} REEF{" "}
-                        </span>
 
-                        <Uik.Text type="light" text={strings.is_needed_for_tx} className={`${isDarkMode ? "text--dark-mode" : ""}`} />
+                        <Uik.Text type="light" text={`~${toReefAmount(MIN_BALANCE)} REEF ` + strings.is_needed_for_tx} className={`${isDarkMode ? "text--dark-mode" : ""}`} />
                       </div>
                       <div className="mt-2">
                         <Uik.Text type="light" text={strings.coins_will_be_tx_from_acc} className={`${isDarkMode ? "text--dark-mode" : ""}`} />
@@ -254,7 +253,9 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                         }
                         small={true}
                       />
-                      <Uik.Button onClick={transfer} text={strings.continue} />
+                      <div className="absolute right-4 bottom-10">
+                        <Uik.Button onClick={transfer} text={strings.continue} />
+                      </div>
                     </>
                   )}
                 </>
@@ -271,7 +272,9 @@ export const Bind = ({ provider }: Props): JSX.Element => {
                     {txStatus && (
                       <Uik.Text type="light" text={strings.tx_complete} className={`${isDarkMode ? "text--dark-mode" : ""}`} />
                     )}
-                    <Uik.Button onClick={() => bindAccount()} text={strings.continue} />
+                    <div className="absolute right-4 bottom-10">
+                      <Uik.Button onClick={() => bindAccount()} text={strings.continue} />
+                    </div>
                   </>
                 )}
             </>
