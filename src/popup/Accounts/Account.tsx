@@ -248,7 +248,6 @@ const Account = ({
                 onClick={() => {
                   onAction(`/account/derive/${account.address}/locked`);
                 }}>
-                {/* <Uik.Text text={strings.derive_new_acc} type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} /> */}
                 <LightText text={strings.derive_new_acc} className="ml-5" />
               </div>
               <hr className={`my-2 opacity-25`} style={isDarkMode ? {
