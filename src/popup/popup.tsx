@@ -333,6 +333,7 @@ const Popup = () => {
       {/* Header */}
       <div className="fixed top-0 w-full z-50">
         <div className={`flex justify-between mb-2 header-base header-bg${isDarkMode ? "--dark" : ""} `}>
+          {selectNetwork == undefined && <div className="flex hover:cursor-pointer logo-w" onClick={() => _onAction("/")}><Uik.ReefLogo /></div>}
           {selectedNetwork && (
             <div>
               <div className="flex hover:cursor-pointer logo-w" onClick={() => _onAction("/")}>

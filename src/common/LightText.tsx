@@ -4,12 +4,13 @@ import { useTheme } from '../popup/context/ThemeContext'
 
 interface Props {
     text: string;
+    className?: string;
 }
 
-function LightText({ text }: Props) {
+function LightText({ text, className }: Props) {
     const { isDarkMode } = useTheme();
     return (
-        <Uik.Text type="light" className={`${isDarkMode ? "text--dark-mode" : ""}`} text={text} />
+        <Uik.Text type="light" className={`${isDarkMode ? "text--dark-mode" : ""} ${className}`} text={text} />
     )
 }
 

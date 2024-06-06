@@ -20,6 +20,7 @@ import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
+import LightText from "../../common/LightText";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
@@ -158,8 +159,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
           {!bindFor.isEvmClaimed && (
             <>
 
-              <Uik.Text type="mini" className={`mb-2  ${isDarkMode ? "text--dark-mode" : ""}`} text="Start using Reef EVM smart contracts." />
-              <Uik.Text type="light" text={strings.first_connect_evm_addr} className={`${isDarkMode ? "text--dark-mode" : ""}`} />
+              <LightText text="Start using Reef EVM smart contracts." className="mb-1" />
+              <LightText text={strings.first_connect_evm_addr} />
               <Account account={{ ...bindFor }} className="account-box-padding" showCopyAddress={true} />
             </>
           )}
