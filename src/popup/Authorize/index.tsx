@@ -34,7 +34,7 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
   }, [requests]);
 
   return requests.length && requests[requestIndex] ? (
-    <>
+    <div className="auth-container">
       <div className="mb-2 text-center text-lg font-bold">
         <LightText text={strings.authorize} />
         {requests.length > 1 && (
@@ -52,7 +52,7 @@ export const Authorize = ({ requests }: Props): JSX.Element => {
         key={requests[requestIndex].id}
         url={requests[requestIndex].url}
       />
-    </>
+    </div>
   ) : (
     <Loading text={strings.loading_auth_requests} />
   );

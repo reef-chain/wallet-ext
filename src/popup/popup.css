@@ -4,6 +4,7 @@
   --bg-dark-header: #2c2d33 !important;
   --btn-dark: #373840 !important;
   --btn-dark-hover: #44464f !important;
+  display: flex;
 }
 
 .dark-mode {
@@ -756,4 +757,18 @@ button.sm {
 
 .custom-checkbox:checked {
   accent-color: #ae27a5 !important;
+}
+
+.authorize-message {
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
