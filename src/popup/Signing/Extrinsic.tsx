@@ -71,7 +71,7 @@ function renderMethod(
       <table className="flex">
         <tbody>
           <tr>
-            <td>Method data</td>
+            <td className="extrinsic-table-label">Method data</td>
             <td className="pl-4">{data}</td>
           </tr>
         </tbody>
@@ -83,7 +83,7 @@ function renderMethod(
     <table className="flex">
       <tbody>
         <tr>
-          <td>Method</td>
+          <td className="extrinsic-table-label">Method</td>
           <td className="pl-4">
             <details>
               <summary>
@@ -98,7 +98,7 @@ function renderMethod(
         </tr>
         {method.meta && (
           <tr>
-            <td>Info</td>
+            <td className="extrinsic-table-label">Info</td>
             <td className="pl-4">
               <details>
                 <summary>
@@ -143,35 +143,35 @@ function Extrinsic({
 
   const { isDarkMode } = useTheme();
   return (
-    <table className={`flex overflow-x-scroll ${isDarkMode ? "" : "text-black"}`}>
+    <table className={`flex overflow-x-scroll ${isDarkMode ? "" : "text-black"} extrinsic-data-table`}>
       <tbody>
         {url !== PORT_EXTENSION && (
           <tr>
-            <td>From</td>
+            <td className="extrinsic-table-label">From</td>
             <td className="pl-4">{url}</td>
           </tr>
         )}
         <tr>
-          <td>{chain ? "Chain" : "Genesis"}</td>
+          <td className="extrinsic-table-label">{chain ? "Chain" : "Genesis"}</td>
           <td className="pl-4">{chain ? chain.name : genesisHash}</td>
         </tr>
         <tr>
-          <td>Version</td>
+          <td className="extrinsic-table-label">Version</td>
           <td className="pl-4">{specVersion.toNumber()}</td>
         </tr>
         <tr>
-          <td>Nonce</td>
+          <td className="extrinsic-table-label">Nonce</td>
           <td className="pl-4">{formatNumber(nonce)}</td>
         </tr>
         {!tip.isEmpty && (
           <tr>
-            <td>Tip</td>
+            <td className="extrinsic-table-label">Tip</td>
             <td className="pl-4">{formatNumber(tip)}</td>
           </tr>
         )}
         {renderMethod(method, decoded)}
         <tr>
-          <td>Lifetime</td>
+          <td className="extrinsic-table-label">Lifetime</td>
           <td className="pl-4">{mortalityAsString(era, blockNumber)}</td>
         </tr>
       </tbody>

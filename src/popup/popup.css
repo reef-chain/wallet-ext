@@ -772,3 +772,22 @@ button.sm {
   flex-direction: column;
   align-items: center;
 }
+
+.extrinsic-data-table {
+  max-width: 600px;
+}
+
+.request-password-field {
+  max-width: 600px;
+  width: 100vw;
+}
+
+.request-page {
+  display: flex;
+  align-items: center;
+}
+
+.extrinsic-table-label {
+  font-weight: 700;
+  color: #a93185;
+}

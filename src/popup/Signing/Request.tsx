@@ -25,6 +25,7 @@ import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 import Checkbox from "../../common/Checkbox";
+import LightText from "../../common/LightText";
 
 interface Props {
   account: extLib.AccountJson;
@@ -146,7 +147,7 @@ export default function Request({
       ) : null}
       <div>
         {isFirst && isLocked && (
-          <div className="mt-2">
+          <div className="mt-2 request-password-field">
             <div className="flex flex-col items-start my-3">
               <label className={isDarkMode ? "" : "text-black"}>{strings.password_for_this_acc}</label>
 
@@ -164,19 +165,18 @@ export default function Request({
                 isDarkMode={isDarkMode}
                 disabled={isBusy}
               />
-              <span className="font-bold ml-2">
-                {strings.remember_for} {PASSWORD_EXPIRY_MIN} {strings.minutes}
-              </span>
+              <LightText text={`${strings.remember_for} ${PASSWORD_EXPIRY_MIN} ${strings.minutes}`} />
+
             </div>
             {error && <ErrorMessage text={error} />}
             {isBusy && <Loading text={strings.processing} />}
           </div>
         )}
-        <div className="flex">
+        <div className="flex flex-col request-password-field">
           {isFirst && (
-            <Uik.Button text={buttonText} onClick={_onSign} disabled={isBusy} fill />
+            <Uik.Button text={buttonText} onClick={_onSign} disabled={isBusy} fill className="request-password-field" />
           )}
-          <Uik.Button text={strings.cancel} onClick={_onCancel} disabled={isBusy} />
+          <Uik.Button text={strings.cancel} onClick={_onCancel} disabled={isBusy} className="request-password-field" />
         </div>
       </div>
     </>
