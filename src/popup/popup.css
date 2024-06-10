@@ -790,3 +790,21 @@ button.sm {
   font-weight: 700;
   color: #a93185;
 }
+
+.send__error {
+  color: red !important;
+}
+
+.uik-dropdown {
+  position: relative;
+  top: 0rem;
+  left: 7rem;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 0;
+  height: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+}
