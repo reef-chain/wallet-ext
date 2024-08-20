@@ -3511,10 +3511,31 @@
     react-tooltip "^4.2.21"
     rxjs "^7.5.4"
 
-"@reef-chain/ui-kit@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@reef-chain/ui-kit/-/ui-kit-3.0.2.tgz#cda6137374660f27706c6492b9df51ad5bd96fb6"
-  integrity sha512-bwlUptSlaClM80F8cfMVf9av7qgyxNlWgFsj44Y5fKywu3px3bI571B8hYrNA2TRWAGpaNVuySOHhwPwAD5GRA==
+
+"@reef-chain/ui-kit@2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@reef-chain/ui-kit/-/ui-kit-2.0.4.tgz#0bbb9ff8be75a733c8bbc361ce1abd9c7e82cf26"
+  integrity sha512-0Hw99WpmdF4LfetLf3KZNTI+xurdPMrTe9ec4ZqPodqvDrvHZvnHwKHkvHkoyS+2xKQnKtN6xJpR9IkDQN84dg==
+  dependencies:
+    "@fortawesome/fontawesome-svg-core" "^6.1.0"
+    "@fortawesome/free-regular-svg-icons" "^6.1.0"
+    "@fortawesome/free-solid-svg-icons" "^6.1.0"
+    "@fortawesome/react-fontawesome" "^0.2.0"
+    "@polkadot/react-identicon" "^2.0.1"
+    "@reef-chain/util-lib" "^2.4.4"
+    "@types/jest" "^27.4.1"
+    "@types/node" "^17.0.21"
+    "@types/react" "^18.2.55"
+    bignumber.js "^9.0.2"
+    qrcode.react "^3.0.1"
+    react-localization "^1.0.19"
+    react-syntax-highlighter "^15.5.0"
+    react-transition-group "^4.4.2"
+
+"@reef-chain/ui-kit@^2.0.7":
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/@reef-chain/ui-kit/-/ui-kit-2.0.7.tgz#657d06f9ea5e59d64605b643eb7039d366f6ed71"
+  integrity sha512-T5+slJpolIAgW2Z4x33suvsc1Dso35K5Z3cJMD+FgzBZOD3BTsXTTJIs6o7DtN8SXtIsCSP6leEs+49yC5B1mw==
   dependencies:
     "@fortawesome/fontawesome-svg-core" "^6.1.0"
     "@fortawesome/free-regular-svg-icons" "^6.1.0"
@@ -3532,10 +3553,29 @@
     react-syntax-highlighter "^15.5.0"
     react-transition-group "^4.4.2"
 
-"@reef-chain/util-lib@^2.5.7", "@reef-chain/util-lib@^2.6.1":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@reef-chain/util-lib/-/util-lib-2.6.1.tgz#94c654fe03d0e37b766bc9f0ad95627430aa3ab9"
-  integrity sha512-4tXZS5ZABvwCQQbR/EDNvOUf2ZO+DC/vfEivyvmabXtPAQUw4g9MHEbnQxZnx/tfyvcWh9DfxeeIQ0G19lvrkQ==
+
+"@reef-chain/util-lib@^2.4.4":
+  version "2.5.9"
+  resolved "https://registry.yarnpkg.com/@reef-chain/util-lib/-/util-lib-2.5.9.tgz#7035ef2144151f5cd3e3e5074715d605942bc5ad"
+  integrity sha512-h70n87+1CHOtIWCU/JaeUAIFJ3WKVUDEjL7PZqNKxudDJvSiPK91OE3BR+QRgD5sn0oltXr4bEQZxEEogsLvQQ==
+  dependencies:
+    "@metamask/providers" "^14.0.2"
+    "@polkadot/api" "^10.11.2"
+    "@polkadot/extension-inject" "^0.46.6"
+    "@polkadot/types" "^10.11.2"
+    "@reef-chain/evm-provider" "^2.0.2"
+    "@walletconnect/sign-client" "^2.12.2"
+    "@walletconnect/utils" "^2.12.2"
+    axios "^1.6.2"
+    bignumber.js "^9.1.2"
+    ethers "~5.5.4"
+    graphql "^16.8.1"
+    mqtt "^5.3.5"
+
+"@reef-chain/util-lib@^2.5.1", "@reef-chain/util-lib@^2.5.7":
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/@reef-chain/util-lib/-/util-lib-2.5.7.tgz#144351449b9eb051d42ac85c89f66ed0a6d3b129"
+  integrity sha512-MPwX1plEGw0NraeFTz63M2QRDJEIYVK6TJ0Utvt1pHzPPt8r65E+2A5YgwEWFhI36WmQlOZ1Qcmo3RmM9/Q01w==
   dependencies:
     "@metamask/providers" "^14.0.2"
     "@polkadot/api" "^10.11.2"

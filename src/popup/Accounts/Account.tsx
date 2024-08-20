@@ -19,6 +19,7 @@ import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 import { useHideBalance } from "../context/HideBalance";
+import LightText from "../../common/LightText";
 
 interface Props {
   account: extLib.AccountJson;
@@ -240,14 +241,14 @@ const Account = ({
                   setIsEditingName(true);
                   setIsOptionsOpen(false);
                 }}>
-                <Uik.Text text="Rename" type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
+                <LightText text={strings.rename} className="ml-5" />
               </div>
               <div
                 className="account-options-item"
                 onClick={() => {
                   onAction(`/account/derive/${account.address}/locked`);
                 }}>
-                <Uik.Text text={strings.derive_new_acc} type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} />
+                <LightText text={strings.derive_new_acc} className="ml-5" />
               </div>
               <hr className={`my-2 opacity-25`} style={isDarkMode ? {
               } : {
@@ -258,14 +259,14 @@ const Account = ({
                 onClick={() => {
                   onAction(`/account/export/${account.address}`);
                 }}>
-                <Uik.Text text={strings.export_acc} type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}  danger-item`} />
+                <LightText text={strings.export_acc} className="ml-5  danger-item" />
               </div>
               <div
                 className="account-options-item"
                 onClick={() => {
                   onAction(`/account/forget/${account.address}`);
                 }}>
-                <Uik.Text text={strings.forget_account} type="title" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""} danger-item`} />
+                <LightText text={strings.forget_account} className="ml-5  danger-item" />
               </div>
             </div>}
           </div >
