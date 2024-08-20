@@ -352,7 +352,7 @@ const Popup = () => {
 
             {selectedNetwork && <Uik.Button
               className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
-              text={strings.nfts}
+              text={strings.tokens}
               icon={faPhotoFilm}
               onClick={() => _onAction("/vda")}
             />}
