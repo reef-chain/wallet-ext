@@ -54,19 +54,21 @@ export const Signing = ({ requests }: Props): JSX.Element => {
           />
         )}
       </div>
-      <Account
-        account={requests[requestIndex].account}
-        showCopyAddress={true}
-        className="account-box-padding"
-      />
-      <Request
-        account={requests[requestIndex].account}
-        buttonText={isTransaction ? "Sign transaction" : "Sign message"}
-        isFirst={requestIndex === 0}
-        request={requests[requestIndex].request}
-        signId={requests[requestIndex].id}
-        url={requests[requestIndex].url}
-      />
+      <div className="flex flex-col align-middle justify-center request-page">
+        <Account
+          account={requests[requestIndex].account}
+          showCopyAddress={true}
+          className="account-box-padding"
+        />
+        <Request
+          account={requests[requestIndex].account}
+          buttonText={isTransaction ? "Sign transaction" : "Sign message"}
+          isFirst={requestIndex === 0}
+          request={requests[requestIndex].request}
+          signId={requests[requestIndex].id}
+          url={requests[requestIndex].url}
+        />
+      </div>
     </>
   ) : (
     <Loading text="Loading sign requests..." />
