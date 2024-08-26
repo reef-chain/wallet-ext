@@ -20,6 +20,7 @@ import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 import Checkbox from "../../common/Checkbox";
+import LightText from "../../common/LightText";
 
 const enum Step {
   FIRST,
@@ -171,7 +172,7 @@ export const CreateAccount = (): JSX.Element => {
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.name_for_the_acc} />
+              <LightText className={`ml-5`} text={strings.name_for_the_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -185,7 +186,7 @@ export const CreateAccount = (): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.pass_for_acc} />
+              <LightText className={`ml-5`} text={strings.pass_for_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}

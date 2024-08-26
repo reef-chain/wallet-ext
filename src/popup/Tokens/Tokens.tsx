@@ -71,7 +71,7 @@ function Tokens() {
                     selectedSigner={selectedSigner as any}
                     provider={provider}
                     useDexConfig={useDexConfig}
-                    isReefswapUI={false} //todo: set to true if we want to show swap overlay
+                    isReefswapUI={true}
                     price={tokenPrices[token.address] || 0}
                     token={token}
                     tokens={tokens}
