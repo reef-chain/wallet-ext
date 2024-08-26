@@ -7,6 +7,7 @@ import { AccountsContext, ActionContext } from "../contexts";
 import { SectionTitle } from "../components/SectionTitle";
 import { WarnMessage } from "../components/WarnMessage";
 import strings from "../../i18n/locales";
+import Uik from "@reef-chain/ui-kit";
 
 export const Forget = (): JSX.Element => {
   const { address } = useParams();
@@ -33,7 +34,7 @@ export const Forget = (): JSX.Element => {
         <WarnMessage
           text={strings.remove_the_account}
         />
-        <button onClick={() => forget()}>{strings.forget_account}</button>
+        <Uik.Button onClick={() => forget()} text={strings.forget_account} />
       </div>
     </>
   );

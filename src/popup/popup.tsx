@@ -187,7 +187,7 @@ const Popup = () => {
 
   useEffect(() => {
     signers?.forEach((sgnr) => {
-      if (sgnr.address == selectedReefAccount.address) setSelectedSigner(sgnr)
+      if (selectedReefAccount && sgnr.address == selectedReefAccount.address) setSelectedSigner(sgnr)
     })
   }, [selectedReefAccount])
 
