@@ -297,11 +297,11 @@
 
 .send__address .send__address-identicon {
     background-color: #dad5eaad;
-    border-radius: 10px;
-    left: 6rem;
-    top: 9.5rem;
-    pointer-events: none;
     position: absolute;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    border-radius: 10px;
+    pointer-events: none;
 }
 
 .uik-pool-actions .uik-pool-actions-token .uik-pool-actions-token__token {
