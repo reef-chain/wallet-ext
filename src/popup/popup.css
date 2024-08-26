@@ -555,6 +555,7 @@ button.sm {
 .nft-name--modal {
   font-size: x-large;
   font-weight: bold;
+  color: black;
 }
 
 .overlay-action__close-btn:hover {
