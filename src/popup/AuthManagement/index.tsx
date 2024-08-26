@@ -15,6 +15,7 @@ import {
 } from "../../extension-base/background/handlers/State";
 import { SectionTitle } from "../components/SectionTitle";
 import strings from "../../i18n/locales";
+import LightText from "../../common/LightText";
 
 export const AuthManagement = (): JSX.Element => {
   const [authList, setAuthList] = useState<AuthUrls | null>(null);
@@ -42,7 +43,7 @@ export const AuthManagement = (): JSX.Element => {
       <SectionTitle text={strings.manage_website_access} />
       <div>
         {!authList || !Object.entries(authList)?.length ? (
-          <div className="text-center">{strings.no_website_request_yet}</div>
+          <LightText text={strings.no_website_request_yet} />
         ) : (
           <>
             <div>

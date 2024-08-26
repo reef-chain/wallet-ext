@@ -1,4 +1,5 @@
 import React from "react";
+import LightText from "../../common/LightText";
 
 interface Props {
   text?: string;
@@ -24,7 +25,7 @@ export const Loading = ({ text, className }: Props): JSX.Element => {
           fill="currentFill"
         />
       </svg>
-      {text && <span className="ml-2">{text}</span>}
+      {text && <LightText text={text} />}
     </div>
   );
 };
