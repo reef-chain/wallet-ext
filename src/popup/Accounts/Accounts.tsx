@@ -43,20 +43,22 @@ const Accounts = (): JSX.Element => {
       {/* Other accounts */}
       <div className="max-h-[365px] overflow-y-scroll scrollbar-hidden rounded-xl">
         {accounts?.length > 1 && provider && <Uik.Text text={"Accounts"} className={`mt-2 ${isDarkMode ? "text--dark-mode" : ""}`} />}
-        {accounts?.length > 1 &&
-          provider &&
-          accounts
-            .filter((account) => account.address !== selectedAccount.address)
-            .map((account) => (
-              <Account
-                key={account.address}
-                account={account}
-                showOptions={true}
-                showCopyAddress={true}
-                showSelect={true}
-              />
-            )
-            )}
+        <div className="absolute w-[95%]">
+          {accounts?.length > 1 &&
+            provider &&
+            accounts
+              .filter((account) => account.address !== selectedAccount.address)
+              .map((account) => (
+                <Account
+                  key={account.address}
+                  account={account}
+                  showOptions={true}
+                  showCopyAddress={true}
+                  showSelect={true}
+                />
+              )
+              )}
+        </div>
       </div>
     </>
   );
