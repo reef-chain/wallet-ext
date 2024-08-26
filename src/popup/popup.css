@@ -547,7 +547,9 @@ button.sm {
 .display-table {
   padding: 6px;
   font-size: 14px;
-  background-color: #52545f;
+  background-color: #e5e1f0;
+  color: black;
+  font-weight: 400;
   margin-top: 8px;
   border-radius: 10px;
 }
