@@ -1,7 +1,7 @@
 // Adapted from @polkadot/extension-ui (https://github.com/polkadot-js/extension)
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useMemo, useRef } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import type {
   Call,
   ExtrinsicEra,
@@ -15,6 +15,8 @@ import { Chain } from "../../chains/types";
 import useMetadata from "../hooks/useMetadata";
 import { PORT_EXTENSION } from "../../extension-base/defaults";
 import { useTheme } from "../context/ThemeContext";
+import { transactionUtils } from "@reef-chain/util-lib";
+import { ProviderContext } from "../contexts";
 
 interface Decoded {
   args: AnyJson | null;
@@ -132,14 +134,30 @@ function Extrinsic({
   url,
 }: Props): React.ReactElement<Props> {
   const chain = useMetadata(genesisHash);
+  const [signatureResponse, setSignatureResponse] = useState<any>();
   const specVersion = useRef(bnToBn(hexSpec)).current;
+  const provider = useContext(ProviderContext);
   const decoded = useMemo(
-    () =>
-      chain && chain.hasMetadata
+    () => {
+      let res = chain && chain.hasMetadata
         ? decodeMethod(method, chain, specVersion)
-        : { args: null, method: null },
+        : { args: null, method: null };
+
+      return res;
+    },
     [method, chain, specVersion]
   );
+
+
+  useEffect(() => {
+    const decodeMethod = async () => {
+      if (provider) {
+        const res = await transactionUtils.decodePayloadMethod(provider, method);
+        setSignatureResponse(res);
+      }
+    }
+    decodeMethod();
+  }, [provider])
 
   const { isDarkMode } = useTheme();
   return (
@@ -163,6 +181,31 @@ function Extrinsic({
           <td className="extrinsic-table-label">Nonce</td>
           <td className="pl-4">{formatNumber(nonce)}</td>
         </tr>
+        {signatureResponse?.info && <tr>
+          <td className="extrinsic-table-label">Info</td>
+          <td className="pl-4">{signatureResponse.info}</td>
+        </tr>}
+        {signatureResponse?.methodName && <tr>
+          <td className="extrinsic-table-label">Method Name</td>
+          <td className="pl-4">{signatureResponse.methodName.split("(")[0]}</td>
+        </tr>}
+        {signatureResponse?.args &&
+          Object.entries(signatureResponse?.args).map(([key, value]) => (
+            <tr key={key}>
+              <td className="extrinsic-table-label">{key}</td>
+              <td className="pl-4">{typeof value == "object" ?
+                Object.entries(value).map(([k, val]) => (
+                  <tr key={k}>
+                    <td className="extrinsic-table-label">{k}</td>
+                    <td className="pl-4">{val.toString()}</td>
+                  </tr>
+                ))
+                : value.toString()
+              }</td>
+            </tr>
+          ))
+
+        }
         {!tip.isEmpty && (
           <tr>
             <td className="extrinsic-table-label">Tip</td>
