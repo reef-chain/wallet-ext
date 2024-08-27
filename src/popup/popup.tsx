@@ -123,6 +123,25 @@ const Popup = () => {
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
 
+  useEffect(() => {
+    const handleMutations = (mutations) => {
+      mutations.forEach(() => {
+        const overlayOpen = document.querySelector('.overlay-action__content');
+        if (overlayOpen) {
+          document.body.classList.add('hide-scrollbar');
+        } else {
+          document.body.classList.remove('hide-scrollbar');
+        }
+      });
+    };
+    const observer = new MutationObserver(handleMutations);
+    observer.observe(document.body, { childList: true, subtree: true });
+    handleMutations([]);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   //handles body color change if dark mode toggled
   useEffect(() => {
     if (isDarkMode) {

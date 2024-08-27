@@ -579,3 +579,11 @@ select .dark-select {
 .danger-item {
     color: #e73644 !important;
 }
+
+.hide-scrollbar {
+    overflow: auto;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
