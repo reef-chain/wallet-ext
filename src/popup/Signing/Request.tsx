@@ -145,7 +145,7 @@ export default function Request({
       ) : hexBytes !== null ? (
         <Bytes bytes={hexBytes} url={url} />
       ) : null}
-      <div>
+      <div className="mx-4">
         {isFirst && isLocked && (
           <div className="mt-2 request-password-field">
             <div className="flex flex-col items-start my-3">
