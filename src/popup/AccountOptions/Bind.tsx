@@ -158,8 +158,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
         <div className="flex flex-col">
           {!bindFor.isEvmClaimed && (
             <>
-
-              <LightText text="Start using Reef EVM smart contracts." className="mb-1" />
+              <LightText text={strings.start_using_reef_evm} className="mb-1 text-sm" />
               <LightText text={strings.first_connect_evm_addr} />
               <Account account={{ ...bindFor }} className="account-box-padding" showCopyAddress={true} />
             </>
@@ -167,7 +166,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
           {bindFor.isEvmClaimed && (
             <>
               <Account account={{ ...bindFor }} className="account-box-padding" showCopyAddress={true} />
-              <span className="mb-2">
+              <span className={`mb-2 ${isDarkMode ? "text--dark-mode ml-2" : "text-[#8f8f8f] ml-2"}`}>
                 {strings.successfully_connected_evm}
                 <br />
                 <b>{toAddressShortDisplay(bindFor.evmAddress, 18)}</b>
