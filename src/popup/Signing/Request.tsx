@@ -145,7 +145,7 @@ export default function Request({
       ) : hexBytes !== null ? (
         <Bytes bytes={hexBytes} url={url} />
       ) : null}
-      <div>
+      <div className="mx-4">
         {isFirst && isLocked && (
           <div className="mt-2 request-password-field">
             <div className="flex flex-col items-start my-3">
@@ -169,12 +169,11 @@ export default function Request({
 
             </div>
             {error && <ErrorMessage text={error} />}
-            {isBusy && <Loading text={strings.processing} />}
           </div>
         )}
         <div className="flex flex-col request-password-field">
           {isFirst && (
-            <Uik.Button text={buttonText} onClick={_onSign} disabled={isBusy} fill className="request-password-field" />
+            <Uik.Button text={isBusy ? strings.processing : buttonText} onClick={_onSign} disabled={isBusy} fill className="request-password-field" />
           )}
           <Uik.Button text={strings.cancel} onClick={_onCancel} disabled={isBusy} className="request-password-field" />
         </div>

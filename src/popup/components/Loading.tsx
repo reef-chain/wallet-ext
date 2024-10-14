@@ -25,7 +25,9 @@ export const Loading = ({ text, className }: Props): JSX.Element => {
           fill="currentFill"
         />
       </svg>
-      {text && <LightText text={text} />}
+      <div className="ml-4">
+        {text && <LightText text={text} />}
+      </div>
     </div>
   );
 };

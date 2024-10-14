@@ -140,7 +140,7 @@ const Account = ({
         {account.address && provider && balance !== undefined && (
           <div className="flex ml-5 mt-1 mb-1">
             <FontAwesomeIcon
-              className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} mr-2`}
+              className={`${isDarkMode ? "text--dark-mode" : "text-[#8f8f8f]"} mr-2 cursor-pointer`}
               icon={isHidden ? faEyeSlash : faEye as IconProp}
               size="sm"
               title={strings.copy_reef_acc_addr}
