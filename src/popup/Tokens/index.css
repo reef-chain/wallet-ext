@@ -587,3 +587,7 @@ select .dark-select {
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
 }
+
+.token-card__btn-group {
+    display: flex;
+}

@@ -10,8 +10,9 @@ import Uik from '@reef-chain/ui-kit';
 import { useTheme } from '../context/ThemeContext';
 import strings from '../../i18n/locales';
 import { useHideBalance } from '../context/HideBalance';
+import { TokenCard } from './TokenCard';
 
-const { Skeleton, TokenCard } = Components;
+const { Skeleton } = Components;
 
 function Tokens() {
     const { selectedSigner, provider, network, accounts, reefState } = useContext(ReefSigners);
