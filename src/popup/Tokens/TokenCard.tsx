@@ -166,121 +166,123 @@ export const TokenCard: React.FC<TokenCard> = ({
         >
             <div>
                 <div className={`token-card__wrapper ${isDarkMode ? 'token-card__wrapper-dark' : ''}`}>
-                    <div className="token-card__main">
-                        <Uik.Tooltip
-                            text="Copy token address"
-                            delay={0}
-                        >
-                            <button
-                                className="token-card__image"
-                                style={{ backgroundImage: `url(${token.iconUrl})` }}
-                                type="button"
-                                aria-label="Token Image"
-                                onClick={copyAddress}
-                            />
-                        </Uik.Tooltip>
-                        <div className="token-card__info">
-                            <div className="token-card__token-info">
-                                <span className={`token-card__token-name ${isDarkMode ? 'token-card__token-name-dark' : ''}`}>{token.name}</span>
-                            </div>
-                            <button
-                                className={`token-card__token-price ${isDarkMode ? 'token-card__token-price-dark' : ''}`}
-                                disabled={!onClickPrice}
-                                onClick={onClickPrice}
-                                type="button"
+                    <div className='token-card__wrapper-upper-child'>
+                        <div className="token-card__main">
+                            <Uik.Tooltip
+                                text="Copy token address"
+                                delay={0}
                             >
-                                {
-                                    isLoading ? <>Loading</> :
-                                        !!price && !Number.isNaN(+price)
-                                            ? (
-                                                <>
-                                                    $
-                                                    {Uik.utils.formatAmount(Uik.utils.maxDecimals(price, 4)).length ? Uik.utils.formatAmount(Uik.utils.maxDecimals(price, 4)) : Uik.utils.formatAmount(price.toFixed(20))}
-                                                </>
-                                            )
-                                            : 'N/A'
-                                }
-                            </button>
+                                <button
+                                    className="token-card__image"
+                                    style={{ backgroundImage: `url(${token.iconUrl})` }}
+                                    type="button"
+                                    aria-label="Token Image"
+                                    onClick={copyAddress}
+                                />
+                            </Uik.Tooltip>
+                            <div className="token-card__info">
+                                <div className="token-card__token-info">
+                                    <span className={`token-card__token-name ${isDarkMode ? 'token-card__token-name-dark' : ''}`}>{token.name}</span>
+                                </div>
+                                <button
+                                    className={`token-card__token-price ${isDarkMode ? 'token-card__token-price-dark' : ''}`}
+                                    disabled={!onClickPrice}
+                                    onClick={onClickPrice}
+                                    type="button"
+                                >
+                                    {
+                                        isLoading ? <>Loading</> :
+                                            !!price && !Number.isNaN(+price)
+                                                ? (
+                                                    <>
+                                                        $
+                                                        {Uik.utils.formatAmount(Uik.utils.maxDecimals(price, 4)).length ? Uik.utils.formatAmount(Uik.utils.maxDecimals(price, 4)) : Uik.utils.formatAmount(price.toFixed(20))}
+                                                    </>
+                                                )
+                                                : 'N/A'
+                                    }
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="token-card__aside">
-                        <div className="token-card__values">
-                            <button
-                                type="button"
-                                className={`
+                        <div className="token-card__aside">
+                            <div className="token-card__values">
+                                <button
+                                    type="button"
+                                    className={`
                 token-card__value
                 ${hideBalance.isHidden ? 'token-card__value--hidden' : ''}
               `}
-                                onClick={() => {
-                                    if (hideBalance.isHidden) hideBalance.toggle();
-                                }}
-                            >
-                                {
-                                    !hideBalance.isHidden
-                                        ? balance
-                                        : (
-                                            <>
-                                                <div />
-                                                <div />
-                                                <div />
-                                                <div />
-                                                <div />
-                                            </>
-                                        )
-                                }
-                            </button>
-                            <button
-                                type="button"
-                                className={`
+                                    onClick={() => {
+                                        if (hideBalance.isHidden) hideBalance.toggle();
+                                    }}
+                                >
+                                    {
+                                        !hideBalance.isHidden
+                                            ? balance
+                                            : (
+                                                <>
+                                                    <div />
+                                                    <div />
+                                                    <div />
+                                                    <div />
+                                                    <div />
+                                                </>
+                                            )
+                                    }
+                                </button>
+                                <button
+                                    type="button"
+                                    className={`
                 token-card__amount
                 ${isDarkMode ? 'token-card__amount-dark' : ''}
                 ${hideBalance.isHidden ? 'token-card__amount--hidden' : ''}
               `}
-                                onClick={() => {
-                                    if (hideBalance.isHidden) hideBalance.toggle();
-                                }}
-                            >
-                                {
-                                    !hideBalance.isHidden
-                                        ? !isLoading ? `${displayBalanceFromToken(token)} ${token.symbol}` : <>
-                                            <div />
-                                            <div />
-                                            <div />
-                                            <div /></>
-                                        : (
-                                            <>
+                                    onClick={() => {
+                                        if (hideBalance.isHidden) hideBalance.toggle();
+                                    }}
+                                >
+                                    {
+                                        !hideBalance.isHidden
+                                            ? !isLoading ? `${displayBalanceFromToken(token)} ${token.symbol}` : <>
                                                 <div />
                                                 <div />
                                                 <div />
-                                                <div />
-                                            </>
-                                        )
-                                }
-                            </button>
+                                                <div /></>
+                                            : (
+                                                <>
+                                                    <div />
+                                                    <div />
+                                                    <div />
+                                                    <div />
+                                                </>
+                                            )
+                                    }
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                </div>
-                <div className="token-card__btn-group w-full flex gap-2">
-                    {isReefswapUI && (
+                    <div className="token-card__btn-group w-full flex">
+                        {isReefswapUI && (
+                            <Uik.Button
+                                text={"Swap"}
+                                icon={faRepeat}
+                                onClick={() => setSwapOpen(true)}
+                                size="small"
+                                disabled={!hasPool}
+                                className="flex-1"
+                            />
+                        )}
+
                         <Uik.Button
-                            text={"Swap"}
-                            icon={faRepeat}
-                            onClick={() => setSwapOpen(true)}
+                            text={"Send"}
+                            icon={faPaperPlane}
+                            onClick={() => setSendOpen(true)}
                             size="small"
-                            disabled={!hasPool}
+                            fill
                             className="flex-1"
                         />
-                    )}
-
-                    <Uik.Button
-                        text={"Send"}
-                        icon={faPaperPlane}
-                        onClick={() => setSendOpen(true)}
-                        size="small"
-                        fill
-                        className="flex-1"
-                    />
+                    </div>
                 </div>
 
 
