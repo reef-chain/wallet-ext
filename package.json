@@ -23,7 +23,7 @@
     "@polkadot/util-crypto": "^13.1.1",
     "@popperjs/core": "^2.11.8",
     "@reef-chain/evm-provider": "^3.0.0",
-    "@reef-chain/react-lib": "^5.0.0",
+    "@reef-chain/react-lib": "^5.0.1",
     "@reef-chain/ui-kit": "^4.0.0",
     "@reef-chain/util-lib": "^3.0.0",
     "@reef-defi/hw-ledger": "^7.8.2",

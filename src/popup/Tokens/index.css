@@ -14,15 +14,13 @@
 
 .token-card__wrapper {
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     width: 100%;
     background: white;
     box-shadow: var(--shadow);
     border-radius: 15px;
     padding: 15px;
-    height: 6rem;
+    height: 10rem;
 }
 
 .token-card__wrapper-dark {
@@ -586,4 +584,15 @@ select .dark-select {
 
 .hide-scrollbar::-webkit-scrollbar {
     display: none;
+}
+
+.token-card__btn-group {
+    display: flex;
+}
+
+.token-card__wrapper-upper-child {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
 }
