@@ -230,27 +230,25 @@ const Popup = () => {
     }
   }, []);
 
+  const isDefaultPopup = useMemo(() => {
+    return window.innerWidth <= 545;
+  }, []);
+
   useEffect(() => {
     const focus = async () => {
-      if (!isDefaultPopup || isDetached) {
-        const focusWindowId = await getDetachedWindowId();
-
-        if (!isDefaultPopup && focusWindowId > 0) {
-          focusOrCreateDetached()
-        } else {
-          Promise.all([
-            subscribeAccounts(onAccountsChange),
-            subscribeAuthorizeRequests(setAuthRequests),
-            subscribeMetadataRequests(setMetaRequests),
-            subscribeSigningRequests(setSignRequests),
-            subscribeNetwork(onNetworkChange),
-          ]).catch(console.error);
-        }
-      } else {
+      Promise.all([
+        subscribeAccounts(onAccountsChange),
+        subscribeAuthorizeRequests(setAuthRequests),
+        subscribeMetadataRequests(setMetaRequests),
+        subscribeSigningRequests(setSignRequests),
+        subscribeNetwork(onNetworkChange),
+      ]).catch(console.error);
+      if (!isDetached && !isDefaultPopup) {
         focusOrCreateDetached();
       }
+
     }
-    focus()
+    focus();
   }, []);
 
   useEffect(() => {
@@ -280,9 +278,6 @@ const Popup = () => {
     }
   }, [authRequests, metaRequests, signRequests, selectedAccount]);
 
-  const isDefaultPopup = useMemo(() => {
-    return window.innerWidth <= 400;
-  }, []);
 
   const focusOrCreateDetached = async () => {
     const detachedWindowId = await getDetachedWindowId();
