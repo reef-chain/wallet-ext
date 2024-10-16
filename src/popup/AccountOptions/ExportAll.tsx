@@ -8,6 +8,7 @@ import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
+import LightText from "../../common/LightText";
 
 const enum Error {
   NONE,
@@ -97,7 +98,7 @@ export const ExportAll = (): JSX.Element => {
         </div>
         {password.length >= 6 && (
           <div className="flex flex-col items-start">
-            <label>{strings.repeat_password}</label>
+            <LightText text={strings.repeat_password} />
             <Uik.Input
               className="text-primary rounded-md p-2 w-full"
               value={passwordRepeat}
