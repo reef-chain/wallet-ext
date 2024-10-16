@@ -159,7 +159,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
           {!bindFor.isEvmClaimed && (
             <>
               <LightText text={strings.start_using_reef_evm} className="mb-1 text-sm" />
-              <LightText text={strings.first_connect_evm_addr} />
+              <LightText className="!text-xs font-thin" text={strings.first_connect_evm_addr} />
               <Account account={{ ...bindFor }} className="account-box-padding" showCopyAddress={true} />
             </>
           )}

@@ -9,6 +9,8 @@ import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
+import { useTheme } from "../context/ThemeContext";
+import LightText from "../../common/LightText";
 
 const enum Step {
   FIRST,
@@ -115,6 +117,8 @@ export const ImportSeed = (): JSX.Element => {
     }
   };
 
+  const { isDarkMode } = useTheme();
+
   return (
     <>
       <SectionTitle text={strings.import_acc} />
@@ -126,7 +130,7 @@ export const ImportSeed = (): JSX.Element => {
 
               <Uik.Label text={strings.existing_mnemonic} className="mb-3" />
               <textarea
-                className="w-full p-3 rounded-lg bg-zinc-950 border-gray-600 text-primary"
+                className={`w-full p-5 rounded-lg ${isDarkMode ? 'bg-zinc-950' : 'bg-white'} border-gray-600 text-primary text-area-mnemonics`}
                 value={seed}
                 onChange={(e) => onSeedChange(e.target.value)}
               />
@@ -143,7 +147,7 @@ export const ImportSeed = (): JSX.Element => {
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <label>{strings.name_for_the_acc}</label>
+              <LightText text={strings.name_for_the_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -157,7 +161,7 @@ export const ImportSeed = (): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <label>{strings.pass_for_acc}</label>
+              <LightText text={strings.pass_for_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -173,7 +177,7 @@ export const ImportSeed = (): JSX.Element => {
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <label>{strings.repeat_password}</label>
+                <LightText text={strings.repeat_password} />
                 <Uik.Input
                   className="rounded-md p-2 w-full text-white"
                   value={passwordRepeat}

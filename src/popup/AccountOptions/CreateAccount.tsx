@@ -172,7 +172,7 @@ export const CreateAccount = (): JSX.Element => {
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <LightText className={`ml-5`} text={strings.name_for_the_acc} />
+              <LightText text={strings.name_for_the_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -186,7 +186,7 @@ export const CreateAccount = (): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <LightText className={`ml-5`} text={strings.pass_for_acc} />
+              <LightText text={strings.pass_for_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -202,7 +202,7 @@ export const CreateAccount = (): JSX.Element => {
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <Uik.Text type="light" className={`ml-5 ${isDarkMode ? "text--dark-mode" : ""}`} text={strings.repeat_password} />
+                <LightText text={strings.repeat_password} />
                 <Uik.Input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}

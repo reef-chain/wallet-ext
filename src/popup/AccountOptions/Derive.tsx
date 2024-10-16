@@ -15,6 +15,7 @@ import { SectionTitle } from "../components/SectionTitle";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
+import LightText from "../../common/LightText";
 
 interface Props {
   isLocked?: boolean;
@@ -224,7 +225,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
         {step === Step.SECOND && (
           <>
             <div className="flex flex-col items-start">
-              <Uik.Label text={strings.name_for_the_acc} />
+              <LightText text={strings.name_for_the_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={account.name}
@@ -238,7 +239,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
               )}
             </div>
             <div className="flex flex-col items-start my-3">
-              <Uik.Label text={strings.pass_for_acc} />
+              <LightText text={strings.pass_for_acc} />
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
                 value={password}
@@ -254,7 +255,7 @@ export const Derive = ({ isLocked }: Props): JSX.Element => {
             </div>
             {password.length >= 6 && (
               <div className="flex flex-col items-start">
-                <Uik.Label text={strings.repeat_password} />
+                <LightText text={strings.repeat_password} />
                 <Uik.Input
                   className="text-primary rounded-md p-2 w-full"
                   value={passwordRepeat}

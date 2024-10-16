@@ -20,6 +20,7 @@ import { WarnMessage } from "../components/WarnMessage";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
+import LightText from "../../common/LightText";
 
 interface AccOption {
   text: string;
@@ -128,7 +129,7 @@ export const ImportLedger = (): JSX.Element => {
       <div className="flex flex-col">
         <Account account={{ address: address || "", name: name }} className="account-box-padding" />
         <div className="flex flex-col items-start">
-          <Uik.Label text={strings.name_for_the_acc} />
+          <LightText text={strings.name_for_the_acc} />
           <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={name}

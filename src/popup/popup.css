@@ -811,3 +811,8 @@ button.sm {
   margin: 0 !important;
   padding: 0 !important;
 }
+
+.text-area-mnemonics:focus-visible {
+  border: 2px solid #a32f80 !important;
+  outline: none;
+}
