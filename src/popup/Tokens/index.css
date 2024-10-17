@@ -596,3 +596,7 @@ select .dark-select {
     justify-content: space-between;
     align-items: center;
 }
+
+.overlay-action__wrapper-dark {
+    background-color: #3b3b3be6 !important;
+}

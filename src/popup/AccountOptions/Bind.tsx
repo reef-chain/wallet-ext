@@ -281,7 +281,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
           )}
         </div>
       ) : (
-        <Loading text={strings.loading} />
+        <Loading />
       )}
     </>
   );
