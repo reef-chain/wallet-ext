@@ -310,6 +310,7 @@ export const TokenCard: React.FC<TokenCard> = ({
                 selectedSigner={selectedSigner as any}
                 provider={provider}
                 accounts={accounts as any}
+                isDarkMode={isDarkMode}
                 notify={notify}
                 isWalletConnect={isWalletConnect}
                 handleWalletConnectModal={handleWalletConnectModal}

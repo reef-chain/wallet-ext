@@ -11,6 +11,7 @@ import { WarnMessage } from "../components/WarnMessage";
 import { ErrorMessage } from "../components/ErrorMessage";
 import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
+import LightText from "../../common/LightText";
 
 export const Export = (): JSX.Element => {
   const onAction = useContext(ActionContext);
@@ -51,7 +52,7 @@ export const Export = (): JSX.Element => {
         {account && <Account account={{ ...account }} showCopyAddress={true} className="account-box-padding" />}
         <WarnMessage text={strings.you_are_exporting_account} />
         <div className="flex flex-col items-start my-3">
-          <label>{strings.password_for_this_acc}</label>
+          <LightText text={strings.password_for_this_acc} />
           <Uik.Input
             className="text-primary rounded-md p-2 w-full"
             value={password}
