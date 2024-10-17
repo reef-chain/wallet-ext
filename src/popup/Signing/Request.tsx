@@ -149,7 +149,7 @@ export default function Request({
         {isFirst && isLocked && (
           <div className="mt-2 request-password-field">
             <div className="flex flex-col items-start my-3">
-              <label className={isDarkMode ? "" : "text-black"}>{strings.password_for_this_acc}</label>
+              <LightText text={strings.password_for_this_acc} />
 
               <Uik.Input
                 className="text-primary rounded-md p-2 w-full"
