@@ -297,6 +297,7 @@ export const TokenCard: React.FC<TokenCard> = ({
                 tokens={tokens}
                 nw={nw}
                 tokenPrices={tokenPrices}
+                isDarkMode={isDarkMode}
                 pools={pools}
                 network={network}
                 notify={notify}
