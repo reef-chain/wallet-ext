@@ -1,13 +1,14 @@
 {
   "name": "reef-wallet-extension",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "main": "index.js",
   "scripts": {
     "watch": "webpack --watch --progress --config webpack.dev.js",
-    "build": "webpack --progress --config webpack.prod.js",
+    "build": "rm -rf ./dist&&webpack --progress --config webpack.prod.js",
     "postinstall": "node scripts/add-global-process.js",
     "clean": "rm -rf node_modules&&rm -f yarn.lock&&yarn install&&yarn build",
-    "build:clean": "yarn clean&&yarn build"
+    "build:clean": "yarn clean&&yarn build",
+    "build:zip": "rm -rf ./dist.zip && cd ./dist && zip -r -FS ../dist.zip ."
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
