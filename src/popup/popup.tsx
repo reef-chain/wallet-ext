@@ -373,12 +373,12 @@ const Popup = () => {
               onClick={() => window.open("https://app.reef.io/", "_blank")}
             />
 
-           {/* {selectedNetwork && <Uik.Button
+            {selectedNetwork && <Uik.Button
               className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
               text={strings.tokens}
               icon={faPhotoFilm}
               onClick={() => _onAction("/vda")}
-            />}*/}
+            />}
 
 
             {!location.pathname.startsWith("/account/") && (

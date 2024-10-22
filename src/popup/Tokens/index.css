@@ -846,3 +846,7 @@ select .dark-select {
     color: hsla(224.2105263158deg, 8.7557603687%, 57.4509803922%, 0.6);
     box-shadow: none;
 }
+
+.uik-dropdown.uik-pool-actions-token__select-dropdown .uik-dropdown__overlay {
+    display: none;
+}
