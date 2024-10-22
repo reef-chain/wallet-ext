@@ -846,3 +846,9 @@ select .dark-select {
     color: hsla(224.2105263158deg, 8.7557603687%, 57.4509803922%, 0.6);
     box-shadow: none;
 }
+
+.send-accounts .uik-dropdown {
+    position: relative !important;
+    left: -20rem !important;
+    top: 2rem !important;
+}
