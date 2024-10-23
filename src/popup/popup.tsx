@@ -250,7 +250,7 @@ const Popup = () => {
 
     }
     focus();
-  }, [signRequests?.length]);
+  }, []);
 
   useEffect(() => {
     if (accountCtx.accounts.length && provider) {
