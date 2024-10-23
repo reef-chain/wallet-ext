@@ -847,6 +847,11 @@ select .dark-select {
     box-shadow: none;
 }
 
+
+.uik-dropdown.uik-pool-actions-token__select-dropdown .uik-dropdown__overlay {
+    display: none;
+}
+
 .uik-pool-actions-token-dark .uik-pool-actions-token__price {
     color: white !important;
 }
