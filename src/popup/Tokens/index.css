@@ -852,3 +852,14 @@ select .dark-select {
     left: -18rem !important;
     top: 2rem !important;
 }
+
+.uik-pool-actions-token-dark .uik-pool-actions-token__price {
+    color: white !important;
+}
+
+.uik-pool-actions-token__select-dropdown .uik-dropdown__dropdown {
+    max-height: calc(100vh - 400px);
+    overflow: auto;
+    overflow-x: hidden;
+    width: 14rem !important;
+}
