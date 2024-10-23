@@ -36,6 +36,15 @@ export const Signing = ({ requests }: Props): JSX.Element => {
     );
   }, [requests]);
 
+  //if window is opened for signing
+  useEffect(() => {
+    document.body.style.overflowY = 'visible';
+    document.body.style.overflowX = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
   useEffect(() => {
     const isTransaction = !!(
       requests[requestIndex]?.request?.payload as SignerPayloadJSON
