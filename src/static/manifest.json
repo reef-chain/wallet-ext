@@ -1,7 +1,7 @@
 {
   "name": "Reef Chain Wallet Extension",
   "description": "Manage your Reef Chain accounts outside of dapps. Injects the accounts and allows signing transactions for a specific account.",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "homepage_url": "https://github.com/reef-defi/browser-extension",
   "short_name": "Reef Chain Extension",
   "manifest_version": 3,

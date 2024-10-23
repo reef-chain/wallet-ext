@@ -101,7 +101,8 @@ function Tokens() {
                                 <div className={`no-token-activity ${isDarkMode ? 'no-token-activity--dark' : ''} `}>
                                     {strings.no_tokens_found} &nbsp;
                                     {network.name === 'mainnet'
-                                        ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>{strings.get_reef_tokens}</a>
+                                      ? <span>No tokens found.</span>
+                                        // ? <a className="text-btn" href={"https://onramp.money/main/buy/?appId=487411&walletAddress="}>{strings.get_reef_tokens}</a>
                                         : (
                                             <a className="text-btn" href={'https://discord.com/channels/1116016091014123521/1120371707019010128'} target="_blank" rel="noopener noreferrer">
                                                 {strings.get_reef_test_tokens}
