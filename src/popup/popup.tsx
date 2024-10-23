@@ -246,7 +246,6 @@ const Popup = () => {
 
       if (isDefaultPopup && !isDetached && signRequests?.length > 0) {
         await focusOrCreateDetached();
-        window.close()
       }
 
     }
@@ -288,7 +287,7 @@ const Popup = () => {
         if (chrome.runtime.lastError || !win) {
           createDetached();
         } else {
-          // window.close();
+          window.close();
         }
       });
     } else {
@@ -300,7 +299,7 @@ const Popup = () => {
     chrome.windows.getCurrent((win) => {
       chrome.windows.create(createPopupData(win), (detachedWindow) => {
         setDetachedWindowId(detachedWindow.id);
-        // window.close();
+        window.close();
       });
     });
   };
