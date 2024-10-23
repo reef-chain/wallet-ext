@@ -244,9 +244,9 @@ const Popup = () => {
         subscribeNetwork(onNetworkChange),
       ]).catch(console.error);
 
-      if (isDefaultPopup && !isDetached) {
-        await focusOrCreateDetached();
-      }
+      // if (isDefaultPopup && !isDetached) {
+      await focusOrCreateDetached();
+      // }
 
     }
     focus();
