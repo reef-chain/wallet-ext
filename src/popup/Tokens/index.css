@@ -857,6 +857,12 @@ select .dark-select {
     display: none;
 }
 
+.send-accounts .uik-dropdown {
+    position: relative !important;
+    left: -18rem !important;
+    top: 2rem !important;
+}
+
 .uik-pool-actions-token-dark .uik-pool-actions-token__price {
     color: white !important;
 }
