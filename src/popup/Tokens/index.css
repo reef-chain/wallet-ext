@@ -848,6 +848,11 @@ select .dark-select {
 }
 
 
+.uik-pool-actions-token__select-dropdown-token img {
+    width: 2rem;
+}
+
+
 .uik-dropdown.uik-pool-actions-token__select-dropdown .uik-dropdown__overlay {
     display: none;
 }
