@@ -847,6 +847,16 @@ select .dark-select {
     box-shadow: none;
 }
 
+
+.uik-pool-actions-token__select-dropdown-token img {
+    width: 2rem;
+}
+
+
+.uik-dropdown.uik-pool-actions-token__select-dropdown .uik-dropdown__overlay {
+    display: none;
+}
+
 .send-accounts .uik-dropdown {
     position: relative !important;
     left: -18rem !important;
