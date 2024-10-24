@@ -46,7 +46,7 @@ function Request({
         </a>
 
       </div>
-      <WarnMessage text={strings.only_approve_trusted} isDarkMode={isDarkMode} />
+      <WarnMessage text={strings.only_approve_trusted} />
       <div className="flex">
         <Uik.Button onClick={_onApprove} text={strings.yes_allow} fill />
         <Uik.Button onClick={_onReject} text={strings.reject} />

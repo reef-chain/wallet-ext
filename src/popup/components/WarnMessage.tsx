@@ -3,14 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamationTriangle } from "@fortawesome/free-solid-svg-icons";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import Uik from "@reef-chain/ui-kit";
+import LightText from "../../common/LightText";
 
 interface Props {
   text: string;
   className?: string;
-  isDarkMode?: boolean;
 }
 
-export const WarnMessage = ({ text, className, isDarkMode }: Props): JSX.Element => {
+export const WarnMessage = ({ text, className }: Props): JSX.Element => {
   return (
     <div
       className={`flex my-3 border-l-primary border-l-4 pl-2
@@ -20,7 +20,7 @@ export const WarnMessage = ({ text, className, isDarkMode }: Props): JSX.Element
         className="text-primary mr-2 pt-1"
         icon={faExclamationTriangle as IconProp}
       />
-      <Uik.Text text={text} type="mini" className={`${isDarkMode ? "text--dark-mode" : ""} text-left`} />
+      <LightText text={text} className="font-thin mini-text" />
     </div>
   );
 };
