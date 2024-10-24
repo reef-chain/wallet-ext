@@ -1002,3 +1002,7 @@ button.sm {
       var(--text--l),
       0.8);
 }
+
+.mini-text {
+  font-size: 0.8rem !important;
+}
