@@ -152,7 +152,7 @@ export const CreateAccount = (): JSX.Element => {
                 </div>
               </CopyToClipboard>
             </div>
-            <WarnMessage className="py-1" isDarkMode={isDarkMode}
+            <WarnMessage className="py-1"
               text={strings.please_write_down}
             />
             <div className="flex align-middle items-center">

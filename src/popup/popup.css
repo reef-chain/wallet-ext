@@ -1020,3 +1020,7 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield !important;
 }
+
+.mini-text {
+  font-size: 0.8rem !important;
+}
