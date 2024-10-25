@@ -434,7 +434,7 @@ const Popup = () => {
                     onNetworkChange(e.target.value as any)
                   }
                   } className={`select-menu-base select-menu${isDarkMode ? '--dark' : ''} w-full`}>
-                    <option value="">{strings.select_a_lang}</option>
+                    <option value="">{strings.toggle_network}</option>
                     <option value="mainnet">Mainnet</option>
                     <option value="testnet">Testnet</option>
                   </select>
