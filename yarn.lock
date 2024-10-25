@@ -2874,7 +2874,7 @@
     "@zondax/ledger-substrate" "1.0.0"
     tslib "^2.8.0"
 
-"@polkadot/keyring@^13.1.1":
+"@polkadot/keyring@^13.1.1", "@polkadot/keyring@^13.2.1":
   version "13.2.1"
   resolved "https://registry.yarnpkg.com/@polkadot/keyring/-/keyring-13.2.1.tgz#2fa93582a1affebe41d1a1574476e7adb71915c8"
   integrity sha512-tnNLHaOuwoVC3n2tUQe0iSI4Jyxzqm7CPnf/sWMAAFImaVnC7PhiZFvqs2QGpha4ks9Lv722Vkjh7iIKUpEsUA==
@@ -2883,7 +2883,7 @@
     "@polkadot/util-crypto" "13.2.1"
     tslib "^2.8.0"
 
-"@polkadot/networks@13.2.1", "@polkadot/networks@^13.1.1":
+"@polkadot/networks@13.2.1", "@polkadot/networks@^13.1.1", "@polkadot/networks@^13.2.1":
   version "13.2.1"
   resolved "https://registry.yarnpkg.com/@polkadot/networks/-/networks-13.2.1.tgz#d75123ba997b4763b34ef661fa91fe3c7cd8b095"
   integrity sha512-T04RTY+w8X+JB0MNAIrSFr3WX/eIUrCyYTsuf6jpg89efubpWYvfchiLTDcQrA2KfdqTBl3bQ1wgKqmWMMKNzg==
@@ -2903,15 +2903,15 @@
     tslib "^2.6.2"
 
 "@polkadot/react-identicon@^3.10.1", "@polkadot/react-identicon@^3.6.6":
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/react-identicon/-/react-identicon-3.10.1.tgz#8c77d26e8efc792b8e7ba6d511ae712db927dcbf"
-  integrity sha512-zzcKixDj27YdA4gTN+IvKFFSgatKliHuqsEjOJxAidLsbD1EUJUqeYuNhUftLFGO7JEJG0qrKJhCNLBvDJcJlg==
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/react-identicon/-/react-identicon-3.11.1.tgz#6c8660d0b29b9f843f4e5c174b42db24771050ab"
+  integrity sha512-kwSoLCt/H0t0XwU5m1xQ9QJNRCrcUzvueZCTKhX1+0gd2YE4w8nH+78PZ1NS7PePGpDr+wLk9gBV4DpR8VQuAA==
   dependencies:
-    "@polkadot/keyring" "^13.1.1"
-    "@polkadot/ui-settings" "3.10.1"
-    "@polkadot/ui-shared" "3.10.1"
-    "@polkadot/util" "^13.1.1"
-    "@polkadot/util-crypto" "^13.1.1"
+    "@polkadot/keyring" "^13.2.1"
+    "@polkadot/ui-settings" "3.11.1"
+    "@polkadot/ui-shared" "3.11.1"
+    "@polkadot/util" "^13.2.1"
+    "@polkadot/util-crypto" "^13.2.1"
     ethereum-blockies-base64 "^1.0.2"
     jdenticon "3.2.0"
     react-copy-to-clipboard "^5.1.0"
@@ -3024,39 +3024,39 @@
     tslib "^2.7.0"
 
 "@polkadot/ui-keyring@^3.6.3":
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-3.10.1.tgz#770c9594d0c49c73d189c4d07446504efdb9dd0c"
-  integrity sha512-3V4Y9MwPy/EBGVEEyqvk2m7mQTpxmJiNYeUt+ajZKP+R9RsmrihzUTK1KI4QgjwYWUhK2B6gb88/8qSRtoqkQA==
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-keyring/-/ui-keyring-3.11.1.tgz#a4be41d79b77d6162ca0d3a2aebc745e1be37215"
+  integrity sha512-uEzR6Rla+EH4wnyQ/5ZjpOVrQuiiQmtRqS+pmrgkw18YWQlkbLbEXXzkhsAsXbG91q3E8HEXfTa+5nRBGm8nxQ==
   dependencies:
-    "@polkadot/keyring" "^13.1.1"
-    "@polkadot/ui-settings" "3.10.1"
-    "@polkadot/util" "^13.1.1"
-    "@polkadot/util-crypto" "^13.1.1"
+    "@polkadot/keyring" "^13.2.1"
+    "@polkadot/ui-settings" "3.11.1"
+    "@polkadot/util" "^13.2.1"
+    "@polkadot/util-crypto" "^13.2.1"
     mkdirp "^3.0.1"
     rxjs "^7.8.1"
     store "^2.0.12"
     tslib "^2.6.2"
 
-"@polkadot/ui-settings@3.10.1", "@polkadot/ui-settings@^3.10.1":
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-3.10.1.tgz#e1763644f966873bd0f267e60eeab36f8671ef38"
-  integrity sha512-FD22MWrTue0Ry4gk+tnCRUOju0tzMwNZoUutSMaYJwIFqiLw4PZu8YRle2uwWI/XioUfjzYC59WDJcYhtY3y4w==
+"@polkadot/ui-settings@3.11.1", "@polkadot/ui-settings@^3.10.1":
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-settings/-/ui-settings-3.11.1.tgz#1edc719fc94f091f88b77ac1e8639f99c48a0072"
+  integrity sha512-y1amA7TyrMYEodpPCM0bERhQ+vsSamy0Kb9VQgPBxzbFIaGucFsesxfSGzq6N8P3AlO0zluY1IclS5NueXnuhA==
   dependencies:
-    "@polkadot/networks" "^13.1.1"
-    "@polkadot/util" "^13.1.1"
+    "@polkadot/networks" "^13.2.1"
+    "@polkadot/util" "^13.2.1"
     eventemitter3 "^5.0.1"
     store "^2.0.12"
     tslib "^2.6.2"
 
-"@polkadot/ui-shared@3.10.1":
-  version "3.10.1"
-  resolved "https://registry.yarnpkg.com/@polkadot/ui-shared/-/ui-shared-3.10.1.tgz#b60282f7fb8c486d864370ac3756e177db52c1da"
-  integrity sha512-g7cjZhIYEUsV2MPolRhBY/41Mhpg1b1J3S3DQMIO2Q/Kg78askeypBdMspOrpVO/UGpWWCGUh07ix3xpJWiGMw==
+"@polkadot/ui-shared@3.11.1":
+  version "3.11.1"
+  resolved "https://registry.yarnpkg.com/@polkadot/ui-shared/-/ui-shared-3.11.1.tgz#fcf607155d7b54e1f9ff9ee85aa00ffca3629031"
+  integrity sha512-IM3Hbn/UWjviiCov2/iSnfLDwQGePipX6oRRcqtvjpSNt/ItBq+Au8oPbsxabCSzW0f0KRfdE0SgjWgGuhScmw==
   dependencies:
     colord "^2.9.3"
     tslib "^2.6.2"
 
-"@polkadot/util-crypto@13.2.1", "@polkadot/util-crypto@^13.0.2", "@polkadot/util-crypto@^13.1.1":
+"@polkadot/util-crypto@13.2.1", "@polkadot/util-crypto@^13.0.2", "@polkadot/util-crypto@^13.1.1", "@polkadot/util-crypto@^13.2.1":
   version "13.2.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util-crypto/-/util-crypto-13.2.1.tgz#4b5f867bccb24131a60fa2107cc61a10713a7775"
   integrity sha512-IalVWtRfsLEkF0fQvEfbnYwrQWUw2AHSYgJINhrZvdoC+Vy6oetvO0ZAhbfUp1c/HOaql0gex4WVrfw7gcBKjQ==
@@ -3072,7 +3072,7 @@
     "@scure/base" "^1.1.7"
     tslib "^2.8.0"
 
-"@polkadot/util@13.1.1", "@polkadot/util@13.2.1", "@polkadot/util@^13.0.2", "@polkadot/util@^13.1.1":
+"@polkadot/util@13.1.1", "@polkadot/util@13.2.1", "@polkadot/util@^13.0.2", "@polkadot/util@^13.1.1", "@polkadot/util@^13.2.1":
   version "13.1.1"
   resolved "https://registry.yarnpkg.com/@polkadot/util/-/util-13.1.1.tgz#9cbf81e8c48e2ac549dbe2a40384624870016658"
   integrity sha512-M4iQ5Um8tFdDmD7a96nPzfrEt+kxyWOqQDPqXyaax4QBnq/WCbq0jo8IO61uz55mdMQnGZvq8jd8uge4V6JzzQ==
@@ -6321,9 +6321,9 @@ ecc-jsbn@~0.1.1:
     safer-buffer "^2.1.0"
 
 electron-to-chromium@^1.5.41:
-  version "1.5.43"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.43.tgz#d9e69fc709ddebd521416de9d17cdef81d2d4718"
-  integrity sha512-NxnmFBHDl5Sachd2P46O7UJiMaMHMLSofoIWVJq3mj8NJgG0umiSeljAVP9lGzjI0UDLJJ5jjoGjcrB8RSbjLQ==
+  version "1.5.45"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.5.45.tgz#fa592ce6a88b44d23acbc7453a2feab98996e6c9"
+  integrity sha512-vOzZS6uZwhhbkZbcRyiy99Wg+pYFV5hk+5YaECvx0+Z31NR3Tt5zS6dze2OepT6PCTzVzT0dIJItti+uAW5zmw==
 
 elliptic@6.5.4:
   version "6.5.4"
@@ -11760,16 +11760,7 @@ string-length@^4.0.1:
     char-regex "^1.0.2"
     strip-ansi "^6.0.0"
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-"string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.2, string-width@^4.2.3:
+"string-width-cjs@npm:string-width@^4.2.0", "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.0.0, string-width@^4.1.0, string-width@^4.2.0, string-width@^4.2.2, string-width@^4.2.3:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -11864,14 +11855,7 @@ stringify-object@^3.2.1:
     is-obj "^1.0.1"
     is-regexp "^1.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -12984,7 +12968,7 @@ worker-timers@^7.1.4:
     worker-timers-broker "^6.1.8"
     worker-timers-worker "^7.0.71"
 
-"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0":
+"wrap-ansi-cjs@npm:wrap-ansi@^7.0.0", wrap-ansi@^7.0.0:
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
   integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
@@ -12997,15 +12981,6 @@ wrap-ansi@^6.0.1:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-6.2.0.tgz#e9393ba07102e6c91a3b221478f0257cd2856e53"
   integrity sha512-r6lPcBGxZXlIcymEu7InxDMhdW0KDxpLgoFLcguasxCaJ/SOIZwINatK9KY/tf+ZrlywOKU0UDj3ATXUBfxJXA==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/wrap-ansi/-/wrap-ansi-7.0.0.tgz#67e145cff510a6a6984bdf1152911d69d2eb9e43"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
   dependencies:
     ansi-styles "^4.0.0"
     string-width "^4.1.0"
