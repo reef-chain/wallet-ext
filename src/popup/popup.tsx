@@ -76,6 +76,8 @@ import Tokens from "./Tokens/Tokens";
 import VDA from "./VDA/VDA";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
   provider: Provider
@@ -127,7 +129,8 @@ const Popup = () => {
 
   useEffect(() => {
     if (selectedAccount && analytics) {
-      analytics.identify({ address: selectedAccount.address });
+      console.log("[FORMO] emitting address change event")
+      analytics.identify({ address: selectedAccount.evmAddress ?? ZERO_ADDRESS, userId: selectedAccount.address, providerName: 'Reef Extension' });
     }
   }, [selectedAccount, analytics]);
 
