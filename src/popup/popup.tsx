@@ -4,6 +4,7 @@ import { Provider, Signer } from "@reef-chain/evm-provider";
 import { extension as extLib, reefState } from "@reef-chain/util-lib";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { hooks } from "@reef-chain/react-lib";
+import { useFormo } from "@formo/analytics";
 import {
   faCirclePlus,
   faArrowUpRightFromSquare,
@@ -102,6 +103,7 @@ const accountToReefSigner = async (
 
 const Popup = () => {
   const { isDarkMode, toggleTheme } = useTheme();
+  const analytics = useFormo();
   const [accountCtx, setAccountCtx] = useState<AccountsCtx>({
     accounts: [],
     selectedAccount: null,
@@ -122,6 +124,12 @@ const Popup = () => {
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
+
+  useEffect(() => {
+    if (selectedAccount && analytics) {
+      analytics.identify({ address: selectedAccount.address });
+    }
+  }, [selectedAccount, analytics]);
 
   useEffect(() => {
     const handleMutations = (mutations) => {
