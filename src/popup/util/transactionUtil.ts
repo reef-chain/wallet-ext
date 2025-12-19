@@ -5,6 +5,7 @@ import {
   TX_STATUS_ERROR_CODE,
   TxStatusHandler,
 } from "../types";
+import { IFormoAnalytics, TransactionStatus } from "@formo/analytics";
 
 export const handleErr = (
   e: { message: string } | string,
@@ -49,7 +50,8 @@ export const sendToNativeAddress = (
   sender: AccountWithSigner,
   toAmt: bigint,
   to: string,
-  txHandler: TxStatusHandler
+  txHandler: TxStatusHandler,
+  analytics?: IFormoAnalytics
 ): string => {
   const txIdent = Math.random().toString(10);
   const transfer = provider.api.tx.balances.transfer(to, toAmt.toString());
@@ -60,6 +62,12 @@ export const sendToNativeAddress = (
         { signer: sender.signer.signingKey },
         (res) => {
           const txHash = transfer.hash.toHex();
+          analytics?.transaction({
+            status: res.isInBlock ? TransactionStatus.BROADCASTED : res.isFinalized ? TransactionStatus.CONFIRMED : TransactionStatus.STARTED,
+            address: sender.evmAddress ?? "0x0000000000000000000000000000000000000000",
+            chainId: 13939,
+            transactionHash: txHash,
+          })
           txHandler({
             txIdent,
             txHash,
@@ -70,6 +78,11 @@ export const sendToNativeAddress = (
         }
       )
       .catch((e) => {
+        analytics?.transaction({
+          status: TransactionStatus.REVERTED,
+          address: sender.evmAddress ?? "0x0000000000000000000000000000000000000000",
+          chainId: 13939,
+        })
         console.log("sendToNativeAddress err=", e);
         handleErr(e, txIdent, "", txHandler, sender);
       });
