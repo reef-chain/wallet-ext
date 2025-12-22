@@ -15,6 +15,7 @@ import {
   faLanguage,
   faSun,
   faMoon,
+  faHistory,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./popup.css";
@@ -73,6 +74,7 @@ import { faThemeco } from "@fortawesome/free-brands-svg-icons";
 import { useReefSigners } from "./hooks/useReefSigners";
 import Tokens from "./Tokens/Tokens";
 import VDA from "./VDA/VDA";
+import TransactionHistory from "./History/TransactionHistory";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const accountToReefSigner = async (
@@ -381,6 +383,12 @@ const Popup = () => {
               onClick={() => _onAction("/vda")}
             />}
 
+            {selectedNetwork && <Uik.Button
+              className={`${isDarkMode ? 'dark-btn' : ""} header-btn-base`}
+              text="History"
+              icon={faHistory}
+              onClick={() => _onAction("/history")}
+            />}
 
             {!location.pathname.startsWith("/account/") && (
               <Uik.Button
@@ -524,6 +532,10 @@ const Popup = () => {
                     <Route
                       path="/vda"
                       element={<VDA />}
+                    />
+                    <Route
+                      path="/history"
+                      element={<TransactionHistory />}
                     />
                     <Route
                       path={PHISHING_PAGE_REDIRECT}
