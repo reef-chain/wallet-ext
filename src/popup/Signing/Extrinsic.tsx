@@ -115,6 +115,66 @@ function renderMethod(
   );
 }
 
+function normalizeDecodedValue(value: unknown): unknown {
+  if (value === null) {
+    return null;
+  }
+
+  if (value === undefined) {
+    return "undefined";
+  }
+
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
+    return value;
+  }
+
+  if (typeof value === "bigint" || BN.isBN(value)) {
+    return value.toString();
+  }
+
+  if (Array.isArray(value)) {
+    return value.map((entry) => normalizeDecodedValue(entry));
+  }
+
+  if (typeof value === "object") {
+    const objectValue = value as Record<string, unknown>;
+    const entries = Object.entries(objectValue);
+
+    if (!entries.length) {
+      return objectValue.toString();
+    }
+
+    return Object.fromEntries(
+      entries.map(([key, entryValue]) => [key, normalizeDecodedValue(entryValue)])
+    );
+  }
+
+  return String(value);
+}
+
+function renderDecodedValue(value: unknown): React.ReactNode {
+  const normalizedValue = normalizeDecodedValue(value);
+
+  if (
+    normalizedValue === null ||
+    typeof normalizedValue === "string" ||
+    typeof normalizedValue === "number" ||
+    typeof normalizedValue === "boolean"
+  ) {
+    return String(normalizedValue);
+  }
+
+  return (
+    <pre className="whitespace-pre-wrap break-all">
+      {JSON.stringify(normalizedValue, null, 2)}
+    </pre>
+  );
+}
+
 function mortalityAsString(era: ExtrinsicEra, hexBlockNumber: string): string {
   if (era.isImmortalEra) {
     return "immortal";
@@ -155,9 +215,10 @@ function Extrinsic({
         const res = await transactionUtils.decodePayloadMethod(provider, method);
         setSignatureResponse(res);
       }
-    }
+    };
+
     decodeMethod();
-  }, [provider])
+  }, [provider, method]);
 
   const { isDarkMode } = useTheme();
   return (
@@ -193,15 +254,7 @@ function Extrinsic({
           Object.entries(signatureResponse?.args).map(([key, value]) => (
             <tr key={key}>
               <td className="extrinsic-table-label">{key}</td>
-              <td className="pl-4">{typeof value == "object" ?
-                Object.entries(value).map(([k, val]) => (
-                  <tr key={k}>
-                    <td className="extrinsic-table-label">{k}</td>
-                    <td className="pl-4">{val.toString()}</td>
-                  </tr>
-                ))
-                : value.toString()
-              }</td>
+              <td className="pl-4">{renderDecodedValue(value)}</td>
             </tr>
           ))
 
