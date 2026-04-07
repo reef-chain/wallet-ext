@@ -4,6 +4,7 @@ import { Provider, Signer } from "@reef-chain/evm-provider";
 import { extension as extLib, reefState } from "@reef-chain/util-lib";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { hooks } from "@reef-chain/react-lib";
+import { useFormo } from "@formo/analytics";
 import {
   faCirclePlus,
   faArrowUpRightFromSquare,
@@ -75,6 +76,8 @@ import Tokens from "./Tokens/Tokens";
 import VDA from "./VDA/VDA";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
+
 const accountToReefSigner = async (
   account: extLib.InjectedAccount,
   provider: Provider
@@ -102,6 +105,7 @@ const accountToReefSigner = async (
 
 const Popup = () => {
   const { isDarkMode, toggleTheme } = useTheme();
+  const analytics = useFormo();
   const [accountCtx, setAccountCtx] = useState<AccountsCtx>({
     accounts: [],
     selectedAccount: null,
@@ -122,6 +126,13 @@ const Popup = () => {
   const [signOverlay, setSignOverlay] = useState<boolean>(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState<boolean>(false);
   const [selectedLanguage, setSelectedLanguage] = useState<string>('en');
+
+  useEffect(() => {
+    if (selectedAccount && analytics) {
+      console.log("[FORMO] emitting address change event")
+      analytics.identify({ address: selectedAccount.evmAddress ?? ZERO_ADDRESS, userId: selectedAccount.address, providerName: 'Reef Extension' });
+    }
+  }, [selectedAccount, analytics]);
 
   useEffect(() => {
     const handleMutations = (mutations) => {

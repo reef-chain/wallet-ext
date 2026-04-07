@@ -21,6 +21,7 @@ import Uik from "@reef-chain/ui-kit";
 import strings from "../../i18n/locales";
 import { useTheme } from "../context/ThemeContext";
 import LightText from "../../common/LightText";
+import { useFormo } from "@formo/analytics";
 
 const MIN_BALANCE = BigInt(utils.parseEther("5").toString());
 
@@ -52,6 +53,7 @@ export const Bind = ({ provider }: Props): JSX.Element => {
   const { address: bindAddress } = useParams();
   const { accountsWithSigners } = useContext(AccountsContext);
   const onAction = useContext(ActionContext);
+  const analytics = useFormo();
 
   const [bindFor, setBindFor] = useState<AccountWithSigner>();
   const [availableTxAccounts, setAvailableTxAccounts] = useState<
@@ -103,7 +105,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
             addresses: [transferBalanceFrom.address, bindFor.address],
           });
         }
-      }
+      },
+      analytics
     );
 
     setTxStatus({
@@ -137,7 +140,8 @@ export const Bind = ({ provider }: Props): JSX.Element => {
             addresses: [bindFor.address],
           });
         }
-      }
+      },
+      analytics
     );
 
     if (txIdent) {

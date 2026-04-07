@@ -2,11 +2,13 @@ import { Provider } from "@reef-chain/evm-provider";
 
 import { AccountWithSigner, TxStatusHandler, TxStatusUpdate } from "../types";
 import { handleErr } from "./transactionUtil";
+import { IFormoAnalytics } from "@formo/analytics";
 
 export const bindEvmAddress = (
   signer: AccountWithSigner,
   provider: Provider,
-  onTxChange?: TxStatusHandler
+  onTxChange?: TxStatusHandler,
+  analytics?: IFormoAnalytics,
 ): string => {
   if (!provider || !signer || signer?.isEvmClaimed) {
     return "";
@@ -34,5 +36,10 @@ export const bindEvmAddress = (
         ((txStat: TxStatusUpdate) => alert(txStat.error?.message));
       handleErr(err, txIdent, "", errHandler, signer);
     });
+  analytics?.track("bind_evm", {
+    method: 'bindEvmAddress',
+    account: signer.address,
+    evmAddressClaimed: signer.evmAddress,
+  })
   return txIdent;
 };
